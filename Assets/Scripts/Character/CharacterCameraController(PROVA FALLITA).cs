@@ -2,7 +2,7 @@ using StarterAssets;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerCameraController : MonoBehaviour
+public class CharacterCameraController : MonoBehaviour
 {
     [Header("Cinemachine")]
     [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerAnimator : MonoBehaviour
+public class CharacterAnimator : MonoBehaviour
 {
     private const string animIDSpeed = "Speed";
     private const string animIDGrounded = "Grounded";
@@ -9,7 +9,7 @@ public class PlayerAnimator : MonoBehaviour
     private const string animIDMotionSpeed = "MotionSpeed"; 
     private Animator animator;
 
-    [SerializeField] PlayerController player;
+    [SerializeField] CharacterStatus status;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -19,11 +19,11 @@ public class PlayerAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool(animIDGrounded, player.IsGrounded());
-        animator.SetFloat(animIDSpeed, player.GetAnimationBlend());
-        animator.SetFloat(animIDMotionSpeed, player.GetInputMagnitude());
-        animator.SetBool(animIDJump, player.IsJumping());
-        animator.SetBool(animIDFreeFall, player.IsFalling());
+        animator.SetBool(animIDGrounded, status.IsGrounded());
+        animator.SetFloat(animIDSpeed, status.GetAnimationBlend());
+        animator.SetFloat(animIDMotionSpeed, status.GetInputMagnitude());
+        animator.SetBool(animIDJump, status.IsJumping());
+        animator.SetBool(animIDFreeFall, status.IsFalling());
     }
 
 }
