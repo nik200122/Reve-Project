@@ -1,12 +1,11 @@
 using System;
-using StarterAssets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
 public class CharacterStatus : MonoBehaviour
 {
-    private StarterAssetsInputs input;
+    private InputHandler input;
     [Space(10)]
 
     [Space(10)]
@@ -16,7 +15,7 @@ public class CharacterStatus : MonoBehaviour
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
     [SerializeField] private float FallTimeout = 0.15f;
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-    [SerializeField] private float RollTimeout = 0.5f;
+    [SerializeField] private float RollTimeout = 1.1f;
 
     [Header("Player Grounded")]
     [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -59,6 +58,7 @@ public class CharacterStatus : MonoBehaviour
     private float inputMagnitude;
     
     private bool isJumping;
+    private bool isWalking;
     private bool isFalling;
     private bool isRolling;
 
@@ -81,7 +81,7 @@ public class CharacterStatus : MonoBehaviour
 
     private void Awake()
     {
-        input= GetComponent<StarterAssetsInputs>();
+        input= GetComponent<InputHandler>();
         playerInput = GetComponent<PlayerInput>();
         // get a reference to our main camera
         if (mainCamera == null)
@@ -115,8 +115,18 @@ public class CharacterStatus : MonoBehaviour
         RollingCheck();
         JumpingAndFallingCheck();
         HandleMovement();
-        HandleCameraRotation();
         CheckMovement();
+        CheckIsWalking();
+    }
+
+    private void CheckIsWalking()
+    {
+        isWalking = moveInput != Vector2.zero;;
+    }
+
+    private void LateUpdate()
+    {
+        HandleCameraRotation();
     }
 
     private void CheckMovement()
@@ -196,15 +206,17 @@ public class CharacterStatus : MonoBehaviour
 
             isJumping = false;
             isFalling = false;
-            if (input.jump && jumpTimeoutDelta <= 0.0f)
-            {
-                isJumping = true;
-            }
-            // jump timeout
-            if (jumpTimeoutDelta >= 0.0f)
+            if (jumpTimeoutDelta > 0.0f)
             {
                 jumpTimeoutDelta -= Time.deltaTime;
             }
+            else if (input.jump && jumpTimeoutDelta <= 0.0f)
+            {
+                if(!isRolling)
+                    isJumping = true;
+            }
+            // jump timeout
+            
         }
         else
         {
@@ -220,9 +232,6 @@ public class CharacterStatus : MonoBehaviour
             {
                 isFalling = true;
             }
-
-            // if we are not grounded, do not jump
-            input.jump = false;
         }
     }
     private void GroundedCheck()
@@ -236,26 +245,29 @@ public class CharacterStatus : MonoBehaviour
     private void RollingCheck()
     {
         Debug.Log("input:"+ input.roll+"isRolling: "+ isRolling);
-       if(isGrounded && !isRolling){
+       if(isGrounded && !isRolling && isWalking){
 
             isRolling = false;
-            if (input.roll && rollTimeoutDelta <= 0.0f)
-            {
-                isRolling = true;
-            }
-            //jump timeout
-            if (rollTimeoutDelta >= 0.0f)
+            //roll timeout
+            if (rollTimeoutDelta > 0.0f)
             {
                 rollTimeoutDelta -= Time.deltaTime;
             }
+            else if (input.roll && rollTimeoutDelta <= 0.0f)
+            {
+                isRolling = true;
+            }
+            
         }
         else if (isGrounded && isRolling){
             // reset the roll timeout timer
             rollTimeoutDelta = RollTimeout;
-
             isRolling = false;
-            input.roll = false;
         }
+        else{
+            isRolling=false;
+        }
+
     }
     
     public bool IsGrounded()

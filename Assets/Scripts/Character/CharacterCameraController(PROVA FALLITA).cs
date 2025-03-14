@@ -1,4 +1,4 @@
-using StarterAssets;
+
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -24,13 +24,13 @@ public class CharacterCameraController : MonoBehaviour
     private float _cinemachineTargetYaw;
     private float _cinemachineTargetPitch;
 
-    private StarterAssetsInputs _input;
+    private InputHandler _input;
     
     private const float _threshold = 0.01f;
 
     private void Awake()
     {
-        _input= GetComponent<StarterAssetsInputs>();
+        _input= GetComponent<InputHandler>();
     }
 
     public float GetCinemachineTargetYaw(){

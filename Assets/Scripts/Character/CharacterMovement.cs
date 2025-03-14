@@ -1,4 +1,4 @@
-using StarterAssets;
+
 using UnityEditor.PackageManager;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
