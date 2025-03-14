@@ -7,20 +7,9 @@ using UnityEngine.InputSystem;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Player")]
-    
-
-    [SerializeField] private AudioClip LandingAudioClip;
-    [SerializeField] private AudioClip[] FootstepAudioClips;
-    [SerializeField] [Range(0, 1)] private float FootstepAudioVolume = 0.5f;
-
-    
-    
-
-   
 
     [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
     [SerializeField] private float CameraAngleOverride = 0.0f;
-
     
     [Tooltip("The height the player can jump")]
     [SerializeField] private float JumpHeight = 1.2f;
@@ -29,12 +18,10 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float Gravity = -15.0f;
 
     // cinemachine
+    private float verticalVelocity;
+    private float terminalVelocity = 53.0f;
     
-    private float _verticalVelocity;
-    private float _terminalVelocity = 53.0f;
-    
-    private CharacterController _controller;
-    
+    private CharacterController controller;
     private CharacterStatus characterStatus;
  
     [Header("Cinemachine")]
@@ -44,20 +31,12 @@ public class CharacterMovement : MonoBehaviour
     [Tooltip("Acceleration and deceleration")]
     [SerializeField] private float SpeedChangeRate = 10.0f;
 
-    
-    private float _speed;
-
-    
+    private float speed;
 
     private void Awake()
     {   
         characterStatus=GetComponent<CharacterStatus>();
-        _controller=GetComponent<CharacterController>();
-        
-    }
-
-    private void Start()
-    {
+        controller=GetComponent<CharacterController>();
     }
 
     private void Update()
@@ -80,33 +59,26 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        
-
         // a reference to the players current horizontal velocity
-        float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
+        float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
         float speedOffset = 0.1f;
         
-
         // accelerate or decelerate to target speed
         if (currentHorizontalSpeed < characterStatus.GetTargetSpeed() - speedOffset ||
             currentHorizontalSpeed > characterStatus.GetTargetSpeed() + speedOffset)
         {
             // creates curved result rather than a linear one giving a more organic speed change
             // note T in Lerp is clamped, so we don't need to clamp our speed
-            _speed = Mathf.Lerp(currentHorizontalSpeed, characterStatus.GetTargetSpeed() * characterStatus.GetInputMagnitude(),
+            speed = Mathf.Lerp(currentHorizontalSpeed, characterStatus.GetTargetSpeed() * characterStatus.GetInputMagnitude(),
                 Time.deltaTime * SpeedChangeRate);
 
             // round speed to 3 decimal places
-            _speed = Mathf.Round(_speed * 1000f) / 1000f;
+            speed = Mathf.Round(speed * 1000f) / 1000f;
         }
         else
         {
-            _speed = characterStatus.GetTargetSpeed();
+            speed = characterStatus.GetTargetSpeed();
         }
-
-
-
         // normalise input direction
 
         // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -117,61 +89,31 @@ public class CharacterMovement : MonoBehaviour
             transform.rotation = Quaternion.Euler(0.0f, characterStatus.GetRotation(), 0.0f);
         }
 
-
-        
-
         // move the player
-        _controller.Move(characterStatus.GetTargetDirection().normalized * (_speed * Time.deltaTime) +
-                        new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+        controller.Move(characterStatus.GetTargetDirection().normalized * (speed * Time.deltaTime) +
+                        new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
     }
 
     private void JumpAndGravity()
     {
         if (characterStatus.IsGrounded())
         {
-
             // stop our velocity dropping infinitely when grounded
-            if (_verticalVelocity < 0.0f)
+            if (verticalVelocity < 0.0f)
             {
-                _verticalVelocity = -2f;
+                verticalVelocity = -2f;
             }
-
             // Jump
             if (characterStatus.IsJumping())
             {
-                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
+                verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
             }
-
-            
         }
 
         // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-        if (_verticalVelocity < _terminalVelocity)
+        if (verticalVelocity < terminalVelocity)
         {
-            _verticalVelocity += Gravity * Time.deltaTime;
+            verticalVelocity += Gravity * Time.deltaTime;
         }
     }
-
-
-    private void OnFootstep(AnimationEvent animationEvent)
-    {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            if (FootstepAudioClips.Length > 0)
-            {
-                var index = Random.Range(0, FootstepAudioClips.Length);
-                AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
-            }
-        }
-    }
-
-    private void OnLand(AnimationEvent animationEvent)
-    {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
-        {
-            AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
-        }
-    }
-
-    
 }
