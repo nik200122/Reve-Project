@@ -6,7 +6,8 @@ public class CharacterAnimator : MonoBehaviour
     private const string animIDGrounded = "Grounded";
     private const string animIDJump = "Jump";
     private const string animIDFreeFall = "FreeFall";
-    private const string animIDMotionSpeed = "MotionSpeed"; 
+    private const string animIDMotionSpeed = "MotionSpeed";
+    private const string animIDRoll = "Roll"; 
     private Animator animator;
 
     [SerializeField] CharacterStatus status;
@@ -24,6 +25,7 @@ public class CharacterAnimator : MonoBehaviour
         animator.SetFloat(animIDMotionSpeed, status.GetInputMagnitude());
         animator.SetBool(animIDJump, status.IsJumping());
         animator.SetBool(animIDFreeFall, status.IsFalling());
+        animator.SetBool(animIDRoll, status.IsRolling());
     }
 
 }

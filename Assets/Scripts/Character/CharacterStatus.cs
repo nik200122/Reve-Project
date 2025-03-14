@@ -15,6 +15,8 @@ public class CharacterStatus : MonoBehaviour
 
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
     [SerializeField] private float FallTimeout = 0.15f;
+    [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
+    [SerializeField] private float RollTimeout = 0.5f;
 
     [Header("Player Grounded")]
     [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -58,6 +60,7 @@ public class CharacterStatus : MonoBehaviour
     
     private bool isJumping;
     private bool isFalling;
+    private bool isRolling;
 
     private const float _threshold = 0.01f;
     [SerializeField] private float SpeedChangeRate = 10.0f;
@@ -65,6 +68,7 @@ public class CharacterStatus : MonoBehaviour
     // timeout deltatime
     private float jumpTimeoutDelta;
     private float fallTimeoutDelta;
+    private float rollTimeoutDelta;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
@@ -108,6 +112,7 @@ public class CharacterStatus : MonoBehaviour
     void Update()
     {
         GroundedCheck();
+        RollingCheck();
         JumpingAndFallingCheck();
         HandleMovement();
         HandleCameraRotation();
@@ -228,10 +233,38 @@ public class CharacterStatus : MonoBehaviour
         isGrounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
     }
+    private void RollingCheck()
+    {
+        Debug.Log("input:"+ input.roll+"isRolling: "+ isRolling);
+       if(isGrounded && !isRolling){
+
+            isRolling = false;
+            if (input.roll && rollTimeoutDelta <= 0.0f)
+            {
+                isRolling = true;
+            }
+            //jump timeout
+            if (rollTimeoutDelta >= 0.0f)
+            {
+                rollTimeoutDelta -= Time.deltaTime;
+            }
+        }
+        else if (isGrounded && isRolling){
+            // reset the roll timeout timer
+            rollTimeoutDelta = RollTimeout;
+
+            isRolling = false;
+            input.roll = false;
+        }
+    }
     
     public bool IsGrounded()
     {
         return isGrounded;
+    }
+    public bool IsRolling()
+    {
+        return isRolling;
     }
 
     public bool IsJumping()

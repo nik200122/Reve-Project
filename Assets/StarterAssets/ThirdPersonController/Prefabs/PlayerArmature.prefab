@@ -1248,7 +1248,7 @@ MonoBehaviour:
   BottomClamp: -30
   LockCameraPosition: 0
   SpeedChangeRate: 10
-  CinemachineCameraTarget: {fileID: 0}
+  CinemachineCameraTarget: {fileID: 8338988566280778634}
 --- !u!1 &4523139366846529165
 GameObject:
   m_ObjectHideFlags: 0
