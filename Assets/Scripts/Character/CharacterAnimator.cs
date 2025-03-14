@@ -28,4 +28,5 @@ public class CharacterAnimator : MonoBehaviour
         animator.SetBool(animIDRoll, status.IsRolling());
     }
 
+
 }

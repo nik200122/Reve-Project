@@ -61,6 +61,7 @@ public class CharacterStatus : MonoBehaviour
     private bool isWalking;
     private bool isFalling;
     private bool isRolling;
+    private bool canJump;
 
     private const float _threshold = 0.01f;
     [SerializeField] private float SpeedChangeRate = 10.0f;
@@ -210,10 +211,9 @@ public class CharacterStatus : MonoBehaviour
             {
                 jumpTimeoutDelta -= Time.deltaTime;
             }
-            else if (input.jump && jumpTimeoutDelta <= 0.0f)
+            else if (input.jump && jumpTimeoutDelta <= 0.0f &&!isRolling)
             {
-                if(!isRolling)
-                    isJumping = true;
+                isJumping = true;
             }
             // jump timeout
             
@@ -242,33 +242,21 @@ public class CharacterStatus : MonoBehaviour
         isGrounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
     }
-    private void RollingCheck()
-    {
-        Debug.Log("input:"+ input.roll+"isRolling: "+ isRolling);
-       if(isGrounded && !isRolling && isWalking){
+    private void RollingCheck(){   
+        Debug.Log("input: " + input.roll + " | isRolling: " + isRolling);
 
-            isRolling = false;
-            //roll timeout
-            if (rollTimeoutDelta > 0.0f)
-            {
-                rollTimeoutDelta -= Time.deltaTime;
-            }
-            else if (input.roll && rollTimeoutDelta <= 0.0f)
-            {
-                isRolling = true;
-            }
-            
+        // Il personaggio può rollare solo se è a terra e non sta già rollando
+        if (isGrounded && isWalking && input.roll)
+        {
+            isRolling = true;
         }
-        else if (isGrounded && isRolling){
-            // reset the roll timeout timer
-            rollTimeoutDelta = RollTimeout;
-            isRolling = false;
-        }
-        else{
-            isRolling=false;
-        }
-
     }
+
+    public void RollingCompleted(){
+        isRolling=false;
+    }
+
+
     
     public bool IsGrounded()
     {
