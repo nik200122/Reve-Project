@@ -40,17 +40,11 @@ public class CharacterStatus : MonoBehaviour
     [Range(0.0f, 0.3f)]
     [SerializeField] private float RotationSmoothTime = 0.12f;
     private float targetRotation = 0.0f;
-    private GameObject mainCamera;
+
     private Vector3 targetDirection;
     private Vector3 rollDirection;
     private Vector2 moveInput;
-     [Tooltip("How far in degrees can you move the camera up")]
-    [SerializeField] private float TopClamp = 70.0f;
-
-    [Tooltip("How far in degrees can you move the camera down")]
-    [SerializeField] private float BottomClamp = -30.0f;
-    [Tooltip("For locking the camera position on all axis")]
-    [SerializeField] private bool LockCameraPosition = false;
+    
 
     // player
     private float targetSpeed;
@@ -72,42 +66,30 @@ public class CharacterStatus : MonoBehaviour
     private float fallTimeoutDelta;
     private float rollTimeoutDelta;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private float cinemachineTargetYaw;
-    private float cinemachineTargetPitch;
+    private GameObject mainCamera;
     private float animationBlend;
 
-    [Header("Cinemachine")]
-    [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-    [SerializeField] private GameObject CinemachineCameraTarget;
+   
+
     private PlayerInput playerInput;
 
     private void Awake()
     {
         input= GetComponent<InputHandler>();
         playerInput = GetComponent<PlayerInput>();
-        // get a reference to our main camera
+         // get a reference to our main camera
         if (mainCamera == null)
         {
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         }
     }
-    private bool IsCurrentDeviceMouse
-    {
-        get
-        {
-#if ENABLE_INPUT_SYSTEM
-            return playerInput.currentControlScheme == "KeyboardMouse";
-#else
-			return false;
-#endif
-        }
-    }
+   
     void Start()
     {
         // reset our timeouts on start
         jumpTimeoutDelta = JumpTimeout;
         fallTimeoutDelta = FallTimeout;
-        cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        
     }
 
     // Update is called once per frame
@@ -125,11 +107,6 @@ public class CharacterStatus : MonoBehaviour
     private void CheckIsWalking()
     {
         isWalking = moveInput != Vector2.zero;;
-    }
-
-    private void LateUpdate()
-    {
-        HandleCameraRotation();
     }
 
     private void CheckMovement()
@@ -191,28 +168,6 @@ public class CharacterStatus : MonoBehaviour
         Gizmos.DrawSphere(
             new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
             GroundedRadius);
-    }
-
-    private void HandleCameraRotation(){
-        // if there is an input and camera position is not fixed
-        if (input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
-        {
-            //Don't multiply mouse input by Time.deltaTime;
-            float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-            cinemachineTargetYaw += input.look.x * deltaTimeMultiplier;
-            cinemachineTargetPitch += input.look.y * deltaTimeMultiplier;
-        }
-        // clamp our rotations so our values are limited 360 degrees
-        cinemachineTargetYaw = ClampAngle(cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, BottomClamp, TopClamp);
-    }
-
-    private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
-    {
-        if (lfAngle < -360f) lfAngle += 360f;
-        if (lfAngle > 360f) lfAngle -= 360f;
-        return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
     private void JumpingAndFallingCheck()
@@ -292,12 +247,6 @@ public class CharacterStatus : MonoBehaviour
     public bool IsFalling()
     {
         return isFalling;
-    }
-    public float GetCinemachineTargetYaw(){
-        return cinemachineTargetYaw;
-    }
-    public float GetCinemachineTargetPitch(){
-        return cinemachineTargetPitch;
     }
     public float GetTargetSpeed(){
         return targetSpeed;

@@ -7,9 +7,6 @@ using UnityEngine.InputSystem;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Player")]
-
-    [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
-    [SerializeField] private float CameraAngleOverride = 0.0f;
     
     [Tooltip("The height the player can jump")]
     [SerializeField] private float JumpHeight = 1.2f;
@@ -26,10 +23,6 @@ public class CharacterMovement : MonoBehaviour
     
     private CharacterController controller;
     private CharacterStatus characterStatus;
- 
-    [Header("Cinemachine")]
-    [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-    [SerializeField] private GameObject CinemachineCameraTarget;
 
     [Tooltip("Acceleration and deceleration")]
     [SerializeField] private float SpeedChangeRate = 10.0f;
@@ -47,18 +40,6 @@ public class CharacterMovement : MonoBehaviour
        Move();
        Rotation();
        JumpAndGravity();
-    }
-
-    private void LateUpdate()
-    {
-        CameraRotation();
-    }
-
-    private void CameraRotation()
-    {
-        // Cinemachine will follow this target
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(characterStatus.GetCinemachineTargetPitch() + CameraAngleOverride,
-            characterStatus.GetCinemachineTargetYaw(), 0.0f);
     }
 
     private void Rotation(){
