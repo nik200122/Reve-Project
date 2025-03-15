@@ -60,7 +60,7 @@ public class CharacterStatus : MonoBehaviour
     private bool isJumping;
     private bool isWalking;
     private bool isFalling;
-    private bool isRolling;
+    private static bool isRolling;
     private bool canJump;
 
     private const float _threshold = 0.01f;
@@ -112,8 +112,9 @@ public class CharacterStatus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GroundedCheck();
         RollingCheck();
+        Debug.Log("input"+ input.roll+"isRolling Check:"+isRolling);
+        GroundedCheck();
         JumpingAndFallingCheck();
         HandleMovement();
         CheckMovement();
@@ -138,6 +139,7 @@ public class CharacterStatus : MonoBehaviour
     private void HandleMovement()
     {
         //set target speed based on move speed, sprint speed and if sprint is pressed
+        
         targetSpeed = input.sprint ? SprintSpeed : MoveSpeed;
 
         // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
@@ -211,7 +213,7 @@ public class CharacterStatus : MonoBehaviour
             {
                 jumpTimeoutDelta -= Time.deltaTime;
             }
-            else if (input.jump && jumpTimeoutDelta <= 0.0f &&!isRolling)
+            else if (input.jump && jumpTimeoutDelta <= 0.0f && !isRolling)
             {
                 isJumping = true;
             }
@@ -243,17 +245,16 @@ public class CharacterStatus : MonoBehaviour
             QueryTriggerInteraction.Ignore);
     }
     private void RollingCheck(){   
-        Debug.Log("input: " + input.roll + " | isRolling: " + isRolling);
+        
 
         // Il personaggio può rollare solo se è a terra e non sta già rollando
-        if (isGrounded && isWalking && input.roll)
-        {
-            isRolling = true;
+        if (isGrounded && input.roll){
+             isRolling = true;
         }
     }
 
     public void RollingCompleted(){
-        isRolling=false;
+        isRolling = false;
     }
 
 

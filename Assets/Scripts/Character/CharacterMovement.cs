@@ -20,6 +20,9 @@ public class CharacterMovement : MonoBehaviour
     // cinemachine
     private float verticalVelocity;
     private float terminalVelocity = 53.0f;
+
+    [SerializeField] private float rollDistance = 1.0f;   // Distanza totale da percorrere durante il roll
+    [SerializeField] private float rollDuration = 0.5f;   // Durata del roll in secondi
     
     private CharacterController controller;
     private CharacterStatus characterStatus;
@@ -63,8 +66,14 @@ public class CharacterMovement : MonoBehaviour
         float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
         float speedOffset = 0.1f;
         
+        if(characterStatus.IsRolling()){
+            // Calcola la velocità di roll
+            speed = rollDistance / rollDuration;
+            // round speed to 3 decimal places
+            speed = Mathf.Round(speed * 1000f) / 1000f;
+        }
         // accelerate or decelerate to target speed
-        if (currentHorizontalSpeed < characterStatus.GetTargetSpeed() - speedOffset ||
+        else if (currentHorizontalSpeed < characterStatus.GetTargetSpeed() - speedOffset ||
             currentHorizontalSpeed > characterStatus.GetTargetSpeed() + speedOffset)
         {
             // creates curved result rather than a linear one giving a more organic speed change

@@ -44,6 +44,7 @@ using UnityEngine.InputSystem;
 
 		public void OnSprint(InputAction.CallbackContext context)
 		{
+			Debug.Log("sprint:"+ sprint);
 			sprint=context.performed;
 		}
 
