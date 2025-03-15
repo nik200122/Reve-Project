@@ -42,6 +42,7 @@ public class CharacterStatus : MonoBehaviour
     private float targetRotation = 0.0f;
     private GameObject mainCamera;
     private Vector3 targetDirection;
+    private Vector3 rollDirection;
     private Vector2 moveInput;
      [Tooltip("How far in degrees can you move the camera up")]
     [SerializeField] private float TopClamp = 70.0f;
@@ -156,10 +157,23 @@ public class CharacterStatus : MonoBehaviour
         Vector3 inputDirection = new Vector3(moveInput.x, 0.0f, moveInput.y).normalized;
         if (moveInput != Vector2.zero)
         {
+            // Calcola l'angolo target in base all'input e alla rotazione della camera
             targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                              mainCamera.transform.eulerAngles.y;
-            rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref rotationVelocity,
-                RotationSmoothTime);
+                            mainCamera.transform.eulerAngles.y;
+            
+            // Calcola la differenza angolare (in valore assoluto)
+            float currentY = transform.eulerAngles.y;
+            float angleDifference = Mathf.Abs(Mathf.DeltaAngle(currentY, targetRotation));
+            
+            // Imposta un tempo di smorzamento "base", poi lo riduci se la differenza è elevata
+            float adjustedSmoothTime = RotationSmoothTime;
+            if (angleDifference > 120f) // Se la differenza è maggiore di 120 gradi (puoi modificare il valore)
+            {
+                adjustedSmoothTime = RotationSmoothTime * 0.25f; // dimezza il tempo per una rotazione più veloce
+            }
+            
+            // Calcola la rotazione con lo smooth time modificato
+            rotation = Mathf.SmoothDampAngle(currentY, targetRotation, ref rotationVelocity, adjustedSmoothTime);
         }
         targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
     }
@@ -249,7 +263,9 @@ public class CharacterStatus : MonoBehaviour
 
         // Il personaggio può rollare solo se è a terra e non sta già rollando
         if (isGrounded && input.roll){
-             isRolling = true;
+            isRolling = true;
+             // Cattura la direzione attuale al momento dell'attivazione del roll
+            rollDirection = GetTargetDirection();
         }
     }
 
@@ -300,6 +316,9 @@ public class CharacterStatus : MonoBehaviour
 
     public Vector3 GetTargetDirection(){
         return targetDirection;
+    }
+    public Vector3 GetRollDirection(){
+        return rollDirection;
     }
     public Vector2 GetMoveInput(){
         return moveInput;

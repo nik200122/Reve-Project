@@ -45,6 +45,7 @@ public class CharacterMovement : MonoBehaviour
     private void Update()
     {
        Move();
+       Rotation();
        JumpAndGravity();
     }
 
@@ -60,20 +61,33 @@ public class CharacterMovement : MonoBehaviour
             characterStatus.GetCinemachineTargetYaw(), 0.0f);
     }
 
-    private void Move()
-    {
+    private void Rotation(){
+        // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+        // if there is a move input rotate player when the player is moving
+        if (characterStatus.GetMoveInput() != Vector2.zero)
+        {
+            if(!characterStatus.IsRolling())// rotate to face input direction relative to camera position
+                transform.rotation = Quaternion.Euler(0.0f, characterStatus.GetRotation(), 0.0f);
+            else transform.rotation = Quaternion.LookRotation(characterStatus.GetRollDirection());
+        }
+    }
+
+    private void Move(){
+
         // a reference to the players current horizontal velocity
         float currentHorizontalSpeed = new Vector3(controller.velocity.x, 0.0f, controller.velocity.z).magnitude;
         float speedOffset = 0.1f;
         
         if(characterStatus.IsRolling()){
-            // Calcola la velocità di roll
+            // La velocità di roll è la distanza da percorrere divisa per la durata del roll
             speed = rollDistance / rollDuration;
-            // round speed to 3 decimal places
             speed = Mathf.Round(speed * 1000f) / 1000f;
+            // move the player
+            controller.Move(characterStatus.GetRollDirection().normalized * (speed * Time.deltaTime) +
+                        new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }
         // accelerate or decelerate to target speed
-        else if (currentHorizontalSpeed < characterStatus.GetTargetSpeed() - speedOffset ||
+        else if (!characterStatus.IsRolling()&&currentHorizontalSpeed < characterStatus.GetTargetSpeed() - speedOffset ||
             currentHorizontalSpeed > characterStatus.GetTargetSpeed() + speedOffset)
         {
             // creates curved result rather than a linear one giving a more organic speed change
@@ -83,24 +97,22 @@ public class CharacterMovement : MonoBehaviour
 
             // round speed to 3 decimal places
             speed = Mathf.Round(speed * 1000f) / 1000f;
+            // move the player
+            controller.Move(characterStatus.GetTargetDirection().normalized * (speed * Time.deltaTime) +
+                        new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }
         else
         {
             speed = characterStatus.GetTargetSpeed();
+            // move the player
+            controller.Move(characterStatus.GetTargetDirection().normalized * (speed * Time.deltaTime) +
+                        new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }
         // normalise input direction
 
-        // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        // if there is a move input rotate player when the player is moving
-        if (characterStatus.GetMoveInput() != Vector2.zero)
-        {
-            // rotate to face input direction relative to camera position
-            transform.rotation = Quaternion.Euler(0.0f, characterStatus.GetRotation(), 0.0f);
-        }
+        
 
-        // move the player
-        controller.Move(characterStatus.GetTargetDirection().normalized * (speed * Time.deltaTime) +
-                        new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        
     }
 
     private void JumpAndGravity()
