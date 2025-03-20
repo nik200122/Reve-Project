@@ -10,8 +10,10 @@ using UnityEngine.InputSystem;
 		public Vector2 move;
 		public Vector2 look;
 		public bool jump;
+		public bool interact;
 		public bool sprint;
 		public bool roll;
+		public GameObject canvas;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -46,6 +48,17 @@ using UnityEngine.InputSystem;
 		{
 			Debug.Log("sprint:"+ sprint);
 			sprint=context.performed;
+		}
+		public void OnInteract(InputAction.CallbackContext context)
+		{
+			Debug.Log("interact:"+ interact);
+			interact=context.performed;
+			// disable player input
+			canvas.SetActive(true);
+			
+			GetComponent<PlayerInput>().enabled = false;
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)
