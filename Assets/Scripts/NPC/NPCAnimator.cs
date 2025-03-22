@@ -5,6 +5,7 @@ public class NPCAnimator : MonoBehaviour
 {
     private const string animIDMotionSpeed = "MotionSpeed";
     private const string animIDSpeed = "Speed";
+    private const string animIDTalk = "Talk";
     private Animator animator;
     AiMovement aiMovement;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,5 +20,9 @@ public class NPCAnimator : MonoBehaviour
     {
         animator.SetFloat(animIDSpeed, aiMovement.magnitude);
         animator.SetFloat(animIDMotionSpeed, aiMovement.animationBlend);
+    }
+
+    public void SetTalk(){
+        animator.SetTrigger(animIDTalk);
     }
 }
