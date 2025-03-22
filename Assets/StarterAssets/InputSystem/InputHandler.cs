@@ -13,7 +13,7 @@ using UnityEngine.InputSystem;
 		public bool interact;
 		public bool sprint;
 		public bool roll;
-		public GameObject canvas;
+		public bool back;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -25,6 +25,10 @@ using UnityEngine.InputSystem;
 		public void OnMove(InputAction.CallbackContext context)
 		{
 			move=context.ReadValue<Vector2>();
+		}
+		public void OnBack(InputAction.CallbackContext context)
+		{
+			back=context.performed;
 		}
 
 		public void OnLook(InputAction.CallbackContext context)
@@ -53,12 +57,6 @@ using UnityEngine.InputSystem;
 		{
 			Debug.Log("interact:"+ interact);
 			interact=context.performed;
-			// disable player input
-			canvas.SetActive(true);
-			
-			GetComponent<PlayerInput>().enabled = false;
-			Cursor.visible = true;
-			Cursor.lockState = CursorLockMode.None;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)

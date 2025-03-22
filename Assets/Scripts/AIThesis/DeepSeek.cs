@@ -8,12 +8,15 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 using System.Text.RegularExpressions;
+using UnityEngine.Events;
 
 
 public class DeepSeek : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI responseTMPRO;
     [SerializeField] TMP_InputField inputFieldTMPRO;
+
+    [SerializeField] UnityEvent OnReplyReceived;
 
     private string apiUrl = "http://localhost:4891/v1/chat/completions";
 
@@ -23,10 +26,10 @@ public class DeepSeek : MonoBehaviour
     }
 
     public IEnumerator SendRequest(string userMessage){
-         string pattern = @"<think>.*?<//think>";
+         string pattern = @"<think>.*?</think>";
         
         
-        string directive = "Act as an NPC of a videogame who as to answer the question of the player";
+        string directive = "Act as an NPC of a videogame who as to answer the question of the player. Your answers need to not too long";
         RequestParameter parameter= new RequestParameter("system", directive);
         RequestParameter parameter1= new RequestParameter("user", userMessage);
         List<RequestParameter> requestParameters= new List<RequestParameter>
@@ -55,6 +58,7 @@ public class DeepSeek : MonoBehaviour
                     // L'opzione Singleline fa in modo che il punto (.) corrisponda anche ai caratteri di nuova linea.
                     string output = Regex.Replace(response.choices[0].message.content, pattern, "", RegexOptions.Singleline);
                     responseTMPRO.text = output;
+                    OnReplyReceived?.Invoke();
                     Debug.Log(response.choices[0].message.content);
 
                 }

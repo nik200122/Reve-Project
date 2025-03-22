@@ -6,8 +6,14 @@ public class AiMovement : MonoBehaviour
     [SerializeField] private GameObject player;
     NavMeshAgent agent;
     public float magnitude;
+    public float maxTime = -1.0f;
+    public float maxDistance = -1.0f;
+
+    float timer = 0.0f;
     public float animationBlend;
-    private float targetSpeed = 6.0f;
+    private float targetSpeed;
+    private float MoveSpeed = 2.0f;
+    private float SprintSpeed = 6.0f;
     [SerializeField] private float SpeedChangeRate = 10.0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,13 +25,24 @@ public class AiMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if there is no input, set the target speed to 0
-        if (player.transform.position - transform.position == Vector3.zero) targetSpeed = 0.0f;
+        //per abbozzo di movimento fare uncomment
+        
+        /*timer -= Time.deltaTime;
+        if(timer<0.0f){
+            
+            
+            float sgDistance = (player.transform.position - agent.destination).sqrMagnitude;
+            if(sgDistance > maxDistance*maxDistance){
+                targetSpeed = MoveSpeed;
+                agent.destination = player.transform.position;
+            }
+            else targetSpeed = 0;
+            timer= maxTime;
+        }*/
+
         magnitude = agent.velocity.magnitude;
 
         animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
         if (animationBlend < 0.01f) animationBlend = 0f;
-
-        agent.destination = player.transform.position;
     }
 }
