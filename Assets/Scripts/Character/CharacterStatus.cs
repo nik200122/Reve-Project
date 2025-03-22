@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterStatus : MonoBehaviour
 {
-    private InputHandler input;
+    [SerializeField] private InputHandler input;
     [Space(10)]
 
     [Space(10)]
@@ -71,12 +71,12 @@ public class CharacterStatus : MonoBehaviour
 
    
 
-    private PlayerInput playerInput;
+    [SerializeField] private PlayerInput playerInput;
 
     private void Awake()
     {
-        input= GetComponent<InputHandler>();
-        playerInput = GetComponent<PlayerInput>();
+        //input= GetComponent<InputHandler>();
+        //playerInput = GetComponent<PlayerInput>();
          // get a reference to our main camera
         if (mainCamera == null)
         {
@@ -96,7 +96,7 @@ public class CharacterStatus : MonoBehaviour
     void Update()
     {
         RollingCheck();
-        Debug.Log("input"+ input.roll+"isRolling Check:"+isRolling);
+        //Debug.Log("input"+ input.roll+"isRolling Check:"+isRolling);
         GroundedCheck();
         JumpingAndFallingCheck();
         HandleMovement();

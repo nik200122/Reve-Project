@@ -89,11 +89,7 @@ public class CharacterMovement : MonoBehaviour
             controller.Move(characterStatus.GetTargetDirection().normalized * (speed * Time.deltaTime) +
                         new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }
-        // normalise input direction
-
-        
-
-        
+        // normalise input direction        
     }
 
     private void JumpAndGravity()

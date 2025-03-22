@@ -4,12 +4,12 @@ using UnityEngine.InputSystem;
 
 public class CharacterInteract : MonoBehaviour
 {
-    private InputHandler input;
+    [SerializeField] private InputHandler input;
     private bool interactionPerformed= false;
 
     private void Awake()
     {
-        input = GetComponent<InputHandler>();
+        //input = GetComponent<InputHandler>();
     }
     // Update is called once per frame
     void Update()

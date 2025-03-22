@@ -21,13 +21,13 @@ public class CharacterCameraManager : MonoBehaviour
     private float cinemachineTargetYaw;
     private float cinemachineTargetPitch;
     private const float _threshold = 0.01f;
-    private InputHandler input;
-    private PlayerInput playerInput;
+    [SerializeField] private InputHandler input;
+    [SerializeField] private PlayerInput playerInput;
     
 
     private void Awake(){
-        input= GetComponent<InputHandler>();
-        playerInput = GetComponent<PlayerInput>();
+        //input= GetComponent<InputHandler>();
+        //playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start(){

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Player xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <stats>
+    <PlayerStat>
+      <currentValue>35</currentValue>
+      <maxValue>100</maxValue>
+      <statTag>SAZIETA</statTag>
+    </PlayerStat>
+    <PlayerStat>
+      <currentValue>35</currentValue>
+      <maxValue>100</maxValue>
+      <statTag>DIVERTIMENTO</statTag>
+    </PlayerStat>
+    <PlayerStat>
+      <currentValue>35</currentValue>
+      <maxValue>100</maxValue>
+      <statTag>FELICITA</statTag>
+    </PlayerStat>
+  </stats>
+</Player>

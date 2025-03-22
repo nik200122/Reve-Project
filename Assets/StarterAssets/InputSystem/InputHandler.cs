@@ -13,6 +13,7 @@ using UnityEngine.InputSystem;
 		public bool interact;
 		public bool sprint;
 		public bool roll;
+		public bool menuAction;
 		public bool back;
 
 		[Header("Movement Settings")]
@@ -57,6 +58,11 @@ using UnityEngine.InputSystem;
 		{
 			Debug.Log("interact:"+ interact);
 			interact=context.performed;
+		}
+
+		public void OnMenuAction(InputAction.CallbackContext context)
+		{	
+			menuAction = context.performed;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)
