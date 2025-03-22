@@ -1,0 +1,12 @@
+<npcs>
+  <npc>
+    <Name>Elira</Name>
+    <Backstory>Elira è la custode della foresta di Elenora, esperta in magia e conoscenza antica.</Backstory>
+    <Personality>Saggia, enigmatica e protettiva.</Personality>
+  </npc>
+  <npc>
+    <Name>Goruk</Name>
+    <Backstory>Goruk è un guerriero errante, noto per la sua forza e il suo coraggio in battaglia.</Backstory>
+    <Personality>Impulsivo, leale e determinato.</Personality>
+  </npc>
+</npcs>

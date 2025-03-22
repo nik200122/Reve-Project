@@ -3,26 +3,32 @@ using UnityEngine;
 public class NPCInteractable : MonoBehaviour, IInteractable{
 
     [SerializeField] private string interactText;
+    [SerializeField] private string Name;
 
+    [SerializeField] private DeepSeek deepSeek;
 
-    NPCUIDialogueManager uiDialogue;
     NPCAnimator nPCanimator;
 
     public void Awake()
     {
-        uiDialogue = GetComponent<NPCUIDialogueManager>();
         nPCanimator = GetComponent<NPCAnimator>(); 
     }
 
     public void Interact(Transform interactorTransform){
         Debug.Log("interact!");
-        uiDialogue.ActivateDialogueBox();
-        uiDialogue.setText("Ciao!");
+        deepSeek.ActivateDialogue();
+        deepSeek.SetNPC(this);
+    }
+
+    public void SetTalk(){
         nPCanimator.SetTalk();
     }
 
     public string GetInteractText(){
         return interactText;
+    }
+    public string GetName(){
+        return Name;
     }
 
     public Transform GetTransform()
@@ -32,7 +38,6 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
 
     public void TerminateInteract()
     {
-        uiDialogue.DectivateDialogueBox();
-        uiDialogue.setText("");
+        deepSeek.DectivateDialogue();
     }
 }

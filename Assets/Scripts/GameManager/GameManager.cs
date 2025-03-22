@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {   
     [SerializeField] private InputHandler input;
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private DeepSeek deepSeek;
     private GameLoader gameLoader;
     private bool isMenuActionPerformed;
 
@@ -14,7 +15,10 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {    
-        gameLoader.LoadData(playerManager.GetPlayerModel());
+        gameLoader.LoadData();
+        deepSeek.SetNPCDataList(gameLoader.LoadedNPCDataList);
+        deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
+        playerManager.SetPlayerModel(gameLoader.LoadedPlayer);
     }
 
     // Update is called once per frame

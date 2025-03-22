@@ -24,7 +24,7 @@ public class CharacterInteract : MonoBehaviour
             
         }
         if(interactionPerformed){
-            if(input.back){
+            if(input.esc){
                 IInteractable interactable = GetInteractableObject();
                 if(interactable!=null){
                     interactable.TerminateInteract();

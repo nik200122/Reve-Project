@@ -15,6 +15,7 @@ using UnityEngine.InputSystem;
 		public bool roll;
 		public bool menuAction;
 		public bool back;
+		public bool esc;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -30,6 +31,10 @@ using UnityEngine.InputSystem;
 		public void OnBack(InputAction.CallbackContext context)
 		{
 			back=context.performed;
+		}
+		public void OnEsc(InputAction.CallbackContext context)
+		{
+			esc=context.performed;
 		}
 
 		public void OnLook(InputAction.CallbackContext context)

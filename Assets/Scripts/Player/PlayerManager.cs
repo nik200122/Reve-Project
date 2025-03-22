@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
@@ -7,5 +8,10 @@ public class PlayerManager : MonoBehaviour
 
     public Player GetPlayerModel(){
         return player;
+    }
+
+    public void SetPlayerModel(Player loadedPlayer)
+    {
+       player=loadedPlayer;
     }
 }
