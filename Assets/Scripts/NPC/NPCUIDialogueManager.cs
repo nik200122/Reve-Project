@@ -8,10 +8,14 @@ public class NPCUIDialogueManager : MonoBehaviour
 
     public void ActivateDialogueBox(){
         canvas.gameObject.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void DectivateDialogueBox(){
         canvas.gameObject.SetActive(false);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void setText(string text){
