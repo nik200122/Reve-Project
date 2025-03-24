@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfItem xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Item>
+    <tag>HpPotion01</tag>
+    <type>RecoveryItem</type>
+    <name>Potion</name>
+    <description>+20 Hp</description>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Hp</targetStat>
+        <value>20</value>
+      </PlayerModifier>
+    </modifiers>
+    <spritePath>MinorHealthPotion</spritePath>
+  </Item>
+</ArrayOfItem>

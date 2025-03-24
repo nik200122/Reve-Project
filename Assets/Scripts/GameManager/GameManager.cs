@@ -18,7 +18,11 @@ public class GameManager : MonoBehaviour
         gameLoader.LoadData();
         deepSeek.SetNPCDataList(gameLoader.LoadedNPCDataList);
         deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
-        playerManager.SetPlayerModel(gameLoader.LoadedPlayer);
+        playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
+        playerManager.SetInventory(gameLoader.LoadedPlayerInventory);
+
+        //PER DEBUG
+        playerManager.UseItem("HpPotion01");
     }
 
     // Update is called once per frame

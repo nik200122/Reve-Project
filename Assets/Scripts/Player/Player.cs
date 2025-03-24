@@ -12,7 +12,7 @@ public class Player
     }
 
     public void SetStat(string statTag, float value){
-        PlayerStat stat = this.stats.Find(obj => obj.GetStatTag() == statTag);
+        PlayerStat stat = stats.Find(obj => obj.GetStatTag() == statTag);
 
         float newValue = Mathf.Min(value, stat.GetMaxValue());
         stat.SetCurrentValue(newValue);

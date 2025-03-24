@@ -2,19 +2,19 @@
 <Player xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <stats>
     <PlayerStat>
-      <currentValue>35</currentValue>
+      <currentValue>70</currentValue>
       <maxValue>100</maxValue>
-      <statTag>SAZIETA</statTag>
+      <statTag>Hp</statTag>
     </PlayerStat>
     <PlayerStat>
       <currentValue>35</currentValue>
       <maxValue>100</maxValue>
-      <statTag>DIVERTIMENTO</statTag>
+      <statTag>Attack</statTag>
     </PlayerStat>
     <PlayerStat>
       <currentValue>35</currentValue>
       <maxValue>100</maxValue>
-      <statTag>FELICITA</statTag>
+      <statTag>Defense</statTag>
     </PlayerStat>
   </stats>
 </Player>

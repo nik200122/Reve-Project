@@ -2,7 +2,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStat
-{
+{   
+    //REMINDER ANGELONE ACCEDE COSI AI DATI IN UIMANAGER
+        // hungerSlider.value = cat.getStat(CatTag.SAZIETA).currentValue;
+        // enjoymentSlider.value = cat.getStat(CatTag.DIVERTIMENTO).currentValue;
+        // happinessSlider.value = cat.getStat(CatTag.FELICITA).currentValue;
+
     public float currentValue;
     public float maxValue;
     public string statTag;
