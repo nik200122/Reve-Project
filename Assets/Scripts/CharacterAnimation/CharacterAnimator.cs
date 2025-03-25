@@ -20,12 +20,25 @@ public class CharacterAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetBool(animIDGrounded, status.IsGrounded());
-        animator.SetFloat(animIDSpeed, status.GetAnimationBlend());
-        animator.SetFloat(animIDMotionSpeed, status.GetInputMagnitude());
-        animator.SetBool(animIDJump, status.IsJumping());
-        animator.SetBool(animIDFreeFall, status.IsFalling());
-        animator.SetBool(animIDRoll, status.IsRolling());
+        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+            UpdateStatus(status.IsGrounded(), status.GetAnimationBlend(), status.GetInputMagnitude(), 
+                status.IsJumping(), status.IsFalling(), status.IsRolling());
+        }
+        else{
+            UpdateStatus(true, 0, 0, false, false, false);
+        }
+        
+    }
+
+    void UpdateStatus(bool isGrounded, float animationBlend, float inputMagnitude, bool isJumping, 
+        bool isFalling, bool isRolling){
+            animator.SetBool(animIDGrounded, isGrounded);
+            animator.SetFloat(animIDSpeed, animationBlend);
+            animator.SetFloat(animIDMotionSpeed, inputMagnitude);
+            animator.SetBool(animIDJump, isJumping);
+            animator.SetBool(animIDFreeFall, isFalling);
+            animator.SetBool(animIDRoll, isRolling);
+
     }
 
 

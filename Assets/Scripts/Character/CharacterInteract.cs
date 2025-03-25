@@ -14,21 +14,28 @@ public class CharacterInteract : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(input.interact && !interactionPerformed){
-            IInteractable interactable = GetInteractableObject();
-            
-                if(interactable!=null){
+        // Controlla se il gioco è in stato FreeRoam prima di iniziare l'interazione
+        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam)
+        {
+            if(input.interact)
+            {
+                IInteractable interactable = GetInteractableObject();
+                if(interactable != null)
+                {
                     interactable.Interact(transform);
-                    interactionPerformed = true;
+                    
+                    // Cambia lo stato in InteractionInProgress
+                    GameStateManager.Instance.ChangeState(GameState.Interaction);
                 }
-            
+            }
         }
-        if(interactionPerformed){
+        else if(GameStateManager.Instance.CurrentState == GameState.Interaction){
             if(input.esc){
                 IInteractable interactable = GetInteractableObject();
                 if(interactable!=null){
                     interactable.TerminateInteract();
-                    interactionPerformed = false;
+                    // Torna allo stato FreeRoam
+                    GameStateManager.Instance.ChangeState(GameState.FreeRoam);
                 }
             }
         }

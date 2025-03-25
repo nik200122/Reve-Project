@@ -11,7 +11,7 @@ public class CharacterInteractUI : MonoBehaviour
 
     private void Update()
     {
-        if(characterInteract.GetInteractableObject() != null && !characterInteract.GetInteractionPerformed()){
+        if(characterInteract.GetInteractableObject() != null && GameStateManager.Instance.CurrentState == GameState.FreeRoam){
             Show(characterInteract.GetInteractableObject());
         }
         else Hide();

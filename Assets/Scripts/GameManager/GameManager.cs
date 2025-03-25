@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DeepSeek deepSeek;
     private GameLoader gameLoader;
     private bool isMenuActionPerformed;
+    private bool menuOpened = false;
 
     private void Awake()
     {
@@ -32,13 +33,19 @@ public class GameManager : MonoBehaviour
     }
 
     private void CheckIsMenuActionPerformed()
-    {   
-        if(input.menuAction && !isMenuActionPerformed){
-            Debug.Log("MENU OPENED");
-            isMenuActionPerformed = true;
+    {
+        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+            if(input.menuAction){
+                Debug.Log("MENU OPENED");
+                GameStateManager.Instance.ChangeState(GameState.MenuOpened);
+            }
         }
-        if(!input.menuAction){
-            isMenuActionPerformed = false;
+        else if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){
+            if(input.back){
+                Debug.Log("MENU Closed");
+                GameStateManager.Instance.ChangeState(GameState.FreeRoam);
+            }
         }
+        
     }
 }

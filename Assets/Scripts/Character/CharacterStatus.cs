@@ -56,7 +56,7 @@ public class CharacterStatus : MonoBehaviour
     private bool isWalking;
     private bool isFalling;
     private static bool isRolling;
-    private bool canJump;
+    private bool canMove = true;
 
     private const float _threshold = 0.01f;
     [SerializeField] private float SpeedChangeRate = 10.0f;
@@ -90,6 +90,24 @@ public class CharacterStatus : MonoBehaviour
         jumpTimeoutDelta = JumpTimeout;
         fallTimeoutDelta = FallTimeout;
         
+    }
+
+    private void OnEnable()
+    {
+        // Iscriviti all'evento per ricevere notifiche sul cambio di stato
+        GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+    }
+    
+    private void OnDisable()
+    {
+        if(GameStateManager.Instance != null)
+            GameStateManager.Instance.OnGameStateChanged -= HandleGameStateChanged;
+    }
+    
+    private void HandleGameStateChanged(GameState newState)
+    {
+        // Blocca il movimento se non siamo in FreeRoam
+        canMove = newState == GameState.FreeRoam;
     }
 
     // Update is called once per frame
@@ -242,6 +260,11 @@ public class CharacterStatus : MonoBehaviour
     public bool IsJumping()
     {
         return isJumping;
+    }
+
+    public bool GetCanMove()
+    {
+        return canMove;
     }
 
     public bool IsFalling()
