@@ -6,18 +6,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private DeepSeek deepSeek;
     private GameLoader gameLoader;
+    private NPCDataManager nPCDataManager;
     private bool isMenuActionPerformed;
     private bool menuOpened = false;
 
     private void Awake()
     {
         gameLoader = gameObject.GetComponent<GameLoader>();
+        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {    
         gameLoader.LoadData();
-        deepSeek.SetNPCDataList(gameLoader.LoadedNPCDataList);
         deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
         playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
         playerManager.SetInventory(gameLoader.LoadedPlayerInventory);

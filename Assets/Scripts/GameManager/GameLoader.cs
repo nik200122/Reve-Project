@@ -11,7 +11,6 @@ public class GameLoader : MonoBehaviour
     private const string npcDataFile = "Assets/Resources/XML/npcData.xml";
     
     public WorldData LoadedWorldData { get; private set; }
-    public NPCDataList LoadedNPCDataList { get; private set; }
     public Player LoadedPlayerStats { get; private set; }
     public List<Item> LoadedItems { get; private set; }
     public Inventory LoadedPlayerInventory { get; private set; }
@@ -21,8 +20,6 @@ public class GameLoader : MonoBehaviour
 
         LoadedWorldData = XMLHelper.LoadFromXml<WorldData>(worldDataFile);
         
-        // Caricamento dei dati NPC (più NPC in un file)
-        LoadedNPCDataList = XMLHelper.LoadFromXml<NPCDataList>(npcDataFile);
         LoadAssets();
     }
 

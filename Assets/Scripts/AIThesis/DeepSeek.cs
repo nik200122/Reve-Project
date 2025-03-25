@@ -14,7 +14,6 @@ using UnityEngine.Events;
 public class DeepSeek : MonoBehaviour
 {
     private WorldData worldData;
-    private NPCDataList nPCDataList;
 
     [SerializeField]private DeepSeekUI deepSeekUI;
     private NPCInteractable currentNPC;
@@ -44,20 +43,9 @@ public class DeepSeek : MonoBehaviour
         {
             Debug.LogError("Errore nel caricamento di WorldData.");
         }
-        if (nPCDataList != null && nPCDataList.npcs != null)
-        {
-            foreach (NPCData npc in nPCDataList.npcs)
-            {
-                Debug.Log("NPC Info: " + npc.GetPrompt());
-            }
-        }
-        else
-        {
-            Debug.LogError("Errore nel caricamento di NPCDataList.");
-        }  // o caricato da file se non usi ScriptableObject
-        string npcPrompt = nPCDataList.GetNPCByName(currentNPC.GetName()).GetPrompt();
+        
          
-        string finalInstruction = $"{baseInstruction}\nThe following info is the info about the game world: {worldPrompt}\nThe following info is the info about the NPC: {npcPrompt}";
+        string finalInstruction = $"{baseInstruction}\nThe following info is the info about the game world: {worldPrompt}\nThe following info is the info about the NPC:{currentNPC.GetNPCData().GetPrompt()}";
         RequestParameter parameter= new RequestParameter("system", finalInstruction);
         RequestParameter parameter1= new RequestParameter("user", userMessage);
         List<RequestParameter> requestParameters= new List<RequestParameter>
@@ -107,10 +95,6 @@ public class DeepSeek : MonoBehaviour
 
     public void DectivateDialogue(){
          deepSeekUI.DectivateDialogueBox();
-    }
-
-    public void SetNPCDataList(NPCDataList nPCDataList){
-        this.nPCDataList=nPCDataList;
     }
 
     public void SetWorldInfo(WorldData worldData)
