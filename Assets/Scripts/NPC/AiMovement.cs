@@ -3,46 +3,46 @@ using UnityEngine.AI;
 
 public class AiMovement : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    NavMeshAgent agent;
-    public float magnitude;
-    public float maxTime = -1.0f;
-    public float maxDistance = -1.0f;
+    [SerializeField] private Transform player;
+    private NavMeshAgent agent;
+    private Rigidbody rb;
 
-    float timer = 0.0f;
-    public float animationBlend;
-    private float targetSpeed;
-    private float MoveSpeed = 2.0f;
-    private float SprintSpeed = 6.0f;
-    [SerializeField] private float SpeedChangeRate = 10.0f;
+    [SerializeField] private float walkSpeed = 2.0f;
+    [SerializeField] private float runSpeed = 5.0f;
+    [SerializeField] private float chaseDistance = 5.0f;
+    [SerializeField] private float speedChangeRate = 5.0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private float currentSpeed = 0f;
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //per abbozzo di movimento fare uncomment
-        
-        /*timer -= Time.deltaTime;
-        if(timer<0.0f){
-            
-            
-            float sgDistance = (player.transform.position - agent.destination).sqrMagnitude;
-            if(sgDistance > maxDistance*maxDistance){
-                targetSpeed = MoveSpeed;
-                agent.destination = player.transform.position;
-            }
-            else targetSpeed = 0;
-            timer= maxTime;
-        }*/
+        /*float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        magnitude = agent.velocity.magnitude;
+        // Se il player è vicino, cammina, altrimenti corri
+        float targetSpeed = distanceToPlayer > chaseDistance ? runSpeed : walkSpeed;
+        agent.destination = player.position;
 
-        animationBlend = Mathf.Lerp(animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        if (animationBlend < 0.01f) animationBlend = 0f;
+        // Interpola la velocità per evitare cambi bruschi
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedChangeRate);
+        agent.speed = currentSpeed;*/
+
+    }
+    void FixedUpdate()
+    {
+        // Applica la posizione calcolata dal NavMeshAgent al Rigidbody
+        /*Vector3 nextPosition = agent.nextPosition;
+        rb.MovePosition(nextPosition);*/
+    }
+
+    public float GetSpeed(){
+        return currentSpeed/runSpeed;
     }
 }
+
+

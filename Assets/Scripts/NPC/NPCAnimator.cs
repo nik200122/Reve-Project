@@ -18,8 +18,7 @@ public class NPCAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        animator.SetFloat(animIDSpeed, aiMovement.magnitude);
-        animator.SetFloat(animIDMotionSpeed, aiMovement.animationBlend);
+        animator.SetFloat(animIDSpeed, aiMovement.GetSpeed());
     }
 
     public void SetTalk(){
