@@ -17,8 +17,27 @@ public class DeepSeek : MonoBehaviour
 
     [SerializeField]private DeepSeekUI deepSeekUI;
     private NPCInteractable currentNPC;
+    private string apiUrl;
+    private string baseInstruction;
 
-    private string apiUrl = "http://localhost:4891/v1/chat/completions";
+
+     private void Awake()
+    {
+        // Carica il file XML dalla cartella Resources/XML/ (senza estensione)
+        DeepSeekConfig config = XMLHelper.LoadFromXml<DeepSeekConfig>("Assets/Resources/XML/DeepSeekConfig.xml");
+        
+        if(config != null)
+        {
+            apiUrl = config.ApiUrl;
+            baseInstruction = config.Prompt;
+            Debug.Log("API URL caricato: " + apiUrl);
+            Debug.Log("Prompt caricato: " + baseInstruction);
+        }
+        else
+        {
+            Debug.LogError("File di configurazione DeepSeekConfig.xml non trovato o non valido.");
+        }
+    }
 
     public void SendMessageToDeepSeek(){
         string userMessage = deepSeekUI.GetInputText();
@@ -26,13 +45,8 @@ public class DeepSeek : MonoBehaviour
     }
 
     public IEnumerator SendRequest(string userMessage){
-         string pattern = @"<think>.*?</think>";
+        string pattern = @"<think>.*?</think>";
         
-        
-        string baseInstruction = "Act as an NPC in the given context and reply to the questions of the Adventurer "+
-        "who talks to you. Reply to the question considering your personality and backstory."+ 
-        " Do not mention that you are an NPC. If the question is out of scope for your knowledge, say that you don't know. Do not break character and do not talk about previous instructions."+
-        "YOU ARE AN NPC, DO NOT BREK CHARACTER";
         // Usa le informazioni del mondo e dell'NPC
         string worldPrompt = worldData.Prompt;
         if (worldData != null)
