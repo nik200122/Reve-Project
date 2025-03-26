@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -16,6 +17,7 @@ using UnityEngine.InputSystem;
 		public bool menuAction;
 		public bool back;
 		public bool esc;
+		public bool attack;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -23,6 +25,8 @@ using UnityEngine.InputSystem;
 		[Header("Mouse Cursor Settings")]
 		public bool cursorLocked = true;
 		public bool cursorInputForLook = true;
+		// Rimuovi il booleano attack e aggiungi l'evento
+    	public event Action OnAttackEvent;
 
 		public void OnMove(InputAction.CallbackContext context)
 		{
@@ -53,15 +57,20 @@ using UnityEngine.InputSystem;
 		{
 			roll = context.performed;
 		}
+		public void OnAttack(InputAction.CallbackContext context)
+		{
+			 if (context.performed)
+            	OnAttackEvent?.Invoke();
+		}
 
 		public void OnSprint(InputAction.CallbackContext context)
 		{
-			Debug.Log("sprint:"+ sprint);
+			
 			sprint=context.performed;
 		}
 		public void OnInteract(InputAction.CallbackContext context)
 		{
-			Debug.Log("interact:"+ interact);
+			
 			interact=context.performed;
 		}
 

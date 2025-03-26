@@ -89,13 +89,8 @@ public class CharacterStatus : MonoBehaviour
         // reset our timeouts on start
         jumpTimeoutDelta = JumpTimeout;
         fallTimeoutDelta = FallTimeout;
+         GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
         
-    }
-
-    private void OnEnable()
-    {
-        // Iscriviti all'evento per ricevere notifiche sul cambio di stato
-        GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
     }
     
     private void OnDisable()

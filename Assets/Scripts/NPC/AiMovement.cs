@@ -17,7 +17,7 @@ public class AiMovement : MonoBehaviour
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -29,15 +29,15 @@ public class AiMovement : MonoBehaviour
         agent.destination = player.position;
 
         // Interpola la velocità per evitare cambi bruschi
-        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedChangeRate);
-        agent.speed = currentSpeed;*/
+        currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, Time.deltaTime * speedChangeRate);*/
+        agent.speed = 0.0f;
 
     }
     void FixedUpdate()
     {
         // Applica la posizione calcolata dal NavMeshAgent al Rigidbody
-        /*Vector3 nextPosition = agent.nextPosition;
-        rb.MovePosition(nextPosition);*/
+        Vector3 nextPosition = agent.nextPosition;
+        //rb.MovePosition(nextPosition);
     }
 
     public float GetSpeed(){

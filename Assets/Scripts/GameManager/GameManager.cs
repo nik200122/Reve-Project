@@ -6,9 +6,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private DeepSeek deepSeek;
     private GameLoader gameLoader;
-    private NPCDataManager nPCDataManager;
-    private bool isMenuActionPerformed;
-    private bool menuOpened = false;
+   // private bool isMenuActionPerformed;
+    //private bool menuOpened = false;
 
     private void Awake()
     {
