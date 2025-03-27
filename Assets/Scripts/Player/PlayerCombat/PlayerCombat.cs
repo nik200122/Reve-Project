@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [SerializeField] private List<AttackSO> combo; 
+    //[SerializeField] private List<AttackSO> combo; 
     //[SerializeField] private Weapon weapon;
     private float lastClickTime;
     private float lastComboEnd;
@@ -19,7 +19,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         
         ExitAttack();
@@ -42,7 +42,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
     void Attack(){
-        if(Time.time - lastComboEnd> comboCountdown && comboCounter < combo.Count){
+        if(Time.time - lastComboEnd > comboCountdown && comboCounter < combo.Count){
             //assicuriamo che non ci siano overlap
             CancelInvoke("EndCombo");
             if(Time.time - lastClickTime >= attackCountdown ){
@@ -74,5 +74,5 @@ public class PlayerCombat : MonoBehaviour
     void EndCombo(){
         comboCounter = 0;
         lastComboEnd = Time.time;
-    }
+    }*/
 }

@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
         deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
         playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
         playerManager.SetInventory(gameLoader.LoadedPlayerInventory);
+        playerManager.SetPlayerAttackData(gameLoader.LoadedPlayerAttackDataList);
 
         //PER DEBUG
         playerManager.UseItem("HpPotion01");

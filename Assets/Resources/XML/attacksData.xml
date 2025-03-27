@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AttackDefinitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Attack>
+    <id>Attack1</id>
+    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack1OV</overrideControllerPath>
+    <PlayerModifier>
+      <targetStat>Attack</targetStat>
+      <value>10</value>
+    </PlayerModifier>
+  </Attack>
+  <Attack>
+    <id>Attack2</id>
+    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack2OV</overrideControllerPath>
+    <PlayerModifier>
+      <targetStat>Attack</targetStat>
+      <value>20</value>
+    </PlayerModifier>
+  </Attack>
+  <Attack>
+    <id>Attack3</id>
+    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack3OV</overrideControllerPath>
+    <PlayerModifier>
+      <targetStat>Attack</targetStat>
+      <value>30</value>
+    </PlayerModifier>
+  </Attack>
+  <Attack>
+    <id>Attack4</id>
+    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack4OV</overrideControllerPath>
+    <PlayerModifier>
+      <targetStat>Attack</targetStat>
+      <value>40</value>
+    </PlayerModifier>
+  </Attack>
+</AttackDefinitions>

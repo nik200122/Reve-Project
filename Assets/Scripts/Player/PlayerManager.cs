@@ -5,6 +5,7 @@ public class PlayerManager : MonoBehaviour
 {   
     private Player player;
     private Inventory inventory;
+    private AttackDataList attackDataList;
     //[SerializeField] private InputHandler input;
 
     public Player GetPlayerModel(){
@@ -21,6 +22,13 @@ public class PlayerManager : MonoBehaviour
 
     public void SetInventory(Inventory loadedInventory){
         inventory = loadedInventory;
+        //Debug.Log(""+inventory.GetItem("HpPotion01").name);
+    }
+    public void SetPlayerAttackData(AttackDataList attackDataList){
+        this.attackDataList = attackDataList;
+        foreach(AttackData attackData in attackDataList.Attacks){
+            Debug.Log(""+attackData.ToString());
+        }
         //Debug.Log(""+inventory.GetItem("HpPotion01").name);
     }
 
