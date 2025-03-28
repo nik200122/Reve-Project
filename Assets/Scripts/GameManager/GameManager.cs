@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {   
     [SerializeField] private InputHandler input;
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private PlayerCombat playerCombat;
     [SerializeField] private DeepSeek deepSeek;
     private GameLoader gameLoader;
    // private bool isMenuActionPerformed;
@@ -22,6 +23,8 @@ public class GameManager : MonoBehaviour
         playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
         playerManager.SetInventory(gameLoader.LoadedPlayerInventory);
         playerManager.SetPlayerAttackData(gameLoader.LoadedPlayerAttackDataList);
+        playerCombat.SetComboRules(gameLoader.LoadedComboRules);
+        playerCombat.SetAttackDataList(gameLoader.LoadedPlayerAttackDataList);
 
         //PER DEBUG
         playerManager.UseItem("HpPotion01");

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ComboRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Combo id="Combo1">
+    <Sequence>
+      <AttackStep attackId="Attack1" />
+      <AttackStep attackId="Attack2" />
+    </Sequence>
+  </Combo>
+</ComboRules>

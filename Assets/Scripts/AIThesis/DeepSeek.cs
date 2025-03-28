@@ -67,7 +67,7 @@ public class DeepSeek : MonoBehaviour
             parameter,
             parameter1
         };
-        RequestMessage requestMessage= new RequestMessage("DeepSeek-R1-Distill-Qwen-7B", 2048, requestParameters);
+        RequestMessage requestMessage= new RequestMessage("Mistral Instruct", 2048, requestParameters);
 
         string jsonPayload = JsonUtility.ToJson(requestMessage);
         Debug.Log(jsonPayload);

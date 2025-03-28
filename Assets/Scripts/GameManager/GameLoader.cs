@@ -10,11 +10,13 @@ public class GameLoader : MonoBehaviour
     private const string worldDataFile = "Assets/Resources/XML/worldInfo.xml";
     private const string attackDataFile = "Assets/Resources/XML/attacksData.xml";
     private const string playerAttacksFile = "Assets/Resources/XML/playerAttacks.xml";
+    private const string comboRulesFile = "Assets/Resources/XML/comboRules.xml";
     
     public WorldData LoadedWorldData { get; private set; }
 
     public AttackDataList LoadedAttackDataList { get; private set; }
     public AttackDataList LoadedPlayerAttackDataList { get; private set; }
+    public ComboRules LoadedComboRules { get; private set; }
     public Player LoadedPlayerStats { get; private set; }
     public List<Item> LoadedItems { get; private set; }
     public Inventory LoadedPlayerInventory { get; private set; }
@@ -47,6 +49,7 @@ public class GameLoader : MonoBehaviour
             attack.LoadAnimatorOverrideController();
             
         }
+        LoadedComboRules = XMLHelper.LoadFromXml<ComboRules>(comboRulesFile);
     }
 
     private void LoadAssets(){

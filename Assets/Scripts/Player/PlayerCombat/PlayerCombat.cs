@@ -1,78 +1,163 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerCombat : MonoBehaviour
 {
-    //[SerializeField] private List<AttackSO> combo; 
-    //[SerializeField] private Weapon weapon;
-    private float lastClickTime;
-    private float lastComboEnd;
-    private int comboCounter;
-    private float comboCountdown = 0.2f;
-    private float attackCountdown = 1.9f;
-    [SerializeField]private InputHandler input;
+    [Header("Combo Data")]
+    [Tooltip("Combo corrente definita nei dati (XML)")]
+    [SerializeField] private Combo currentCombo;
+
+    [Tooltip("Lista di tutti gli attacchi caricati (dati da AttackDefinitions.xml)")]
+    private AttackDataList attackDataList; 
+
+    [Header("Combat Settings")]
+    [Tooltip("Tempo massimo (in secondi) tra gli attacchi per continuare la combo")]
+    [SerializeField] private float comboResetTime = 1.0f; 
+
+    [Header("References")]
     private Animator animator;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private InputHandler input;
+
+    // Dizionario per accedere rapidamente agli attacchi tramite il loro ID
+    private Dictionary<string, AttackData> attackDictionary;
+
+    // Variabili per gestire la combo
+    private int currentStepIndex = 0;
+    private float lastAttackTime = 0f;
+    private bool attackInProgress = false;
+    private bool queuedAttack = false;
+
+    // Flag per abilitare la coda degli input, attivato a >75% dell'animazione
+    private bool allowQueue = false;
+    
+
     void Awake()
     {
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    /*void Update()
-    {
-        
-        ExitAttack();
-    }
-
     void Start()
     {
-        input.OnAttackEvent += HandleAttackEvent;
+        input.OnAttackEvent += OnAttackInput;
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
-        input.OnAttackEvent -= HandleAttackEvent;
+        input.OnAttackEvent -= OnAttackInput;
     }
 
-    void HandleAttackEvent()
+    void Update()
     {
-        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
-                Attack();
+        // Se non siamo in attacco e abbiamo superato il tempo massimo, resetta la combo.
+        if (!attackInProgress && (Time.time - lastAttackTime > comboResetTime))
+        {
+            ResetCombo();
         }
     }
-    void Attack(){
-        if(Time.time - lastComboEnd > comboCountdown && comboCounter < combo.Count){
-            //assicuriamo che non ci siano overlap
-            CancelInvoke("EndCombo");
-            if(Time.time - lastClickTime >= attackCountdown ){
-                //andiamo a sovrascrivere l'animazione specifica del punto della combo
-                animator.runtimeAnimatorController = combo[comboCounter].animatorOverrideController;
-                //facciamo play dello stato sul layer 0 a tempo 0
-                animator.Play("Attack", 0, 0);
-                //l'arma avrà quindi il danno del singolo attacco
-                //Possiamo aggiungere il resto della logica qua
-                //TODO
-                //weapon.damage = combo[comboCounter].damage;
-                comboCounter++;
-                lastClickTime = Time.time;
-                if(comboCounter > combo.Count){
-                    comboCounter = 0;
+
+    void OnAttackInput()
+    {
+        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+            // Se siamo in attacco ma l'input è stato ricevuto dopo il 75% (allowQueue==true), metti in coda l'attacco.
+            if (attackInProgress)
+            {
+                if (allowQueue)
+                {
+                    queuedAttack = true;
+                    // Puoi anche aggiornare lastAttackTime qui per "rinfrescare" il timer,
+                    // in modo che il reset non avvenga se l'input arriva giusto in tempo.
+                    lastAttackTime = Time.time;
                 }
+                // Se l'input arriva prima del 75% dell'animazione, lo ignori.
+            }
+            else
+            {
+                StartAttack();
+            }
+        }
+        
+    }
+
+    void StartAttack()
+    {
+        // Se troppo tempo è passato dall'ultimo attacco, resetta la combo.
+        if (Time.time - lastAttackTime > comboResetTime)
+        {
+            currentStepIndex = 0;
+        }
+
+        // Se abbiamo ancora passi nella combo...
+        if (currentStepIndex < currentCombo.Sequence.Count)
+        {
+            AttackStep step = currentCombo.Sequence[currentStepIndex];
+
+            // Recupera l'attacco corrispondente tramite il dizionario.
+            if (attackDictionary.TryGetValue(step.AttackId, out AttackData attackData))
+            {
+                // Imposta l'AnimatorOverrideController per l'attacco corrente.
+                if (attackData.AnimatorOverrideController != null)
+                {
+                    animator.runtimeAnimatorController = attackData.AnimatorOverrideController;
+                }
+                else
+                {
+                    Debug.LogWarning("Override controller non caricato per l'attacco " + attackData.Id);
+                }
+
+                // Avvia l'animazione di attacco (lo stato "Attack" deve essere definito nell'Animator).
+                animator.Play("Attack", 0, 0);
+
+                lastAttackTime = Time.time;
+                currentStepIndex++;
+                attackInProgress = true;
+                queuedAttack = false;
+                allowQueue = false; // Resetta il flag finché non sarà abilitato dall'animazione.
+            }
+            else
+            {
+                Debug.LogError("Non esiste un attacco con ID: " + step.AttackId);
             }
         }
     }
 
-    void ExitAttack(){
-        //vediamo se l'animazione è al 90% e se sta facendo effettivamente l'animazione di attacco
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f &&animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack")){
-            //dopo 1 sec invoca
-            Invoke("EndCombo",1);
+    // Questo metodo viene chiamato da AttackAnimationBehaviour.OnStateExit quando l'animazione termina.
+    public void OnAttackAnimationComplete()
+    {
+        attackInProgress = false;
+
+        // Se c'era un input in coda, avvia immediatamente il prossimo attacco.
+        if (queuedAttack)
+        {
+            StartAttack();
         }
+        // Altrimenti, il timer in Update gestirà il reset della combo se non arriva altro input.
     }
 
-    void EndCombo(){
-        comboCounter = 0;
-        lastComboEnd = Time.time;
-    }*/
+    // Metodo chiamato dall'AttackAnimationBehaviour per abilitare la coda (dopo il 75% dell'animazione).
+    public void AllowAttackQueueing()
+    {
+        allowQueue = true;
+    }
+
+    void ResetCombo()
+    {
+        currentStepIndex = 0;
+    }
+
+    // Imposta i dati delle combo (caricati da XML)
+    public void SetComboRules(ComboRules loadedComboRules)
+    {
+        currentCombo = loadedComboRules.Combos[0];
+    }
+
+    // Imposta la lista degli attacchi e costruisce il dizionario.
+    public void SetAttackDataList(AttackDataList attackDataList)
+    {
+        this.attackDataList = attackDataList;
+        attackDictionary = new Dictionary<string, AttackData>();
+        foreach (var attack in attackDataList.Attacks)
+        {
+            attackDictionary[attack.Id] = attack;
+        }
+    }
 }
