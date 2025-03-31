@@ -8,6 +8,9 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
     // Variabili caricate dai dati
     private string interactText;
     private NPCData npcData;
+    [SerializeField] private ConversationHistory conversationHistory;
+
+    
 
     [SerializeField] private DeepSeek deepSeek;
     private NPCAnimator npcAnimator;
@@ -63,5 +66,22 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
     }
     public NPCData GetNPCData(){
         return npcData;
+    }
+    // Metodo per accedere allo storico della conversazione
+    public ConversationHistory GetConversationHistory()
+    {
+        /* uguale a 
+        if(conversationHistory == null)
+        {
+            conversationHistory = new ConversationHistory();
+        }*/
+        conversationHistory ??= new ConversationHistory();
+        return conversationHistory;
+    }
+    
+    // Metodo per resettare la conversazione se necessario
+    public void ResetConversation()
+    {
+        conversationHistory = new ConversationHistory();
     }
 }

@@ -7,7 +7,7 @@ public class GameLoader : MonoBehaviour
     private const string playerStatsFile = "Assets/Resources/XML/playerStats.xml";
     private const string playerInventoryDataFile = "Assets/Resources/XML/playerInventoryData.xml";
     private const string itemDataFile = "Assets/Resources/XML/itemsData.xml";
-    private const string worldDataFile = "Assets/Resources/XML/worldInfo.xml";
+    private const string worldDataFile = "Assets/Resources/XML/worldInfoReducted.xml";
     private const string attackDataFile = "Assets/Resources/XML/attacksData.xml";
     private const string playerAttacksFile = "Assets/Resources/XML/playerAttacks.xml";
     private const string comboRulesFile = "Assets/Resources/XML/comboRules.xml";
