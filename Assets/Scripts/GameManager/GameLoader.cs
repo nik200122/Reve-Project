@@ -59,11 +59,11 @@ public class GameLoader : MonoBehaviour
 
     private void LoadAbilities(){
         LoadedAbilityList = XMLHelper.LoadFromXml<AbilityList>(abilitiesFile);
-        Debug.Log("--- Abilities ---");
+       /* Debug.Log("--- Abilities ---");
         foreach (var ability in LoadedAbilityList.Abilities)
         {
             Debug.Log($"Ability ID: {ability.id}, Active: {ability.isActive}");
-        }
+        }*/
         
     }
 
@@ -77,7 +77,7 @@ public class GameLoader : MonoBehaviour
         }
         LoadedComboRules = XMLHelper.LoadFromXml<ComboRules>(comboRulesFile);
 
-         // Controllo Attacchi
+         /* Controllo Attacchi
         if (LoadedAttackDataList != null && LoadedAttackDataList.Attacks.Count > 0)
         {
             Debug.Log($"✅ AttackData caricato con successo! Numero di attacchi: {LoadedAttackDataList.Attacks.Count}");
@@ -117,7 +117,7 @@ public class GameLoader : MonoBehaviour
         {
             Debug.LogError($"❌ Errore nel caricamento di {comboRulesFile} o nessun passo di combo definito.");
         }
-
+        */
         
     }
 

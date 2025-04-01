@@ -84,25 +84,33 @@ public class PlayerCombat : MonoBehaviour
     }
     // Metodo che restituisce l'AttackData da usare per il currentStep
     private AttackData GetAttackForCurrentStep(AttackStep step){
+        Debug.Log("--- Step --- :" + step.Index);
         
             // Controlla se il player ha un'abilità attiva che fornisce un attacco
         foreach (var abilityRef in playerLoadout.Abilities)  // AbilityRefs contiene solo gli ID delle abilità equipaggiate
         {
+            Debug.Log("--- AbilityRef --- :" );
+            Debug.Log(abilityRef.Id + " : ID abilità ref"+"is Active"+ abilityRef.IsActive);
             // Cerca l'abilità completa corrispondente all'ID
             Ability ability = abilityList.Abilities.FirstOrDefault(a => a.id == abilityRef.Id);  // Usa 'id' invece di 'Id' per la corrispondenza
 
             // Se l'abilità è trovata, è attiva e ha attacchi equipaggiabili
-            if (ability != null && ability.isActive && ability.equippableAttacks.Count > 0)
+            if (ability != null && abilityRef.IsActive && ability.equippableAttacks.Count > 0)
             {
                 // Controlla se l'attacco dell'abilità è permesso per questo step della combo
                 foreach (var attackRef in ability.equippableAttacks)
                 {
+                    Debug.Log(attackRef.Id + " : ID attackref in ability");
                     // Verifica se l'attackRef è ammesso in questo step
                     if (step.AllowedAttacks.Exists(a => a.Id == attackRef.Id))
                     {
+                        foreach(var attack in step.AllowedAttacks){
+                            Debug.Log(attack.Id+ "attackId in step");
+                        }
                         // Trova e restituisci l'attacco corrispondente
                         if (attackDictionary.TryGetValue(attackRef.Id, out AttackData attackData))
                         {
+                            Debug.Log(attackData.Id+ "attackData");
                             return attackData;  // Restituisce il giusto attacco
                         }
                     }

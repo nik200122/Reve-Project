@@ -3,7 +3,6 @@
   <Ability>
     <id>Ability1</id>
     <name>Fury Mode</name>
-    <isActive>false</isActive>
     <modifiers>
       <PlayerModifier>
         <targetStat>Attack</targetStat>
@@ -18,7 +17,6 @@
   <Ability>
     <id>Ability2</id>
     <name>Flesh step</name>
-    <isActive>false</isActive>
     <modifiers>
     </modifiers>
     <equippableAttacks>
@@ -29,7 +27,6 @@
   <Ability>
     <id>Ability3</id>
     <name>Lion's heart</name>
-    <isActive>false</isActive>
     <modifiers>
       <PlayerModifier>
         <targetStat>Defense</targetStat>
