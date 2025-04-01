@@ -25,6 +25,7 @@ public class PlayerCombat : MonoBehaviour
 
     // Dizionario per accedere rapidamente agli attacchi tramite il loro ID
     private Dictionary<string, AttackData> attackDictionary;
+    private List<PlayerModifier> currentModifiers;
 
     // Variabili per gestire la combo
     private int currentStepIndex = 0;
@@ -84,13 +85,13 @@ public class PlayerCombat : MonoBehaviour
     }
     // Metodo che restituisce l'AttackData da usare per il currentStep
     private AttackData GetAttackForCurrentStep(AttackStep step){
-        Debug.Log("--- Step --- :" + step.Index);
+        //Debug.Log("--- Step --- :" + step.Index);
         
             // Controlla se il player ha un'abilità attiva che fornisce un attacco
         foreach (var abilityRef in playerLoadout.Abilities)  // AbilityRefs contiene solo gli ID delle abilità equipaggiate
         {
-            Debug.Log("--- AbilityRef --- :" );
-            Debug.Log(abilityRef.Id + " : ID abilità ref"+"is Active"+ abilityRef.IsActive);
+            /*Debug.Log("--- AbilityRef --- :" );
+            Debug.Log(abilityRef.Id + " : ID abilità ref"+"is Active"+ abilityRef.IsActive);*/
             // Cerca l'abilità completa corrispondente all'ID
             Ability ability = abilityList.Abilities.FirstOrDefault(a => a.id == abilityRef.Id);  // Usa 'id' invece di 'Id' per la corrispondenza
 
@@ -100,17 +101,17 @@ public class PlayerCombat : MonoBehaviour
                 // Controlla se l'attacco dell'abilità è permesso per questo step della combo
                 foreach (var attackRef in ability.equippableAttacks)
                 {
-                    Debug.Log(attackRef.Id + " : ID attackref in ability");
+                    //Debug.Log(attackRef.Id + " : ID attackref in ability");
                     // Verifica se l'attackRef è ammesso in questo step
                     if (step.AllowedAttacks.Exists(a => a.Id == attackRef.Id))
                     {
-                        foreach(var attack in step.AllowedAttacks){
+                        /*foreach(var attack in step.AllowedAttacks){
                             Debug.Log(attack.Id+ "attackId in step");
-                        }
+                        }*/
                         // Trova e restituisci l'attacco corrispondente
                         if (attackDictionary.TryGetValue(attackRef.Id, out AttackData attackData))
                         {
-                            Debug.Log(attackData.Id+ "attackData");
+                            //Debug.Log(attackData.Id+ "attackData");
                             return attackData;  // Restituisce il giusto attacco
                         }
                     }
@@ -139,6 +140,10 @@ public class PlayerCombat : MonoBehaviour
         AttackData attackData = GetAttackForCurrentStep(step);
         if (attackData != null)
         {
+            currentModifiers = step.Modifiers.Concat(attackData.Modifiers).ToList();
+            /*foreach (var modifier in currentModifiers){
+                Debug.Log(modifier.ToString());
+            }*/
             if (attackData.AnimatorOverrideController != null)
             {
                 animator.runtimeAnimatorController = attackData.AnimatorOverrideController;
@@ -205,8 +210,12 @@ public class PlayerCombat : MonoBehaviour
     {
         this.abilityList = loadedAbilityList;
     }
-    internal void SetPlayerLoadout(PlayerLoadout loadedPlayerLoadout)
+    public void SetPlayerLoadout(PlayerLoadout loadedPlayerLoadout)
     {
         playerLoadout = loadedPlayerLoadout;
+    }
+
+    public List<PlayerModifier> GetCurrentModifiers(){
+        return currentModifiers;
     }
 }

@@ -12,4 +12,8 @@ public class PlayerModifier
         this.value = value;
         this.modifierType = modifierType;
     }
+    public override string ToString()
+    {
+        return $"TargetStat: {targetStat} value: {value} modifierType: {modifierType}";
+    }
 }

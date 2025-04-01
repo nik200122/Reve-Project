@@ -16,7 +16,7 @@ public class AttackData
 
     [XmlArray("modifiers")]
     [XmlArrayItem("PlayerModifier")]
-     public List<PlayerModifier> Modifiers { get; set; }
+    public List<PlayerModifier> Modifiers { get; set; }
 
     // Campo non serializzato, lo caricheremo da Resources
     [XmlIgnore]
