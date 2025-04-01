@@ -9,6 +9,7 @@
       <PlayerModifier>
         <targetStat>Hp</targetStat>
         <value>20</value>
+        <modifierType>Additive</modifierType>
       </PlayerModifier>
     </modifiers>
     <spritePath>MinorHealthPotion</spritePath>

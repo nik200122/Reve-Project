@@ -22,12 +22,15 @@ public class GameManager : MonoBehaviour
         deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
         playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
         playerManager.SetInventory(gameLoader.LoadedPlayerInventory);
-        playerManager.SetPlayerAttackData(gameLoader.LoadedPlayerAttackDataList);
+        playerCombat.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
         playerCombat.SetComboRules(gameLoader.LoadedComboRules);
-        playerCombat.SetAttackDataList(gameLoader.LoadedPlayerAttackDataList);
+        playerCombat.SetAbilityList(gameLoader.LoadedAbilityList);
+        playerCombat.SetAttackDataList(gameLoader.LoadedAttackDataList);
+
 
         //PER DEBUG
-        playerManager.UseItem("HpPotion01");
+        //playerManager.UseItem("HpPotion01");
+        
     }
 
     // Update is called once per frame

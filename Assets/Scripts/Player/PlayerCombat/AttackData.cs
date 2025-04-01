@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
@@ -13,8 +14,9 @@ public class AttackData
     [XmlElement("overrideControllerPath")]
     public string OverrideControllerPath { get; set; }
 
-    [XmlElement("PlayerModifier")]
-    public PlayerModifier Modifier { get; set; }
+    [XmlArray("modifiers")]
+    [XmlArrayItem("PlayerModifier")]
+     public List<PlayerModifier> Modifiers { get; set; }
 
     // Campo non serializzato, lo caricheremo da Resources
     [XmlIgnore]
@@ -35,7 +37,7 @@ public class AttackData
 
     public override string ToString()
     {
-        return $"AttackDefinition: Id={Id}, AnimationName={AnimationName}, OverrideControllerPath={OverrideControllerPath}, Modifier=[TargetStat={Modifier.targetStat}, Value={Modifier.value}]";
+        return $"AttackDefinition: Id={Id}, AnimationName={AnimationName}, OverrideControllerPath={OverrideControllerPath}";
     }   
 
 }

@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 public class ComboRules
 {
     [XmlElement("Combo")]
-    public List<Combo> Combos { get; set; }
+    public Combo Combo { get; set; }
 }
 
 

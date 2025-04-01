@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlayerLoadout xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Abilities>
+    <!-- Abilità che include una combo di attacchi -->
+    <AbilityRef id="Ability1">
+      <IsActive>true</IsActive>
+    </AbilityRef>
+    <!-- Abilità senza attacchi equipaggiabili, magari solo con bonus -->
+    <AbilityRef id="Ability2">
+      <IsActive>true</IsActive>
+      <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
+    </AbilityRef>
+  </Abilities>
+</PlayerLoadout>

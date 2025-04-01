@@ -2,34 +2,44 @@
 <AttackDefinitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Attack>
     <id>Attack1</id>
-    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack1OV</overrideControllerPath>
+    <overrideControllerPath>Animations/AttacksOV/Attack1OV</overrideControllerPath>
     <PlayerModifier>
       <targetStat>Attack</targetStat>
       <value>10</value>
+      <modifierType>Additive</modifierType>
     </PlayerModifier>
   </Attack>
   <Attack>
     <id>Attack2</id>
-    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack2OV</overrideControllerPath>
-    <PlayerModifier>
-      <targetStat>Attack</targetStat>
-      <value>20</value>
-    </PlayerModifier>
+    <overrideControllerPath>Animations/AttacksOV/Attack2OV</overrideControllerPath>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Attack</targetStat>
+        <value>20</value>
+        <modifierType>Additive</modifierType>
+      </PlayerModifier>
+      </modifiers>
   </Attack>
   <Attack>
     <id>Attack3</id>
-    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack3OV</overrideControllerPath>
-    <PlayerModifier>
-      <targetStat>Attack</targetStat>
-      <value>30</value>
-    </PlayerModifier>
+    <overrideControllerPath>Animations/AttacksOV/Attack3OV</overrideControllerPath>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Attack</targetStat>
+        <value>30</value>
+        <modifierType>Additive</modifierType>
+      </PlayerModifier>
+    </modifiers>
   </Attack>
   <Attack>
     <id>Attack4</id>
-    <overrideControllerPath>Assets/Resources/Animations/AttacksOV/Attack4OV</overrideControllerPath>
-    <PlayerModifier>
-      <targetStat>Attack</targetStat>
-      <value>40</value>
-    </PlayerModifier>
+    <overrideControllerPath>Animations/AttacksOV/Attack4OV</overrideControllerPath>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Attack</targetStat>
+        <value>40</value>
+        <modifierType>Additive</modifierType>
+      </PlayerModifier>
+    </modifiers>
   </Attack>
 </AttackDefinitions>

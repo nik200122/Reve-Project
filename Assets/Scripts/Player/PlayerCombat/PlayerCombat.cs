@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Linq;
+
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -8,7 +11,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Combo currentCombo;
 
     [Tooltip("Lista di tutti gli attacchi caricati (dati da AttackDefinitions.xml)")]
-    private AttackDataList attackDataList; 
+    private AttackDataList attackDataList;
+    private PlayerLoadout playerLoadout;
+    private AbilityList abilityList;
 
     [Header("Combat Settings")]
     [Tooltip("Tempo massimo (in secondi) tra gli attacchi per continuare la combo")]
@@ -77,48 +82,75 @@ public class PlayerCombat : MonoBehaviour
         }
         
     }
-
-    void StartAttack()
-    {
-        // Se troppo tempo è passato dall'ultimo attacco, resetta la combo.
-        if (Time.time - lastAttackTime > comboResetTime)
+    // Metodo che restituisce l'AttackData da usare per il currentStep
+    private AttackData GetAttackForCurrentStep(AttackStep step){
+        
+            // Controlla se il player ha un'abilità attiva che fornisce un attacco
+        foreach (var abilityRef in playerLoadout.Abilities)  // AbilityRefs contiene solo gli ID delle abilità equipaggiate
         {
-            currentStepIndex = 0;
+            // Cerca l'abilità completa corrispondente all'ID
+            Ability ability = abilityList.Abilities.FirstOrDefault(a => a.id == abilityRef.Id);  // Usa 'id' invece di 'Id' per la corrispondenza
+
+            // Se l'abilità è trovata, è attiva e ha attacchi equipaggiabili
+            if (ability != null && ability.isActive && ability.equippableAttacks.Count > 0)
+            {
+                // Controlla se l'attacco dell'abilità è permesso per questo step della combo
+                foreach (var attackRef in ability.equippableAttacks)
+                {
+                    // Verifica se l'attackRef è ammesso in questo step
+                    if (step.AllowedAttacks.Exists(a => a.Id == attackRef.Id))
+                    {
+                        // Trova e restituisci l'attacco corrispondente
+                        if (attackDictionary.TryGetValue(attackRef.Id, out AttackData attackData))
+                        {
+                            return attackData;  // Restituisce il giusto attacco
+                        }
+                    }
+                }
+            }
         }
 
-        // Se abbiamo ancora passi nella combo...
-        if (currentStepIndex < currentCombo.Sequence.Count)
+        if(attackDictionary.TryGetValue(step.AllowedAttacks[0].Id, out AttackData attackDataDefault)){
+            return attackDataDefault;
+        }
+        else return null;
+    }
+
+
+    void StartAttack(){
+    if (Time.time - lastAttackTime > comboResetTime)
+    {
+        currentStepIndex = 0;
+    }
+
+    if (currentStepIndex < currentCombo.AttackSteps.Count)
+    {
+        AttackStep step = currentCombo.AttackSteps[currentStepIndex];
+
+        // Usa il nuovo metodo per ottenere l'attacco corretto
+        AttackData attackData = GetAttackForCurrentStep(step);
+        if (attackData != null)
         {
-            AttackStep step = currentCombo.Sequence[currentStepIndex];
-
-            // Recupera l'attacco corrispondente tramite il dizionario.
-            if (attackDictionary.TryGetValue(step.AttackId, out AttackData attackData))
+            if (attackData.AnimatorOverrideController != null)
             {
-                // Imposta l'AnimatorOverrideController per l'attacco corrente.
-                if (attackData.AnimatorOverrideController != null)
-                {
-                    animator.runtimeAnimatorController = attackData.AnimatorOverrideController;
-                }
-                else
-                {
-                    Debug.LogWarning("Override controller non caricato per l'attacco " + attackData.Id);
-                }
-
-                // Avvia l'animazione di attacco (lo stato "Attack" deve essere definito nell'Animator).
-                animator.Play("Attack", 0, 0);
-
-                lastAttackTime = Time.time;
-                currentStepIndex++;
-                attackInProgress = true;
-                queuedAttack = false;
-                allowQueue = false; // Resetta il flag finché non sarà abilitato dall'animazione.
+                animator.runtimeAnimatorController = attackData.AnimatorOverrideController;
             }
             else
             {
-                Debug.LogError("Non esiste un attacco con ID: " + step.AttackId);
+                Debug.LogWarning("Override controller non caricato per l'attacco " + attackData.Id);
             }
+            
+            animator.Play("Attack", 0, 0);
+            
+            lastAttackTime = Time.time;
+            currentStepIndex++;
+            attackInProgress = true;
+            queuedAttack = false;
+            allowQueue = false;
         }
     }
+}
+
 
     // Questo metodo viene chiamato da AttackAnimationBehaviour.OnStateExit quando l'animazione termina.
     public void OnAttackAnimationComplete()
@@ -147,7 +179,7 @@ public class PlayerCombat : MonoBehaviour
     // Imposta i dati delle combo (caricati da XML)
     public void SetComboRules(ComboRules loadedComboRules)
     {
-        currentCombo = loadedComboRules.Combos[0];
+        currentCombo = loadedComboRules.Combo;
     }
 
     // Imposta la lista degli attacchi e costruisce il dizionario.
@@ -159,5 +191,14 @@ public class PlayerCombat : MonoBehaviour
         {
             attackDictionary[attack.Id] = attack;
         }
+    }
+
+    public void SetAbilityList(AbilityList loadedAbilityList)
+    {
+        this.abilityList = loadedAbilityList;
+    }
+    internal void SetPlayerLoadout(PlayerLoadout loadedPlayerLoadout)
+    {
+        playerLoadout = loadedPlayerLoadout;
     }
 }

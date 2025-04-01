@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Abilities xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Ability>
+    <id>Ability1</id>
+    <name>Fury Mode</name>
+    <isActive>false</isActive>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Attack</targetStat>
+        <value>1.5</value>
+        <modifierType>Multiplicative</modifierType>
+      </PlayerModifier>
+    </modifiers>
+    <equippableAttacks>
+    </equippableAttacks>
+  </Ability>
+
+  <Ability>
+    <id>Ability2</id>
+    <name>Flesh step</name>
+    <isActive>false</isActive>
+    <modifiers>
+    </modifiers>
+    <equippableAttacks>
+      <AttackRef id="Attack4" />
+    </equippableAttacks>
+  </Ability>
+
+  <Ability>
+    <id>Ability3</id>
+    <name>Lion's heart</name>
+    <isActive>false</isActive>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Defense</targetStat>
+        <value>2.0</value>
+        <modifierType>Multiplicative</modifierType>
+      </PlayerModifier>
+    </modifiers>
+    <equippableAttacks>
+    </equippableAttacks>
+  </Ability>
+</Abilities>
