@@ -20,6 +20,8 @@ public class CharacterMovement : MonoBehaviour
 
     [SerializeField] private float rollDistance = 1.0f;   // Distanza totale da percorrere durante il roll
     [SerializeField] private float rollDuration = 0.5f;   // Durata del roll in secondi
+    [SerializeField] private float attackDistance = 0.2f;   // Distanza fissa dell'attacco
+    [SerializeField] private float attackDuration = 0.5f;     // Durata dell'attacco
     
     private CharacterController controller;
     private CharacterStatus characterStatus;
@@ -49,9 +51,11 @@ public class CharacterMovement : MonoBehaviour
         // if there is a move input rotate player when the player is moving
         if (characterStatus.GetMoveInput() != Vector2.zero)
         {
-            if(!characterStatus.IsRolling())// rotate to face input direction relative to camera position
-                transform.rotation = Quaternion.Euler(0.0f, characterStatus.GetRotation(), 0.0f);
-            else transform.rotation = Quaternion.LookRotation(characterStatus.GetRollDirection());
+            if(characterStatus.IsRolling())// rotate to face input direction relative to camera position
+                transform.rotation = Quaternion.LookRotation(characterStatus.GetRollDirection());
+            else if(characterStatus.IsAttacking())
+                transform.rotation = Quaternion.LookRotation(characterStatus.GetAttackDirection());
+            else transform.rotation = Quaternion.Euler(0.0f, characterStatus.GetRotation(), 0.0f);
         }
     }
 
@@ -69,10 +73,16 @@ public class CharacterMovement : MonoBehaviour
             controller.Move(characterStatus.GetRollDirection().normalized * (speed * Time.deltaTime) +
                         new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
         }
+         // Nuova condizione per il movimento d'attacco
+        else if(characterStatus.IsAttacking()){
+            speed = attackDistance/attackDuration;
+            speed = Mathf.Round(speed * 1000f) / 1000f;
+            controller.Move(characterStatus.GetAttackDirection().normalized * (speed * Time.deltaTime) +
+                            new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+        }
         // accelerate or decelerate to target speed
         else if (!characterStatus.IsRolling()&&currentHorizontalSpeed < characterStatus.GetTargetSpeed() - speedOffset ||
-            currentHorizontalSpeed > characterStatus.GetTargetSpeed() + speedOffset)
-        {
+            currentHorizontalSpeed > characterStatus.GetTargetSpeed() + speedOffset){
             // creates curved result rather than a linear one giving a more organic speed change
             // note T in Lerp is clamped, so we don't need to clamp our speed
             speed = Mathf.Lerp(currentHorizontalSpeed, characterStatus.GetTargetSpeed() * characterStatus.GetInputMagnitude(),

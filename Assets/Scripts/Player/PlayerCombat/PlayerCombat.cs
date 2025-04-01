@@ -26,6 +26,7 @@ public class PlayerCombat : MonoBehaviour
     // Dizionario per accedere rapidamente agli attacchi tramite il loro ID
     private Dictionary<string, AttackData> attackDictionary;
     private List<PlayerModifier> currentModifiers;
+    private CharacterStatus characterStatus;
 
     // Variabili per gestire la combo
     private int currentStepIndex = 0;
@@ -40,6 +41,7 @@ public class PlayerCombat : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+        characterStatus = GetComponent<CharacterStatus>();
     }
 
     void Start()
@@ -78,6 +80,7 @@ public class PlayerCombat : MonoBehaviour
             }
             else
             {
+                characterStatus.StartAttackMovement();
                 StartAttack();
             }
         }
@@ -127,40 +130,40 @@ public class PlayerCombat : MonoBehaviour
 
 
     void StartAttack(){
-    if (Time.time - lastAttackTime > comboResetTime)
-    {
-        currentStepIndex = 0;
-    }
-
-    if (currentStepIndex < currentCombo.AttackSteps.Count)
-    {
-        AttackStep step = currentCombo.AttackSteps[currentStepIndex];
-
-        // Usa il nuovo metodo per ottenere l'attacco corretto
-        AttackData attackData = GetAttackForCurrentStep(step);
-        if (attackData != null)
+        if (Time.time - lastAttackTime > comboResetTime)
         {
-            currentModifiers = step.Modifiers.Concat(attackData.Modifiers).ToList();
-            /*foreach (var modifier in currentModifiers){
-                Debug.Log(modifier.ToString());
-            }*/
-            if (attackData.AnimatorOverrideController != null)
-            {
-                animator.runtimeAnimatorController = attackData.AnimatorOverrideController;
-            }
-            else
-            {
-                Debug.LogWarning("Override controller non caricato per l'attacco " + attackData.Id);
-            }
-            
-            animator.Play("Attack", 0, 0);
-            
-            lastAttackTime = Time.time;
-            currentStepIndex++;
-            attackInProgress = true;
-            queuedAttack = false;
-            allowQueue = false;
+            currentStepIndex = 0;
         }
+
+        if (currentStepIndex < currentCombo.AttackSteps.Count)
+        {
+            AttackStep step = currentCombo.AttackSteps[currentStepIndex];
+
+            // Usa il nuovo metodo per ottenere l'attacco corretto
+            AttackData attackData = GetAttackForCurrentStep(step);
+            if (attackData != null)
+            {
+                currentModifiers = step.Modifiers.Concat(attackData.Modifiers).ToList();
+                /*foreach (var modifier in currentModifiers){
+                    Debug.Log(modifier.ToString());
+                }*/
+                if (attackData.AnimatorOverrideController != null)
+                {
+                    animator.runtimeAnimatorController = attackData.AnimatorOverrideController;
+                }
+                else
+                {
+                    Debug.LogWarning("Override controller non caricato per l'attacco " + attackData.Id);
+                }
+                
+                animator.Play("Attack", 0, 0);
+                
+                lastAttackTime = Time.time;
+                currentStepIndex++;
+                attackInProgress = true;
+                queuedAttack = false;
+                allowQueue = false;
+            }
     }
 }
 
@@ -169,6 +172,7 @@ public class PlayerCombat : MonoBehaviour
     public void OnAttackAnimationComplete()
     {
         attackInProgress = false;
+        characterStatus.EndAttackMovement();
 
         // Se c'era un input in coda, avvia immediatamente il prossimo attacco.
         if (queuedAttack)

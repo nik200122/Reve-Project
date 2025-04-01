@@ -49,11 +49,11 @@ public class GameLoader : MonoBehaviour
 
     private void LoadPlayerLoadout(){
         LoadedPlayerLoadout = XMLHelper.LoadFromXml<PlayerLoadout>(LoadoutPlayerFile);
-        Debug.Log("--- Player Loadout ---");
+        /*Debug.Log("--- Player Loadout ---");
         foreach (var ability in LoadedPlayerLoadout.Abilities)
         {
             Debug.Log($"Ability ID: {ability.Id}, Active: {ability.IsActive}");
-        }
+        }*/
         
     }
 

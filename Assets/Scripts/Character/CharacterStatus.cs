@@ -44,6 +44,10 @@ public class CharacterStatus : MonoBehaviour
     private Vector3 targetDirection;
     private Vector3 rollDirection;
     private Vector2 moveInput;
+
+    private static bool isAttacking = false;
+    private Vector3 attackDirection;
+    
     
 
     // player
@@ -77,7 +81,7 @@ public class CharacterStatus : MonoBehaviour
     {
         //input= GetComponent<InputHandler>();
         //playerInput = GetComponent<PlayerInput>();
-         // get a reference to our main camera
+        // get a reference to our main camera
         if (mainCamera == null)
         {
             mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -89,9 +93,11 @@ public class CharacterStatus : MonoBehaviour
         // reset our timeouts on start
         jumpTimeoutDelta = JumpTimeout;
         fallTimeoutDelta = FallTimeout;
-         GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
+        GameStateManager.Instance.OnGameStateChanged += HandleGameStateChanged;
         
     }
+
+    
     
     private void OnDisable()
     {
@@ -230,12 +236,34 @@ public class CharacterStatus : MonoBehaviour
         
 
         // Il personaggio può rollare solo se è a terra e non sta già rollando
-        if (isGrounded && input.roll){
+        Debug.Log(isAttacking);
+        if (!isAttacking && isGrounded && input.roll){
             isRolling = true;
              // Cattura la direzione attuale al momento dell'attivazione del roll
             rollDirection = GetTargetDirection();
         }
     }
+    // Metodi per attivare/disattivare l'attacco
+    public void StartAttackMovement()
+    {
+        isAttacking = true;
+        attackDirection = GetTargetDirection();
+    }
+
+    public void EndAttackMovement()
+    {
+        isAttacking = false;
+    }
+    public bool IsAttacking()
+    {
+        return isAttacking;
+    }
+
+    public Vector3 GetAttackDirection()
+    {
+        return attackDirection;
+    }
+    
 
     public void RollingCompleted(){
         isRolling = false;
