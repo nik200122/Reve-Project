@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private PlayerCombat playerCombat;
     [SerializeField] private DeepSeek deepSeek;
+    [SerializeField] private InventoryScreenManager inventoryScreenManager;
     private GameLoader gameLoader;
    // private bool isMenuActionPerformed;
     //private bool menuOpened = false;
@@ -43,8 +44,10 @@ public class GameManager : MonoBehaviour
     {
         if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
             if(input.menuAction){
-                Debug.Log("MENU OPENED");
+                Debug.Log("MENU Opened");
+                Debug.Log("INVENTORYCOUNT PPLAYER: "+playerManager.GetInventory().itemList.Count);
                 GameStateManager.Instance.ChangeState(GameState.MenuOpened);
+                inventoryScreenManager.OpenInventoryScreen(playerManager.GetInventory());
             }
         }
         else if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){

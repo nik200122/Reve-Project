@@ -180,6 +180,24 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollDownAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""f9295d84-f049-4af7-9498-7f4c2e0ad3b8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollUpAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""5b389c30-9ac9-45c5-b4bb-1cc2f5893e74"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -435,6 +453,28 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2c19d1b-dcf1-4909-8a90-2fbe2289df69"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollDownAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4a95d50b-9e4a-49b4-a94a-c94cc5090b69"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollUpAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -501,6 +541,8 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
         m_Player_MenuAction = m_Player.FindAction("MenuAction", throwIfNotFound: true);
         m_Player_Esc = m_Player.FindAction("Esc", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_ScrollDownAction = m_Player.FindAction("ScrollDownAction", throwIfNotFound: true);
+        m_Player_ScrollUpAction = m_Player.FindAction("ScrollUpAction", throwIfNotFound: true);
     }
 
     ~@StarterAssets()
@@ -591,6 +633,8 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MenuAction;
     private readonly InputAction m_Player_Esc;
     private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_ScrollDownAction;
+    private readonly InputAction m_Player_ScrollUpAction;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -642,6 +686,14 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ScrollDownAction".
+        /// </summary>
+        public InputAction @ScrollDownAction => m_Wrapper.m_Player_ScrollDownAction;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ScrollUpAction".
+        /// </summary>
+        public InputAction @ScrollUpAction => m_Wrapper.m_Player_ScrollUpAction;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -698,6 +750,12 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
+            @ScrollDownAction.started += instance.OnScrollDownAction;
+            @ScrollDownAction.performed += instance.OnScrollDownAction;
+            @ScrollDownAction.canceled += instance.OnScrollDownAction;
+            @ScrollUpAction.started += instance.OnScrollUpAction;
+            @ScrollUpAction.performed += instance.OnScrollUpAction;
+            @ScrollUpAction.canceled += instance.OnScrollUpAction;
         }
 
         /// <summary>
@@ -739,6 +797,12 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
+            @ScrollDownAction.started -= instance.OnScrollDownAction;
+            @ScrollDownAction.performed -= instance.OnScrollDownAction;
+            @ScrollDownAction.canceled -= instance.OnScrollDownAction;
+            @ScrollUpAction.started -= instance.OnScrollUpAction;
+            @ScrollUpAction.performed -= instance.OnScrollUpAction;
+            @ScrollUpAction.canceled -= instance.OnScrollUpAction;
         }
 
         /// <summary>
@@ -901,5 +965,19 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ScrollDownAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScrollDownAction(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ScrollUpAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScrollUpAction(InputAction.CallbackContext context);
     }
 }

@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SetInventory(Inventory loadedInventory){
         inventory = loadedInventory;
+        Debug.Log("CONTEGGIO: "+inventory.itemList.Count);
         //Debug.Log(""+inventory.GetItem("HpPotion01").name);
     }
     public void SetPlayerAttackData(AttackDataList attackDataList){

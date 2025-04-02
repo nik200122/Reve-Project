@@ -1,19 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Inventory xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <itemList>
-    <Item>
-      <tag>HpPotion01</tag>
-      <type>RecoveryItem</type>
-      <name>Potion</name>
-      <description>+20 Hp</description>
+    <EquipableItem>
+      <tag>Weapon01</tag>
+      <name>Epic Blade</name>
+      <description>Incredible blade</description>
       <modifiers>
         <PlayerModifier>
-          <targetStat>Hp</targetStat>
+          <targetStat>Attack</targetStat>
           <value>20</value>
           <modifierType>Additive</modifierType>
         </PlayerModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
-    </Item>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Weapon02</tag>
+      <name>Epic Sword</name>
+      <description>Incredible sword</description>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Weapon03</tag>
+      <name>Epic Bat</name>
+      <description>Incredible bat</description>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Weapon04</tag>
+      <name>Epic Shuriken</name>
+      <description>Incredible shuriken</description>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Weapon05</tag>
+      <name>Epic BLAPO</name>
+      <description>Incredible blapo</description>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Weapon06</tag>
+      <name>Not so epic Sword</name>
+      <description>Not so Incredible sword</description>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Weapon07</tag>
+      <name>Epic katana</name>
+      <description>Incredible katana</description>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+    </EquipableItem>
   </itemList>
 </Inventory>

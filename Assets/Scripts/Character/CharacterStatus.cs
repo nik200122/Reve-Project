@@ -236,7 +236,7 @@ public class CharacterStatus : MonoBehaviour
         
 
         // Il personaggio può rollare solo se è a terra e non sta già rollando
-        Debug.Log(isAttacking);
+        //Debug.Log(isAttacking);
         if (!isAttacking && isGrounded && input.roll){
             isRolling = true;
              // Cattura la direzione attuale al momento dell'attivazione del roll

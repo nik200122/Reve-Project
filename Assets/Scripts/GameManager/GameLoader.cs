@@ -122,7 +122,7 @@ public class GameLoader : MonoBehaviour
     }
 
     private void LoadAssets(){
-        LoadedItems = XMLHelper.LoadFromXml<List<Item>>(itemDataFile);
+        //LoadedItems = XMLHelper.LoadFromXml<List<Item>>(itemDataFile);
         //Debug.Log("NOME ITEM: "+LoadedItems[0].name);
     }
 }

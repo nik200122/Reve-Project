@@ -15,6 +15,8 @@ using UnityEngine.InputSystem;
 		public bool sprint;
 		public bool roll;
 		public bool menuAction;
+		public bool scrollUpAction;
+		public bool scrollDownAction;
 		public bool back;
 		public bool esc;
 		public bool attack;
@@ -77,6 +79,14 @@ using UnityEngine.InputSystem;
 		public void OnMenuAction(InputAction.CallbackContext context)
 		{	
 			menuAction = context.performed;
+		}
+
+		public void OnScrollDownAction(InputAction.CallbackContext context){
+			scrollDownAction = context.performed;
+		}
+
+		public void OnScrollUpAction(InputAction.CallbackContext context){
+			scrollUpAction = context.performed;
 		}
 
 		private void OnApplicationFocus(bool hasFocus)
