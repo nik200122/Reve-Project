@@ -20,7 +20,7 @@ public class CharacterAnimator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+        if(status.GetCanMove()){
             UpdateStatus(status.IsGrounded(), status.GetAnimationBlend(), status.GetInputMagnitude(), 
                 status.IsJumping(), status.IsFalling(), status.IsRolling());
         }

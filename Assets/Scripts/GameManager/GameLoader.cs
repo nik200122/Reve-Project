@@ -59,6 +59,11 @@ public class GameLoader : MonoBehaviour
 
     private void LoadAbilities(){
         LoadedAbilityList = XMLHelper.LoadFromXml<AbilityList>(abilitiesFile);
+        foreach (var ability in LoadedAbilityList.Abilities)
+        {
+            ability.LoadSprite();
+            
+        }
        /* Debug.Log("--- Abilities ---");
         foreach (var ability in LoadedAbilityList.Abilities)
         {

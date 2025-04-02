@@ -12,6 +12,8 @@
     </modifiers>
     <equippableAttacks>
     </equippableAttacks>
+    <spritePath>Sprite/AbilitySprite/flying-shuriken</spritePath>
+    <description>Raise your attack stat by 50%</description>
   </Ability>
 
   <Ability>
@@ -22,6 +24,8 @@
     <equippableAttacks>
       <AttackRef id="Attack4" />
     </equippableAttacks>
+    <spritePath>Sprite/AbilitySprite/sparkling-sabre</spritePath>
+    <description>A powerful swing that breaks your opponent's guard</description>
   </Ability>
 
   <Ability>
@@ -36,5 +40,37 @@
     </modifiers>
     <equippableAttacks>
     </equippableAttacks>
+    <spritePath>Sprite/AbilitySprite/police-badge</spritePath>
+    <description>Raise your defense stat by 50%</description>
+  </Ability>
+  <Ability>
+    <id>Ability4</id>
+    <name>Attack+</name>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Attack</targetStat>
+        <value>2.0</value>
+        <modifierType>Multiplicative</modifierType>
+      </PlayerModifier>
+    </modifiers>
+    <equippableAttacks>
+    </equippableAttacks>
+    <spritePath>Sprite/AbilitySprite/sparkling-sabre</spritePath>
+    <description>Raise your attack stat by 100%</description>
+  </Ability>
+  <Ability>
+    <id>Defense +</id>
+    <name>Lion's heart</name>
+    <modifiers>
+      <PlayerModifier>
+        <targetStat>Defense</targetStat>
+        <value>2.0</value>
+        <modifierType>Multiplicative</modifierType>
+      </PlayerModifier>
+    </modifiers>
+    <equippableAttacks>
+    </equippableAttacks>
+    <spritePath>Sprite/AbilitySprite/sparkling-sabre</spritePath>
+    <description>Raise your defense stat by 100%</description>
   </Ability>
 </Abilities>

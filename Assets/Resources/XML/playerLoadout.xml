@@ -10,5 +10,17 @@
       <IsActive>true</IsActive>
       <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
     </AbilityRef>
+    <AbilityRef id="Ability3">
+      <IsActive>true</IsActive>
+      <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
+    </AbilityRef>
+    <AbilityRef id="Ability4">
+      <IsActive>true</IsActive>
+      <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
+    </AbilityRef>
+    <AbilityRef id="Ability5">
+      <IsActive>true</IsActive>
+      <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
+    </AbilityRef>
   </Abilities>
 </PlayerLoadout>

@@ -65,7 +65,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnAttackInput()
     {
-        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+        if(characterStatus.GetCanAttack()){
             // Se siamo in attacco ma l'input è stato ricevuto dopo il 75% (allowQueue==true), metti in coda l'attacco.
             if (attackInProgress)
             {
@@ -177,6 +177,7 @@ public class PlayerCombat : MonoBehaviour
         // Se c'era un input in coda, avvia immediatamente il prossimo attacco.
         if (queuedAttack)
         {
+            characterStatus.StartAttackMovement();
             StartAttack();
         }
         // Altrimenti, il timer in Update gestirà il reset della combo se non arriva altro input.

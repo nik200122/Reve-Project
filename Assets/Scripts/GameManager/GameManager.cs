@@ -1,19 +1,24 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {   
     [SerializeField] private InputHandler input;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private PlayerCombat playerCombat;
+    [SerializeField] private AbilityScreenManager abilityScreenManager;
     [SerializeField] private DeepSeek deepSeek;
     [SerializeField] private InventoryScreenManager inventoryScreenManager;
     private GameLoader gameLoader;
+    PlayerInput playerInput;
    // private bool isMenuActionPerformed;
     //private bool menuOpened = false;
 
     private void Awake()
     {
         gameLoader = gameObject.GetComponent<GameLoader>();
+        playerInput = input.gameObject.GetComponent<PlayerInput>();
         
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,6 +33,8 @@ public class GameManager : MonoBehaviour
         playerCombat.SetAbilityList(gameLoader.LoadedAbilityList);
         playerCombat.SetAttackDataList(gameLoader.LoadedAttackDataList);
 
+        // Inizializza l'AbilityScreenManager con la lista globale delle abilità
+        abilityScreenManager.Initialize(gameLoader.LoadedAbilityList);
 
         //PER DEBUG
         //playerManager.UseItem("HpPotion01");
@@ -38,6 +45,27 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         CheckIsMenuActionPerformed();
+        CheckIsAbilityActionPerformed();
+    }
+
+    private void CheckIsAbilityActionPerformed()
+    {
+       if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+            if(input.ability){
+                GameStateManager.Instance.ChangeState(GameState.AbilitiesScreen);
+                // Assumi di avere un riferimento al tuo PlayerInput
+                playerInput.SwitchCurrentActionMap("UI");
+
+                abilityScreenManager.Show(gameLoader.LoadedPlayerLoadout);
+            }
+        }
+        else if(GameStateManager.Instance.CurrentState == GameState.AbilitiesScreen){
+            if(input.back){
+                GameStateManager.Instance.ChangeState(GameState.FreeRoam);
+                playerInput.SwitchCurrentActionMap("Gameplay");
+                abilityScreenManager.Hide();
+            }
+        }
     }
 
     private void CheckIsMenuActionPerformed()
@@ -56,6 +84,7 @@ public class GameManager : MonoBehaviour
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
             }
         }
+        
         
     }
 }
