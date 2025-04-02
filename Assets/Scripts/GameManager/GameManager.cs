@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         else if(GameStateManager.Instance.CurrentState == GameState.AbilitiesScreen){
             if(input.back){
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
-                playerInput.SwitchCurrentActionMap("Gameplay");
+                playerInput.SwitchCurrentActionMap("Player");
                 abilityScreenManager.Hide();
             }
         }

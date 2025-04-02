@@ -20,6 +20,7 @@ using UnityEngine.InputSystem;
 		public bool back;
 		public bool esc;
 		public bool attack;
+		public bool ability;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -63,6 +64,11 @@ using UnityEngine.InputSystem;
 		{
 			 if (context.performed)
             	OnAttackEvent?.Invoke();
+		}
+
+		public void OnAbilities(InputAction.CallbackContext context)
+		{
+			ability = context.performed;
 		}
 
 		public void OnSprint(InputAction.CallbackContext context)

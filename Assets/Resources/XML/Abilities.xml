@@ -59,7 +59,7 @@
     <description>Raise your attack stat by 100%</description>
   </Ability>
   <Ability>
-    <id>Defense +</id>
+    <id>Ability5</id>
     <name>Lion's heart</name>
     <modifiers>
       <PlayerModifier>

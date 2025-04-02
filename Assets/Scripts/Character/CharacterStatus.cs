@@ -72,6 +72,7 @@ public class CharacterStatus : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private GameObject mainCamera;
     private float animationBlend;
+    private static bool canAttack;
 
    
 
@@ -114,6 +115,7 @@ public class CharacterStatus : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        AttackCheck();
         RollingCheck();
         //Debug.Log("input"+ input.roll+"isRolling Check:"+isRolling);
         GroundedCheck();
@@ -243,6 +245,12 @@ public class CharacterStatus : MonoBehaviour
             rollDirection = GetTargetDirection();
         }
     }
+    private void AttackCheck(){
+        if(!isRolling && !isJumping && canMove){
+            canAttack = true;
+        }
+        else canAttack = false;
+    }
     // Metodi per attivare/disattivare l'attacco
     public void StartAttackMovement()
     {
@@ -264,6 +272,10 @@ public class CharacterStatus : MonoBehaviour
         return attackDirection;
     }
     
+    public bool GetCanAttack()
+    {
+        return canAttack;
+    }
 
     public void RollingCompleted(){
         isRolling = false;

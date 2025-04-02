@@ -58,7 +58,7 @@ public class PassiveAbilitiesPanel : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"Abilità con ID {abilityRef.Id} non trovata!");
+                Debug.LogWarning($"Abilità con ID {abilityRef.Id} non passiva!");
             }
         }
     }
