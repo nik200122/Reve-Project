@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class GameLoader : MonoBehaviour
 {   
     private const string playerStatsFile = "Assets/Resources/XML/playerStats.xml";
+    private const string abilitiesRulesFile = "Assets/Resources/XML/AbilitiesTypeRules.xml";
     private const string playerInventoryDataFile = "Assets/Resources/XML/playerInventoryData.xml";
     private const string itemDataFile = "Assets/Resources/XML/itemsData.xml";
     private const string worldDataFile = "Assets/Resources/XML/worldInfoReducted.xml";
@@ -19,6 +21,7 @@ public class GameLoader : MonoBehaviour
     public PlayerLoadout LoadedPlayerLoadout { get; private set; }
     public AbilityList LoadedAbilityList { get; private set; }
     public ComboRules LoadedComboRules { get; private set; }
+    public AbilitiesRules LoadedAbilitiesRules { get; private set; }
     public Player LoadedPlayerStats { get; private set; }
     public List<Item> LoadedItems { get; private set; }
     public Inventory LoadedPlayerInventory { get; private set; }
@@ -28,6 +31,8 @@ public class GameLoader : MonoBehaviour
 
         LoadWorldData();
 
+        LoadAbilityRules();
+
         LoadAbilities();
 
         LoadPlayerLoadout();
@@ -35,6 +40,11 @@ public class GameLoader : MonoBehaviour
         LoadAttackData();
         
         LoadAssets();
+    }
+
+    private void LoadAbilityRules()
+    {
+        LoadedAbilitiesRules = XMLHelper.LoadFromXml<AbilitiesRules>(abilitiesRulesFile);
     }
 
     private void LoadPlayerData(){

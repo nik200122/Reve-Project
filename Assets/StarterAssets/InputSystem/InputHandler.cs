@@ -17,6 +17,7 @@ using UnityEngine.InputSystem;
 		public bool menuAction;
 		public bool scrollUpAction;
 		public bool scrollDownAction;
+		public bool selectionPerformed;
 		public bool back;
 		public bool esc;
 		public bool attack;
@@ -69,6 +70,11 @@ using UnityEngine.InputSystem;
 		public void OnAbilities(InputAction.CallbackContext context)
 		{
 			ability = context.performed;
+		}
+
+		public void OnSelection(InputAction.CallbackContext context)
+		{
+			selectionPerformed = context.performed;
 		}
 
 		public void OnSprint(InputAction.CallbackContext context)

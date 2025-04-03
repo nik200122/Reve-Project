@@ -7,7 +7,7 @@
     </AbilityRef>
     <!-- Abilità senza attacchi equipaggiabili, magari solo con bonus -->
     <AbilityRef id="Ability2">
-      <IsActive>true</IsActive>
+      <IsActive>false</IsActive>
       <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
     </AbilityRef>
     <AbilityRef id="Ability3">
@@ -21,6 +21,9 @@
     <AbilityRef id="Ability5">
       <IsActive>true</IsActive>
       <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
+    </AbilityRef>
+    <AbilityRef id="Ability6">
+      <IsActive>false</IsActive>
     </AbilityRef>
   </Abilities>
 </PlayerLoadout>

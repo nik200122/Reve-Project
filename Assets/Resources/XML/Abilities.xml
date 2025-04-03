@@ -14,6 +14,7 @@
     </equippableAttacks>
     <spritePath>Sprite/AbilitySprite/flying-shuriken</spritePath>
     <description>Raise your attack stat by 50%</description>
+    <abilityType>Passive</abilityType>
   </Ability>
 
   <Ability>
@@ -25,7 +26,8 @@
       <AttackRef id="Attack4" />
     </equippableAttacks>
     <spritePath>Sprite/AbilitySprite/sparkling-sabre</spritePath>
-    <description>A powerful swing that breaks your opponent's guard</description>
+    <description>Unleashes a guard-piercing attack on a slightly distant target while keeping up your own guard.</description>
+    <abilityType>StepOne</abilityType>
   </Ability>
 
   <Ability>
@@ -42,6 +44,7 @@
     </equippableAttacks>
     <spritePath>Sprite/AbilitySprite/police-badge</spritePath>
     <description>Raise your defense stat by 50%</description>
+    <abilityType>Passive</abilityType>
   </Ability>
   <Ability>
     <id>Ability4</id>
@@ -57,6 +60,7 @@
     </equippableAttacks>
     <spritePath>Sprite/AbilitySprite/sparkling-sabre</spritePath>
     <description>Raise your attack stat by 100%</description>
+    <abilityType>Passive</abilityType>
   </Ability>
   <Ability>
     <id>Ability5</id>
@@ -72,5 +76,18 @@
     </equippableAttacks>
     <spritePath>Sprite/AbilitySprite/sparkling-sabre</spritePath>
     <description>Raise your defense stat by 100%</description>
+    <abilityType>Passive</abilityType>
+  </Ability>
+  <Ability>
+    <id>Ability6</id>
+    <name>Slapshot</name>
+    <modifiers>
+    </modifiers>
+    <equippableAttacks>
+      <AttackRef id="Attack4" />
+    </equippableAttacks>
+    <spritePath>Sprite/AbilitySprite/sparkling-sabre</spritePath>
+    <description>Executes a quick diagonal slash at close range.</description>
+    <abilityType>StepOne</abilityType>
   </Ability>
 </Abilities>

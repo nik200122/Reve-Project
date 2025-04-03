@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbilitiesRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AbilityRule>
+    <abilityType>Passive</abilityType>
+    <quantity>999</quantity>
+  </AbilityRule>
+  <AbilityRule>
+    <abilityType>StepOne</abilityType>
+    <quantity>1</quantity>
+  </AbilityRule>
+  <AbilityRule>
+    <abilityType>StepTwo</abilityType>
+    <quantity>1</quantity>
+  </AbilityRule>
+  <AbilityRule>
+    <abilityType>StepThree</abilityType>
+    <quantity>1</quantity>
+  </AbilityRule>
+</AbilitiesRules>

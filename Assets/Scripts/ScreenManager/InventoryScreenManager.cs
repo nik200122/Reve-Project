@@ -74,7 +74,7 @@ public class InventoryScreenManager : MonoBehaviour
         inventoryScreenUI.SetData(inventory.itemList);
     }
 
-     private void UpdateItemSelection(){
+    private void UpdateItemSelection(){
         //ci assicuriamo che non avvenga un outOfindex
         selectedItem = Mathf.Clamp(selectedItem, 0, inventory.itemList.Count - 1);
         previousSelection = Mathf.Clamp(previousSelection, 0, inventory.itemList.Count - 1);

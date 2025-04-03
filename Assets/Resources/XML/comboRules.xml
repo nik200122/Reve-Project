@@ -18,6 +18,7 @@
       <AttackStep index="2">
         <AllowedAttacks>
           <AttackRef id="Attack2" />
+          <AttackRef id="Attack4" />
         </AllowedAttacks>
         <modifiers>
           <PlayerModifier>
@@ -30,7 +31,6 @@
       <AttackStep index="3">
         <AllowedAttacks>
           <AttackRef id="Attack3" />
-          <AttackRef id="Attack4" />
         </AllowedAttacks>
         <modifiers>
           <PlayerModifier>

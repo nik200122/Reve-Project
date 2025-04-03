@@ -10,6 +10,7 @@ public class Ability
     public List<AttackRef> equippableAttacks;  // Lista di attacchi che il player può assegnare
     public string spritePath;
     public string description;
+    public AbilityType abilityType;
 
     [XmlIgnore]
     public Sprite sprite;

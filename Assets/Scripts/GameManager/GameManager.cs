@@ -28,13 +28,17 @@ public class GameManager : MonoBehaviour
         deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
         playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
         playerManager.SetInventory(gameLoader.LoadedPlayerInventory);
+        playerManager.SetAbilitiesRules(gameLoader.LoadedAbilitiesRules);
+        playerManager.SetAbilityList(gameLoader.LoadedAbilityList);
+        playerManager.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
+        playerManager.InitializeDictionary();
         playerCombat.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
         playerCombat.SetComboRules(gameLoader.LoadedComboRules);
         playerCombat.SetAbilityList(gameLoader.LoadedAbilityList);
         playerCombat.SetAttackDataList(gameLoader.LoadedAttackDataList);
 
         // Inizializza l'AbilityScreenManager con la lista globale delle abilità
-        abilityScreenManager.Initialize(gameLoader.LoadedAbilityList);
+        abilityScreenManager.Initialize(gameLoader.LoadedAbilityList, gameLoader.LoadedPlayerLoadout);
 
         //PER DEBUG
         //playerManager.UseItem("HpPotion01");
@@ -54,15 +58,15 @@ public class GameManager : MonoBehaviour
             if(input.ability){
                 GameStateManager.Instance.ChangeState(GameState.AbilitiesScreen);
                 // Assumi di avere un riferimento al tuo PlayerInput
-                playerInput.SwitchCurrentActionMap("UI");
+                //playerInput.SwitchCurrentActionMap("UI");
 
-                abilityScreenManager.Show(gameLoader.LoadedPlayerLoadout);
+                abilityScreenManager.Open();
             }
         }
         else if(GameStateManager.Instance.CurrentState == GameState.AbilitiesScreen){
             if(input.back){
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
-                playerInput.SwitchCurrentActionMap("Player");
+                //playerInput.SwitchCurrentActionMap("Player");
                 abilityScreenManager.Hide();
             }
         }
