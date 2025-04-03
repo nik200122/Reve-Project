@@ -86,47 +86,38 @@ public class PlayerCombat : MonoBehaviour
         }
         
     }
-    // Metodo che restituisce l'AttackData da usare per il currentStep
-    private AttackData GetAttackForCurrentStep(AttackStep step){
-        //Debug.Log("--- Step --- :" + step.Index);
-        
-            // Controlla se il player ha un'abilità attiva che fornisce un attacco
-        foreach (var abilityRef in playerLoadout.Abilities)  // AbilityRefs contiene solo gli ID delle abilità equipaggiate
+    private AttackData GetAttackForCurrentStep(AttackStep step)
+    {
+        // Cerca tra le abilità equipaggiate quella attiva con abilityType uguale allo StepType dello step
+        foreach (var abilityRef in playerLoadout.Abilities)
         {
-            /*Debug.Log("--- AbilityRef --- :" );
-            Debug.Log(abilityRef.Id + " : ID abilità ref"+"is Active"+ abilityRef.IsActive);*/
-            // Cerca l'abilità completa corrispondente all'ID
-            Ability ability = abilityList.Abilities.FirstOrDefault(a => a.id == abilityRef.Id);  // Usa 'id' invece di 'Id' per la corrispondenza
-
-            // Se l'abilità è trovata, è attiva e ha attacchi equipaggiabili
-            if (ability != null && abilityRef.IsActive && ability.equippableAttacks.Count > 0)
+            Ability ability = abilityList.Abilities.FirstOrDefault(a => a.id == abilityRef.Id);
+            if (ability != null && abilityRef.IsActive && 
+                string.Equals(ability.abilityType.ToString(), step.stepType.ToString(), StringComparison.OrdinalIgnoreCase))
             {
-                // Controlla se l'attacco dell'abilità è permesso per questo step della combo
-                foreach (var attackRef in ability.equippableAttacks)
+                // Se l'abilità ha attacchi equipaggiabili, usiamo il primo (o implementiamo una logica di scelta)
+                if (ability.equippableAttacks.Count > 0)
                 {
-                    //Debug.Log(attackRef.Id + " : ID attackref in ability");
-                    // Verifica se l'attackRef è ammesso in questo step
-                    if (step.AllowedAttacks.Exists(a => a.Id == attackRef.Id))
+                    if (attackDictionary.TryGetValue(ability.equippableAttacks[0].Id, out AttackData abilityAttack))
                     {
-                        /*foreach(var attack in step.AllowedAttacks){
-                            Debug.Log(attack.Id+ "attackId in step");
-                        }*/
-                        // Trova e restituisci l'attacco corrispondente
-                        if (attackDictionary.TryGetValue(attackRef.Id, out AttackData attackData))
-                        {
-                            //Debug.Log(attackData.Id+ "attackData");
-                            return attackData;  // Restituisce il giusto attacco
-                        }
+                        // Combina i modificatori dello step e quelli dell'abilità
+                        currentModifiers = step.modifiers.Concat(ability.modifiers).ToList();
+                        return abilityAttack;
                     }
                 }
             }
         }
-
-        if(attackDictionary.TryGetValue(step.AllowedAttacks[0].Id, out AttackData attackDataDefault)){
-            return attackDataDefault;
+        
+        // Se non ci sono abilità attive che influenzano questo step, usa l'attacco di default
+        if (attackDictionary.TryGetValue(step.defaultAttack.Id, out AttackData defaultAttack))
+        {
+            currentModifiers = new List<PlayerModifier>(step.modifiers);
+            return defaultAttack;
         }
-        else return null;
+        
+        return null;
     }
+
 
 
     void StartAttack(){
@@ -143,7 +134,6 @@ public class PlayerCombat : MonoBehaviour
             AttackData attackData = GetAttackForCurrentStep(step);
             if (attackData != null)
             {
-                currentModifiers = step.Modifiers.Concat(attackData.Modifiers).ToList();
                 /*foreach (var modifier in currentModifiers){
                     Debug.Log(modifier.ToString());
                 }*/

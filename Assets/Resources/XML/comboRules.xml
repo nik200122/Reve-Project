@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ComboRules xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Combo>
-      <!-- Ogni step definisce l'elenco degli attacchi che il player può scegliere -->
+      <!-- Ogni step definisce il tipo dello step, l'attacco di default e (opzionalmente) dei modificatori -->
       <AttackStep index="1">
-        <AllowedAttacks>
-          <AttackRef id="Attack1" />
-        </AllowedAttacks>
-        <!-- Modifier specifici per lo step (opzionale) -->
+        <stepType>StepOne</stepType>
+        <DefaultAttack id="Attack1" />
         <modifiers>
           <PlayerModifier>
             <targetStat>Attack</targetStat>
@@ -16,10 +14,8 @@
         </modifiers>
       </AttackStep>
       <AttackStep index="2">
-        <AllowedAttacks>
-          <AttackRef id="Attack2" />
-          <AttackRef id="Attack4" />
-        </AllowedAttacks>
+        <stepType>StepTwo</stepType>
+        <DefaultAttack id="Attack2" />
         <modifiers>
           <PlayerModifier>
             <targetStat>Attack</targetStat>
@@ -29,9 +25,8 @@
         </modifiers>
       </AttackStep>
       <AttackStep index="3">
-        <AllowedAttacks>
-          <AttackRef id="Attack3" />
-        </AllowedAttacks>
+        <stepType>StepThree</stepType>
+        <DefaultAttack id="Attack3" />
         <modifiers>
           <PlayerModifier>
             <targetStat>Attack</targetStat>
@@ -40,5 +35,5 @@
           </PlayerModifier>
         </modifiers>
       </AttackStep>
-    </Combo>
+  </Combo>
 </ComboRules>
