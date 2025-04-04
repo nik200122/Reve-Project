@@ -74,7 +74,6 @@ public class InventoryScreenManager : MonoBehaviour
             SetItemData();
             isInventoryUpdated = true;
         }
-
         UpdateItemSelection();
     }
 
@@ -84,7 +83,6 @@ public class InventoryScreenManager : MonoBehaviour
     }
 
     public void SetItemData(){
-        //recoveryItemsList = inventory.GetRecoveryItems();
         inventoryScreenUI.SetData(inventory.itemList);
     }
 
