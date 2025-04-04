@@ -4,20 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
 public class InventoryScreenManager : MonoBehaviour
 {
     [SerializeField] private UIInventoryScreen inventoryScreenUI;
-    //[SerializeField] private GameInput gameInput;
     [SerializeField] private InputHandler input;
 
     private PlayerManager playerManager;
     private Inventory inventory;
+    List<Item> filteredItemList;
 
     private int selectedItem = 0;
     private int previousSelection = 0;
-    private bool isInventoryUpdated = false;
 
+    //var per capire che dati carivare tra equip e consumabili
+    private bool isEquipableMode;
+    private bool isInventoryUpdated = false;
+    
     void Start(){
         playerManager = FindAnyObjectByType<PlayerManager>();
     }
@@ -26,12 +28,35 @@ public class InventoryScreenManager : MonoBehaviour
         if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){
             CheckScrollDownActionPerformed();
             CheckScrollUpActionPerformed();
+            CheckScrollRightActionPerformed();
+            CheckScrollLeftActionPerformed();
             CheckSelectionActionPerformed();
         }
     }
 
+    private void CheckScrollLeftActionPerformed(){
+        if(input.scrollLeftAction){
+            isEquipableMode = !isEquipableMode;
+            input.scrollLeftAction = false;
+            SetItemData();
+            selectedItem = 0;
+            previousSelection = 0;
+            UpdateItemSelection();
+        }
+    }
+
+    private void CheckScrollRightActionPerformed(){
+        if(input.scrollRightAction){
+            isEquipableMode = !isEquipableMode;
+            input.scrollRightAction = false;
+            SetItemData();
+            selectedItem = 0;
+            previousSelection = 0;
+            UpdateItemSelection();
+        }
+    }
+
     private void CheckScrollUpActionPerformed(){
-        //Debug.Log(input.scrollUpAction);
         if(input.scrollUpAction){
             --selectedItem;
             UpdateItemSelection();
@@ -77,19 +102,29 @@ public class InventoryScreenManager : MonoBehaviour
         UpdateItemSelection();
     }
 
-    private void OnUpdateInventory()
-    {
+    private void OnUpdateInventory(){
         isInventoryUpdated = false;
     }
 
     public void SetItemData(){
-        inventoryScreenUI.SetData(inventory.itemList);
+        if (isEquipableMode){
+            filteredItemList = inventory.itemList
+                .Where(item => item is EquipableItem)
+                .ToList();
+        }else{
+            filteredItemList = inventory.itemList
+                .Where(item => item is ConsumableItem)
+                .ToList();
+        }
+
+        inventoryScreenUI.SetData(filteredItemList);
+        //inventoryScreenUI.SetData(inventory.itemList);
     }
 
      private void UpdateItemSelection(){
         //ci assicuriamo che non avvenga un outOfindex
-        selectedItem = Mathf.Clamp(selectedItem, 0, inventory.itemList.Count - 1);
-        previousSelection = Mathf.Clamp(previousSelection, 0, inventory.itemList.Count - 1);
+        selectedItem = Mathf.Clamp(selectedItem, 0, filteredItemList.Count - 1);
+        previousSelection = Mathf.Clamp(previousSelection, 0, filteredItemList.Count - 1);
 
         inventoryScreenUI.Deselect(previousSelection);
         inventoryScreenUI.Select(selectedItem);
@@ -97,13 +132,7 @@ public class InventoryScreenManager : MonoBehaviour
         previousSelection = selectedItem;
     }
 
-
     public void CloseInventoryScreen(){
-        // gameInput.OnScrollItemDownAction -= GameInput_OnScrollItemDownAction;
-        // gameInput.OnScrollItemUpAction -= GameInput_OnScrollItemUpAction;
-        // gameInput.OnSelectionButtonAction -= GameInput_OnSelectionButtonAction;
-        // gameInput.OnBackAction -= GameInput_OnBackAction;
-        
         //non ci disiscriviamo altrimenti non chiama mai OnUpdateInventory
         //inventory.OnUpdateInventory -= OnUpdateInventory;
 

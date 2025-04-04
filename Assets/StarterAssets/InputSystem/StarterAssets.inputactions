@@ -114,6 +114,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "ScrollRightAction",
+                    "type": "Button",
+                    "id": "c9db0d6e-de16-4458-8482-ba997750f1d4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ScrollLeftAction",
+                    "type": "Button",
+                    "id": "b19110d3-3f01-422c-af6c-ff96a13b4fdb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Ability",
                     "type": "Button",
                     "id": "5e563289-b417-453e-93ee-8d8a54557964",
@@ -427,6 +445,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Selection",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a439c96-e010-4dbe-bae4-d0227591f2e0",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrollRightAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93824f6b-5dcf-497b-a30d-dfecab53d5f8",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ScrollLeftAction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

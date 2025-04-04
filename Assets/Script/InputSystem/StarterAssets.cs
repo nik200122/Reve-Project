@@ -200,6 +200,24 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""ScrollRightAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""c9db0d6e-de16-4458-8482-ba997750f1d4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ScrollLeftAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""b19110d3-3f01-422c-af6c-ff96a13b4fdb"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Ability"",
                     ""type"": ""Button"",
                     ""id"": ""5e563289-b417-453e-93ee-8d8a54557964"",
@@ -515,6 +533,28 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
                     ""action"": ""Selection"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a439c96-e010-4dbe-bae4-d0227591f2e0"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollRightAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93824f6b-5dcf-497b-a30d-dfecab53d5f8"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ScrollLeftAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -671,6 +711,8 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_ScrollDownAction = m_Player.FindAction("ScrollDownAction", throwIfNotFound: true);
         m_Player_ScrollUpAction = m_Player.FindAction("ScrollUpAction", throwIfNotFound: true);
+        m_Player_ScrollRightAction = m_Player.FindAction("ScrollRightAction", throwIfNotFound: true);
+        m_Player_ScrollLeftAction = m_Player.FindAction("ScrollLeftAction", throwIfNotFound: true);
         m_Player_Ability = m_Player.FindAction("Ability", throwIfNotFound: true);
         m_Player_Selection = m_Player.FindAction("Selection", throwIfNotFound: true);
         // UI
@@ -772,6 +814,8 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_ScrollDownAction;
     private readonly InputAction m_Player_ScrollUpAction;
+    private readonly InputAction m_Player_ScrollRightAction;
+    private readonly InputAction m_Player_ScrollLeftAction;
     private readonly InputAction m_Player_Ability;
     private readonly InputAction m_Player_Selection;
     /// <summary>
@@ -833,6 +877,14 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ScrollUpAction".
         /// </summary>
         public InputAction @ScrollUpAction => m_Wrapper.m_Player_ScrollUpAction;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ScrollRightAction".
+        /// </summary>
+        public InputAction @ScrollRightAction => m_Wrapper.m_Player_ScrollRightAction;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/ScrollLeftAction".
+        /// </summary>
+        public InputAction @ScrollLeftAction => m_Wrapper.m_Player_ScrollLeftAction;
         /// <summary>
         /// Provides access to the underlying input action "Player/Ability".
         /// </summary>
@@ -903,6 +955,12 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
             @ScrollUpAction.started += instance.OnScrollUpAction;
             @ScrollUpAction.performed += instance.OnScrollUpAction;
             @ScrollUpAction.canceled += instance.OnScrollUpAction;
+            @ScrollRightAction.started += instance.OnScrollRightAction;
+            @ScrollRightAction.performed += instance.OnScrollRightAction;
+            @ScrollRightAction.canceled += instance.OnScrollRightAction;
+            @ScrollLeftAction.started += instance.OnScrollLeftAction;
+            @ScrollLeftAction.performed += instance.OnScrollLeftAction;
+            @ScrollLeftAction.canceled += instance.OnScrollLeftAction;
             @Ability.started += instance.OnAbility;
             @Ability.performed += instance.OnAbility;
             @Ability.canceled += instance.OnAbility;
@@ -956,6 +1014,12 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
             @ScrollUpAction.started -= instance.OnScrollUpAction;
             @ScrollUpAction.performed -= instance.OnScrollUpAction;
             @ScrollUpAction.canceled -= instance.OnScrollUpAction;
+            @ScrollRightAction.started -= instance.OnScrollRightAction;
+            @ScrollRightAction.performed -= instance.OnScrollRightAction;
+            @ScrollRightAction.canceled -= instance.OnScrollRightAction;
+            @ScrollLeftAction.started -= instance.OnScrollLeftAction;
+            @ScrollLeftAction.performed -= instance.OnScrollLeftAction;
+            @ScrollLeftAction.canceled -= instance.OnScrollLeftAction;
             @Ability.started -= instance.OnAbility;
             @Ability.performed -= instance.OnAbility;
             @Ability.canceled -= instance.OnAbility;
@@ -1267,6 +1331,20 @@ public partial class @StarterAssets: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnScrollUpAction(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ScrollRightAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScrollRightAction(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ScrollLeftAction" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnScrollLeftAction(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Ability" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

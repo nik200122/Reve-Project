@@ -76,5 +76,18 @@
       <equipableItemCategory>Accessory</equipableItemCategory>
       <isEquipped>false</isEquipped>
     </EquipableItem>
+    <ConsumableItem>
+      <tag>Potion01</tag>
+      <name>Good potion</name>
+      <description>Good potion</description>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Hp</targetStat>
+          <value>10</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+    </ConsumableItem>
   </itemList>
 </Inventory>

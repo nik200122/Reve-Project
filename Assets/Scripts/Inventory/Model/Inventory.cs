@@ -8,15 +8,12 @@ public class Inventory
 // "Quando li trovi nell'XML con il nome <EquipableItem>, deserializzali come EquipableItem"
 
     [XmlArrayItem("EquipableItem", typeof(EquipableItem))]
+    [XmlArrayItem("ConsumableItem", typeof(ConsumableItem))]
     public List<Item> itemList;
 
     public Inventory(){}
 
     public Item GetItem(string itemTag){
         return itemList.Find(obj => obj.tag == itemTag);
-    }
-
-    public void AddItem(EquipableItem item){
-        itemList.Add(item);
     }
 }
