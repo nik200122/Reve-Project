@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfEquipmentRule xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EquipmentRule>
+    <equipableItemCategory>Weapon</equipableItemCategory>
+    <maxEquipableNumber>1</maxEquipableNumber>
+  </EquipmentRule>
+  <EquipmentRule>
+    <equipableItemCategory>Helmet</equipableItemCategory>
+    <maxEquipableNumber>1</maxEquipableNumber>
+  </EquipmentRule>
+  <EquipmentRule>
+    <equipableItemCategory>Chest</equipableItemCategory>
+    <maxEquipableNumber>1</maxEquipableNumber>
+  </EquipmentRule>
+  <EquipmentRule>
+    <equipableItemCategory>Leggings</equipableItemCategory>
+    <maxEquipableNumber>1</maxEquipableNumber>
+  </EquipmentRule>
+  <EquipmentRule>
+    <equipableItemCategory>Accessory</equipableItemCategory>
+    <maxEquipableNumber>2</maxEquipableNumber>
+  </EquipmentRule>
+</ArrayOfEquipmentRule>

@@ -47,8 +47,8 @@ public class AbilityScreenManager : MonoBehaviour
             CheckSelectionPerformed();
         }
         // 🔹 Resetta il valore subito dopo l'uso
-        input.scrollUpAction = false;
-        input.scrollDownAction = false;
+        //input.scrollUpAction = false;
+        //input.scrollDownAction = false;
     }
 
     private void CheckSelectionPerformed() {
@@ -69,6 +69,7 @@ public class AbilityScreenManager : MonoBehaviour
             --selectedItem;
             UpdateItemSelection();
         }
+        input.scrollUpAction = false;
     }
 
     private void CheckScrollDownActionPerformed(){
@@ -77,6 +78,8 @@ public class AbilityScreenManager : MonoBehaviour
             ++selectedItem;
             UpdateItemSelection();
         }
+
+        input.scrollDownAction = false;
     
     }
 

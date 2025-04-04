@@ -22,5 +22,5 @@ public abstract class Item
     //     this.spritePath = spritePath;
     // }
     
-    public abstract void UseItem();
+    public abstract bool UseItem(PlayerManager playerManager);
 }

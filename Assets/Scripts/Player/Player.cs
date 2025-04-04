@@ -4,6 +4,7 @@ using UnityEngine;
 public class Player 
 {
     public List<PlayerStat> stats;
+    public List<PlayerModifier> modifiers;
 
     //costruttore necessario per la deserializzazione dell'obj player dal file XML
     public Player(){}

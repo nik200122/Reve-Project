@@ -9,6 +9,7 @@ public class GameLoader : MonoBehaviour
     private const string abilitiesRulesFile = "Assets/Resources/XML/AbilitiesTypeRules.xml";
     private const string playerInventoryDataFile = "Assets/Resources/XML/playerInventoryData.xml";
     private const string itemDataFile = "Assets/Resources/XML/itemsData.xml";
+    private const string equipmentRulesFile = "Assets/Resources/XML/EquipmentRules.xml";
     private const string worldDataFile = "Assets/Resources/XML/worldInfoReducted.xml";
     private const string attackDataFile = "Assets/Resources/XML/attacksData.xml";
     private const string LoadoutPlayerFile = "Assets/Resources/XML/playerLoadout.xml";
@@ -24,6 +25,7 @@ public class GameLoader : MonoBehaviour
     public AbilitiesRules LoadedAbilitiesRules { get; private set; }
     public Player LoadedPlayerStats { get; private set; }
     public List<Item> LoadedItems { get; private set; }
+    public List<EquipmentRule> LoadedEquipmentRuleList { get; private set; }
     public Inventory LoadedPlayerInventory { get; private set; }
 
     public void LoadData(){
@@ -52,6 +54,7 @@ public class GameLoader : MonoBehaviour
        // Debug.Log("VALORE "+LoadedPlayerStats.GetStat("Hp").GetStatTag());
         LoadedPlayerInventory = XMLHelper.LoadFromXml<Inventory>(playerInventoryDataFile);
         //Debug.Log(""+LoadedPlayerInventory.GetItem("HpPotion01").name);
+        LoadedEquipmentRuleList = XMLHelper.LoadFromXml<List<EquipmentRule>>(equipmentRulesFile);
     }
     private void LoadWorldData(){
         LoadedWorldData = XMLHelper.LoadFromXml<WorldData>(worldDataFile);

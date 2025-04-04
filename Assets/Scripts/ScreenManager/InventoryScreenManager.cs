@@ -11,44 +11,58 @@ public class InventoryScreenManager : MonoBehaviour
     //[SerializeField] private GameInput gameInput;
     [SerializeField] private InputHandler input;
 
+    private PlayerManager playerManager;
     private Inventory inventory;
-    private List<Item> itemsList;
 
     private int selectedItem = 0;
     private int previousSelection = 0;
     private bool isInventoryUpdated = false;
 
-    public event Action<Item> OnItemSelected;
-    public event Action OnBackAction;
+    void Start(){
+        playerManager = FindAnyObjectByType<PlayerManager>();
+    }
 
     public void Update(){
         if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){
             CheckScrollDownActionPerformed();
             CheckScrollUpActionPerformed();
+            CheckSelectionActionPerformed();
         }
-        // 🔹 Resetta il valore subito dopo l'uso
-        input.scrollUpAction = false;
-        input.scrollDownAction = false;
     }
 
     private void CheckScrollUpActionPerformed(){
+        //Debug.Log(input.scrollUpAction);
         if(input.scrollUpAction){
             --selectedItem;
             UpdateItemSelection();
+            input.scrollUpAction = false;
         }
     }
 
     private void CheckScrollDownActionPerformed(){
-        
         if(input.scrollDownAction){
             ++selectedItem;
             UpdateItemSelection();
+            input.scrollDownAction = false;
         }
-    
     }
 
-    public void OpenInventoryScreen(Inventory inventory){
-        this.inventory = inventory;
+    private void CheckSelectionActionPerformed(){
+        bool isUsed;
+        if(input.selectionPerformed){
+            isUsed = inventory.itemList[selectedItem].UseItem(playerManager);
+            // if(inventory.itemList[selectedItem].UseItem(playerManager)){
+            //     Debug.Log("equipaggiato");
+            // };
+            if(inventory.itemList[selectedItem] is EquipableItem){
+                inventoryScreenUI.SetHighlight(selectedItem, isUsed);
+            }
+            input.selectionPerformed = false;
+        }
+    }
+
+    public void OpenInventoryScreen(PlayerManager playerManager){
+        inventory = playerManager.GetInventory();
 
         Debug.Log("INVENTORY COUNT: "+inventory.itemList.Count);
 
@@ -74,7 +88,7 @@ public class InventoryScreenManager : MonoBehaviour
         inventoryScreenUI.SetData(inventory.itemList);
     }
 
-    private void UpdateItemSelection(){
+     private void UpdateItemSelection(){
         //ci assicuriamo che non avvenga un outOfindex
         selectedItem = Mathf.Clamp(selectedItem, 0, inventory.itemList.Count - 1);
         previousSelection = Mathf.Clamp(previousSelection, 0, inventory.itemList.Count - 1);

@@ -7,29 +7,24 @@ public class PlayerManager : MonoBehaviour
 {   
     private Player player;
     private Inventory inventory;
+    private List<EquipmentRule> equipmentRuleList;
     private PlayerLoadout playerLoadout;
     private AbilitiesRules abilitiesRules;
     private AbilityList abilityList;
     private Dictionary<AbilityType, int> activeAbilitiesCount = new Dictionary<AbilityType, int>();
     private List<PlayerModifier> modifiers = new List<PlayerModifier>();
-
-
-    //[SerializeField] private InputHandler input;
  
-    void Update()
+    private void Update()
     {
         ApplyActiveModifiers();
     }
 
-    private void ApplyActiveModifiers()
-    {
-        foreach (var modifier in modifiers)
-        {
-            Debug.Log("Modificatori attivi: " + modifiers.Count);
+    private void ApplyActiveModifiers(){
+        foreach (var modifier in modifiers){
+            //Debug.Log("Modificatori attivi: " + modifiers.Count);
             player.SetStat(modifier.targetStat, player.GetStat(modifier.targetStat).currentValue + modifier.value);
         }
     }
-
 
     public Player GetPlayerModel(){
         return player;
@@ -45,8 +40,8 @@ public class PlayerManager : MonoBehaviour
 
     public void SetInventory(Inventory loadedInventory){
         inventory = loadedInventory;
-        Debug.Log("CONTEGGIO: "+inventory.itemList.Count);
-        //Debug.Log(""+inventory.GetItem("HpPotion01").name);
+        AddModifiersFromEquippedItems();
+        //Debug.Log("CONTEGGIO: "+inventory.itemList.Count);
     }
     /*public void SetPlayerAttackData(AttackDataList attackDataList){
         this.attackDataList = attackDataList;
@@ -54,6 +49,11 @@ public class PlayerManager : MonoBehaviour
             Debug.Log(""+attackData.ToString());
         }
     }*/
+
+
+    public List<EquipmentRule> GetEquipmentRuleList(){
+        return equipmentRuleList;
+    }
 
     public void UseItem(string itemTag){
         Debug.Log("USE ITEM "+inventory.GetItem(itemTag).modifiers[0].ToString());
@@ -69,11 +69,9 @@ public class PlayerManager : MonoBehaviour
 
     private void AddModifiers(List<PlayerModifier> modifiersToAdd)
     {
-        foreach (var modifier in modifiersToAdd)
-        {
+        foreach (var modifier in modifiersToAdd){
             // Aggiungi solo se non è già presente
-            if (!modifiers.Contains(modifier))
-            {
+            if (!modifiers.Contains(modifier)){
                 modifiers.Add(modifier);
             }
         }
@@ -83,20 +81,14 @@ public class PlayerManager : MonoBehaviour
 
     private void RemoveModifiers(List<PlayerModifier> modifiersToRemove)
     {
-        foreach (var modifier in modifiersToRemove)
-        {
+        foreach (var modifier in modifiersToRemove){
             // Rimuovi solo se il modificatore è attualmente nella lista
-            if (modifiers.Contains(modifier))
-            {
+            if (modifiers.Contains(modifier)){
                 modifiers.Remove(modifier);
             }
         }
         Debug.Log("Modificatori rimossi. Totale: " + modifiers.Count);
     }
-
-
-
-
 
     public bool CheckAbility(AbilityRef abilityRef)
     {
@@ -145,7 +137,12 @@ public class PlayerManager : MonoBehaviour
 
     public void InitializeDictionary(){
         activeAbilitiesCount.Clear();  // 🔹 Reset per evitare problemi
-        modifiers.Clear();  // 🔹 Reset della lista modificatori
+
+
+        //NECESSARIO IL CLEAR?
+
+
+        //modifiers.Clear();  // 🔹 Reset della lista modificatori
          // Supponiamo di avere una lista di tutte le regole
         foreach (var rule in abilitiesRules.Rules)
         {
@@ -171,7 +168,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-
     public void SetAbilitiesRules(AbilitiesRules loadedAbilitiesRules)
     {
         this.abilitiesRules = loadedAbilitiesRules;
@@ -184,5 +180,29 @@ public class PlayerManager : MonoBehaviour
     public void SetPlayerLoadout(PlayerLoadout playerLoadout)
     {
         this.playerLoadout = playerLoadout;
+    }
+
+    public void SetEquipmentRuleList(List<EquipmentRule> equipmentRuleList){
+        this.equipmentRuleList = equipmentRuleList;
+    }
+
+    public void Equip(EquipableItem equipableItem){
+        //equippedItemList.Add(equipableItem);
+        AddModifiers(equipableItem.modifiers);
+    }
+
+    public void Unequip(EquipableItem equipableItem){
+        //equippedItemList.Remove(equipableItem);
+        RemoveModifiers(equipableItem.modifiers);
+    }
+
+    private void AddModifiersFromEquippedItems() {
+        foreach (var item in inventory.itemList){
+            if (item is EquipableItem equipableItem && equipableItem.isEquipped){
+                AddModifiers(item.modifiers);
+            }
+        }
+        // Debug per confermare il numero di modificatori aggiornati
+        Debug.Log("Modificatori aggiornati. Totale: " + modifiers.Count);
     }
 }

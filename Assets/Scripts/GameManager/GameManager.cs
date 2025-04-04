@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
         deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
         playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
         playerManager.SetInventory(gameLoader.LoadedPlayerInventory);
+        playerManager.SetEquipmentRuleList(gameLoader.LoadedEquipmentRuleList);
         playerManager.SetAbilitiesRules(gameLoader.LoadedAbilitiesRules);
         playerManager.SetAbilityList(gameLoader.LoadedAbilityList);
         playerManager.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
@@ -42,7 +43,6 @@ public class GameManager : MonoBehaviour
 
         //PER DEBUG
         //playerManager.UseItem("HpPotion01");
-        
     }
 
     // Update is called once per frame
@@ -75,11 +75,12 @@ public class GameManager : MonoBehaviour
     private void CheckIsMenuActionPerformed()
     {
         if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+            
             if(input.menuAction){
                 Debug.Log("MENU Opened");
                 Debug.Log("INVENTORYCOUNT PPLAYER: "+playerManager.GetInventory().itemList.Count);
                 GameStateManager.Instance.ChangeState(GameState.MenuOpened);
-                inventoryScreenManager.OpenInventoryScreen(playerManager.GetInventory());
+                inventoryScreenManager.OpenInventoryScreen(playerManager);
             }
         }
         else if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){

@@ -14,6 +14,7 @@
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
       <equipableItemCategory>Weapon</equipableItemCategory>
+      <isEquipped>false</isEquipped>
     </EquipableItem>
     <EquipableItem>
       <tag>Weapon02</tag>
@@ -28,76 +29,52 @@
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
       <equipableItemCategory>Weapon</equipableItemCategory>
+      <isEquipped>true</isEquipped>
     </EquipableItem>
     <EquipableItem>
-      <tag>Weapon03</tag>
-      <name>Epic Bat</name>
-      <description>Incredible bat</description>
+      <tag>Helmet01</tag>
+      <name>Epic helmet</name>
+      <description>Incredible helmet</description>
       <modifiers>
         <PlayerModifier>
-          <targetStat>Attack</targetStat>
+          <targetStat>Defense</targetStat>
           <value>20</value>
           <modifierType>Additive</modifierType>
         </PlayerModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Weapon</equipableItemCategory>
+      <equipableItemCategory>Helmet</equipableItemCategory>
+      <isEquipped>false</isEquipped>
     </EquipableItem>
     <EquipableItem>
-      <tag>Weapon04</tag>
-      <name>Epic Shuriken</name>
-      <description>Incredible shuriken</description>
+      <tag>Ring01</tag>
+      <name>Epic ring</name>
+      <description>Incredible ring</description>
       <modifiers>
         <PlayerModifier>
-          <targetStat>Attack</targetStat>
+          <targetStat>Defense</targetStat>
           <value>20</value>
           <modifierType>Additive</modifierType>
         </PlayerModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Weapon</equipableItemCategory>
+      <equipableItemCategory>Accessory</equipableItemCategory>
+      <isEquipped>false</isEquipped>
     </EquipableItem>
     <EquipableItem>
-      <tag>Weapon05</tag>
-      <name>Epic BLAPO</name>
-      <description>Incredible blapo</description>
+      <tag>Ring02</tag>
+      <name>Good ring</name>
+      <description>Good ring</description>
       <modifiers>
         <PlayerModifier>
-          <targetStat>Attack</targetStat>
-          <value>20</value>
+          <targetStat>Defense</targetStat>
+          <value>10</value>
           <modifierType>Additive</modifierType>
         </PlayerModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Weapon</equipableItemCategory>
-    </EquipableItem>
-    <EquipableItem>
-      <tag>Weapon06</tag>
-      <name>Not so epic Sword</name>
-      <description>Not so Incredible sword</description>
-      <modifiers>
-        <PlayerModifier>
-          <targetStat>Attack</targetStat>
-          <value>20</value>
-          <modifierType>Additive</modifierType>
-        </PlayerModifier>
-      </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Weapon</equipableItemCategory>
-    </EquipableItem>
-    <EquipableItem>
-      <tag>Weapon07</tag>
-      <name>Epic katana</name>
-      <description>Incredible katana</description>
-      <modifiers>
-        <PlayerModifier>
-          <targetStat>Attack</targetStat>
-          <value>20</value>
-          <modifierType>Additive</modifierType>
-        </PlayerModifier>
-      </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Weapon</equipableItemCategory>
+      <equipableItemCategory>Accessory</equipableItemCategory>
+      <isEquipped>false</isEquipped>
     </EquipableItem>
   </itemList>
 </Inventory>
