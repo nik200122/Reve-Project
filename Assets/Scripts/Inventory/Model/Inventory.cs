@@ -16,4 +16,14 @@ public class Inventory
     public Item GetItem(string itemTag){
         return itemList.Find(obj => obj.tag == itemTag);
     }
+
+    public void AddItem(Item item){
+        if(item is ConsumableItem){
+            if(GetItem(item.tag) != null)
+                GetItem(item.tag).count++;
+            else
+                itemList.Add(item);
+        }else
+            itemList.Add(item);
+    }
 }

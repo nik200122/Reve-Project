@@ -40,9 +40,6 @@ public class GameManager : MonoBehaviour
 
         // Inizializza l'AbilityScreenManager con la lista globale delle abilità
         abilityScreenManager.Initialize(gameLoader.LoadedAbilityList, gameLoader.LoadedPlayerLoadout);
-
-        //PER DEBUG
-        //playerManager.UseItem("HpPotion01");
     }
 
     // Update is called once per frame
@@ -87,6 +84,7 @@ public class GameManager : MonoBehaviour
             if(input.back){
                 Debug.Log("MENU Closed");
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
+                inventoryScreenManager.CloseInventoryScreen();
             }
         }
         

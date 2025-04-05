@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class InventoryScreenManager : MonoBehaviour
+public class ShopScreenManager : MonoBehaviour
 {
-    [SerializeField] private UIInventoryScreen inventoryScreenUI;
+    [SerializeField] private UIShopScreen shopScreenUI;
     [SerializeField] private InputHandler input;
 
     private PlayerManager playerManager;
+    GameStateManager gameStateManager;
     private Inventory inventory;
     List<Item> filteredItemList;
 
@@ -18,13 +19,15 @@ public class InventoryScreenManager : MonoBehaviour
 
     //var per capire che dati carivare tra equip e consumabili
     private bool isEquipableMode;
+    private bool isInventoryUpdated = false;
     
     void Start(){
         playerManager = FindAnyObjectByType<PlayerManager>();
+        gameStateManager = FindAnyObjectByType<GameStateManager>();
     }
 
     public void Update(){
-        if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){
+        if(GameStateManager.Instance.CurrentState == GameState.ShopScreen){
             CheckScrollDownActionPerformed();
             CheckScrollUpActionPerformed();
             CheckScrollRightActionPerformed();
@@ -65,6 +68,7 @@ public class InventoryScreenManager : MonoBehaviour
 
     private void CheckScrollDownActionPerformed(){
         if(input.scrollDownAction){
+            Debug.Log("FUNZIONA INPUT");
             ++selectedItem;
             UpdateItemSelection();
             input.scrollDownAction = false;
@@ -72,30 +76,40 @@ public class InventoryScreenManager : MonoBehaviour
     }
 
     private void CheckSelectionActionPerformed(){
-        bool isUsed;
         if(input.selectionPerformed){
-            isUsed = filteredItemList[selectedItem].UseItem(playerManager);
-            if(filteredItemList[selectedItem] is EquipableItem){
-                inventoryScreenUI.SetHighlight(selectedItem, isUsed);
-            }else {
-                if(filteredItemList[selectedItem].count == 0)
-                    inventory.itemList.Remove(filteredItemList[selectedItem]);
-                SetItemData();
-            }
             input.selectionPerformed = false;
+            TryBuySelectedItem();
         }
     }
 
-    public void OpenInventoryScreen(PlayerManager playerManager){
+    private void TryBuySelectedItem(){
+        Item itemToBuy = filteredItemList[selectedItem];
+        if (!playerManager.CanAffordItem(itemToBuy.price)) return;
+
+        playerManager.GetInventory().AddItem(itemToBuy);
+        Debug.Log("Comprato");
+    }
+
+    public void OpenShopScreen(){
+        gameStateManager.ChangeState(GameState.ShopScreen);
+        Debug.Log("OPENNN");
         inventory = playerManager.GetInventory();
-        inventoryScreenUI.SetActive(true);
+        //inventory.OnUpdateInventory += OnUpdateInventory;
+        shopScreenUI.SetActive(true);
         
-        SetItemData();
+        if(!isInventoryUpdated){
+            SetItemData();
+            isInventoryUpdated = true;
+        }
         UpdateItemSelection();
     }
 
-    public void CloseInventoryScreen(){
-        inventoryScreenUI.SetActive(false);
+    public void CloseShopScreen(){
+        shopScreenUI.SetActive(false);
+    }
+
+    private void OnUpdateInventory(){
+        isInventoryUpdated = false;
     }
 
     public void SetItemData(){
@@ -103,17 +117,17 @@ public class InventoryScreenManager : MonoBehaviour
         .Where(item => isEquipableMode ? item is EquipableItem : item is ConsumableItem)
         .ToList();
 
-        inventoryScreenUI.SetData(filteredItemList);
+        shopScreenUI.SetData(filteredItemList);
     }
 
-     private void UpdateItemSelection(){
+    private void UpdateItemSelection(){
         if(filteredItemList.Count > 0){
             //ci assicuriamo che non avvenga un outOfindex
             selectedItem = Mathf.Clamp(selectedItem, 0, filteredItemList.Count - 1);
             previousSelection = Mathf.Clamp(previousSelection, 0, filteredItemList.Count - 1);
 
-            inventoryScreenUI.Deselect(previousSelection);
-            inventoryScreenUI.Select(selectedItem);
+            shopScreenUI.Deselect(previousSelection);
+            shopScreenUI.Select(selectedItem);
 
             previousSelection = selectedItem;
         }

@@ -7,6 +7,7 @@ public enum GameState
     Interaction,
     MenuOpened,
     Inventory,
+    ShopScreen,
     AbilitiesScreen,
 }
 

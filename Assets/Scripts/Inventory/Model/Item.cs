@@ -8,6 +8,8 @@ public abstract class Item
     //public string type;
     public string name;
     public string description;
+    public int count;
+    public int price;
     public List<PlayerModifier> modifiers;
     public string spritePath;
 

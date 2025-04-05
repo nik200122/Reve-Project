@@ -4,11 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIInventoryItem : MonoBehaviour
+public class UIShopItem : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI nameText;
-    [SerializeField] private TextMeshProUGUI countText;
-    [SerializeField] private GameObject equippedIndicator;
+    [SerializeField] private TextMeshProUGUI priceText;
+
     private TextMeshProUGUI descriptionText;
     private Image icon;
     private RectTransform rectTransform;
@@ -31,20 +31,13 @@ public class UIInventoryItem : MonoBehaviour
         nameText.color = Color.blue;
     }
 
-    public void SetHighlight(bool isEquipped){
-            equippedIndicator.SetActive(isEquipped);
-    }
-
     public void SetData(Item item, TextMeshProUGUI descriptionText, Image icon){
         this.item = item;
         this.descriptionText = descriptionText;
         this.icon = icon;
-        this.countText.text = item.count.ToString();
+        this.priceText.text = item.price.ToString();
 
         nameText.text = item.name;
-
-        // if(item is RecoveryItem recoveryItem)
-        //     countText.text = $"X{recoveryItem.GetAmount()}";
     }
 
     public float GetRectTransformHeight(){

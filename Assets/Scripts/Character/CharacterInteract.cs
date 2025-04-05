@@ -22,14 +22,13 @@ public class CharacterInteract : MonoBehaviour
                 IInteractable interactable = GetInteractableObject();
                 if(interactable != null)
                 {
-                    interactable.Interact(transform);
-                    
                     // Cambia lo stato in InteractionInProgress
                     GameStateManager.Instance.ChangeState(GameState.Interaction);
+                    interactable.Interact(transform);
                 }
             }
         }
-        else if(GameStateManager.Instance.CurrentState == GameState.Interaction){
+        else if(GameStateManager.Instance.CurrentState == GameState.Interaction || GameStateManager.Instance.CurrentState == GameState.ShopScreen){
             if(input.esc){
                 IInteractable interactable = GetInteractableObject();
                 if(interactable!=null){
@@ -39,7 +38,6 @@ public class CharacterInteract : MonoBehaviour
                 }
             }
         }
-       
     }
 
     public IInteractable GetInteractableObject(){

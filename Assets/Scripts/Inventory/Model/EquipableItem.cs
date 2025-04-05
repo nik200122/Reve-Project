@@ -8,10 +8,11 @@ public class EquipableItem : Item
     public bool isEquipped;
 
     public EquipableItem(){}
-    public EquipableItem(string tag, string name, string description, List<PlayerModifier> modifiers, string spritePath, EquipableItemCategory equipableItemCategory, bool isEquipped){
+    public EquipableItem(string tag, string name, string description, int count, List<PlayerModifier> modifiers, string spritePath, EquipableItemCategory equipableItemCategory, bool isEquipped){
         this.tag = tag;
         this.name = name;
         this.description = description;
+        this.count= count;
         this.modifiers = modifiers;
         this.spritePath = spritePath;
         this.equipableItemCategory = equipableItemCategory;
@@ -19,12 +20,6 @@ public class EquipableItem : Item
     }
     
     public override bool UseItem(PlayerManager playerManager) {
-        
-        // // Se esiste già un oggetto della stessa categoria, interrompiamo l'operazione
-        // if (playerManager.GetEquippedItemList().Any(e => e.equipableItemCategory == this.equipableItemCategory)){
-        //     Debug.Log($"Non puoi equipaggiare {this.name}, c'è già un oggetto della categoria {this.equipableItemCategory}.");
-        //     return false;
-        // }
         if(isEquipped){
             playerManager.Unequip(this);
             isEquipped = false;

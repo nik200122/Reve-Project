@@ -5,6 +5,7 @@
       <tag>Weapon01</tag>
       <name>Epic Blade</name>
       <description>Incredible blade</description>
+      <count>1</count>
       <modifiers>
         <PlayerModifier>
           <targetStat>Attack</targetStat>
@@ -20,6 +21,7 @@
       <tag>Weapon02</tag>
       <name>Epic Sword</name>
       <description>Incredible sword</description>
+      <count>1</count>
       <modifiers>
         <PlayerModifier>
           <targetStat>Attack</targetStat>
@@ -35,6 +37,7 @@
       <tag>Helmet01</tag>
       <name>Epic helmet</name>
       <description>Incredible helmet</description>
+      <count>1</count>
       <modifiers>
         <PlayerModifier>
           <targetStat>Defense</targetStat>
@@ -50,6 +53,7 @@
       <tag>Ring01</tag>
       <name>Epic ring</name>
       <description>Incredible ring</description>
+      <count>1</count>
       <modifiers>
         <PlayerModifier>
           <targetStat>Defense</targetStat>
@@ -65,6 +69,7 @@
       <tag>Ring02</tag>
       <name>Good ring</name>
       <description>Good ring</description>
+      <count>1</count>
       <modifiers>
         <PlayerModifier>
           <targetStat>Defense</targetStat>
@@ -80,10 +85,25 @@
       <tag>Potion01</tag>
       <name>Good potion</name>
       <description>Good potion</description>
+      <count>2</count>
       <modifiers>
         <PlayerModifier>
           <targetStat>Hp</targetStat>
           <value>10</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+    </ConsumableItem>
+    <ConsumableItem>
+      <tag>Potion02</tag>
+      <name>Epic potion</name>
+      <description>Good potion</description>
+      <count>1</count>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Hp</targetStat>
+          <value>30</value>
           <modifierType>Additive</modifierType>
         </PlayerModifier>
       </modifiers>

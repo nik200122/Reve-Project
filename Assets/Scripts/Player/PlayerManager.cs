@@ -55,12 +55,6 @@ public class PlayerManager : MonoBehaviour
         return equipmentRuleList;
     }
 
-    public void UseItem(string itemTag){
-        Debug.Log("USE ITEM "+inventory.GetItem(itemTag).modifiers[0].ToString());
-        foreach (PlayerModifier modifier in inventory.GetItem(itemTag).modifiers)
-            ApplyModifier(modifier);
-    }
-
     public void ApplyModifier(PlayerModifier modifier){
         Debug.Log("MODIFIER CHIAMATO");
         player.SetStat(modifier.targetStat,player.GetStat(modifier.targetStat).currentValue + modifier.value);
@@ -204,5 +198,12 @@ public class PlayerManager : MonoBehaviour
         }
         // Debug per confermare il numero di modificatori aggiornati
         Debug.Log("Modificatori aggiornati. Totale: " + modifiers.Count);
+    }
+
+    public bool CanAffordItem(int itemPrice){
+        if(player.GetStat("Money").currentValue < itemPrice)
+            return false;
+        
+        return true;
     }
 }
