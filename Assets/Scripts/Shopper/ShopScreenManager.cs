@@ -90,10 +90,10 @@ public class ShopScreenManager : MonoBehaviour
         Debug.Log("Comprato");
     }
 
-    public void OpenShopScreen(){
+    public void OpenShopScreen(Inventory shopperInventory){
         gameStateManager.ChangeState(GameState.ShopScreen);
-        Debug.Log("OPENNN");
-        inventory = playerManager.GetInventory();
+        Debug.Log("OPENN");
+        inventory = shopperInventory;
         //inventory.OnUpdateInventory += OnUpdateInventory;
         shopScreenUI.SetActive(true);
         

@@ -24,7 +24,7 @@ public class ShopperManager : MonoBehaviour, IInteractable
 
     public void Interact(Transform interactorTransform){
         Debug.Log("CALLED");
-        shopScreenManager.OpenShopScreen();
+        shopScreenManager.OpenShopScreen(this.inventory);
     }
 
     public Inventory GetInventory(){

@@ -201,9 +201,12 @@ public class PlayerManager : MonoBehaviour
     }
 
     public bool CanAffordItem(int itemPrice){
-        if(player.GetStat("Money").currentValue < itemPrice)
+        if(player.GetStat("Money").currentValue < itemPrice){
+            Debug.Log("non abbastanza soldi");
             return false;
+        }
         
+        player.GetStat("Money").currentValue -= itemPrice;
         return true;
     }
 }

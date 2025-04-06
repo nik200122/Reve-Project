@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AbilityScreenManager abilityScreenManager;
     [SerializeField] private DeepSeek deepSeek;
     [SerializeField] private InventoryScreenManager inventoryScreenManager;
+
+    //per ora un solo shopper
+    [SerializeField] private ShopperManager shopperManager;
     private GameLoader gameLoader;
     PlayerInput playerInput;
    // private bool isMenuActionPerformed;
@@ -37,6 +41,8 @@ public class GameManager : MonoBehaviour
         playerCombat.SetComboRules(gameLoader.LoadedComboRules);
         playerCombat.SetAbilityList(gameLoader.LoadedAbilityList);
         playerCombat.SetAttackDataList(gameLoader.LoadedAttackDataList);
+        shopperManager.SetInventory(gameLoader.LoadedShopper01Inventory);
+
 
         // Inizializza l'AbilityScreenManager con la lista globale delle abilità
         abilityScreenManager.Initialize(gameLoader.LoadedAbilityList, gameLoader.LoadedPlayerLoadout);

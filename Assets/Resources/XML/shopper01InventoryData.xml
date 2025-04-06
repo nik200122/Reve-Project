@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Inventory xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <itemList>
+    <EquipableItem>
+      <tag>Weapon09</tag>
+      <name>Super Blade</name>
+      <description>Incredible blade</description>
+      <count>1</count>
+      <price>100</price>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>50</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+      <isEquipped>false</isEquipped>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Weapon02</tag>
+      <name>Epic Sword</name>
+      <description>Incredible sword</description>
+      <count>1</count>
+      <price>50</price>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+      <equipableItemCategory>Weapon</equipableItemCategory>
+      <isEquipped>false</isEquipped>
+    </EquipableItem>
+    <ConsumableItem>
+      <tag>Potion01</tag>
+      <name>Good potion</name>
+      <description>Good potion</description>
+      <count>1</count>
+      <price>10</price>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Hp</targetStat>
+          <value>10</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+    </ConsumableItem>
+    <ConsumableItem>
+      <tag>Potion02</tag>
+      <name>Epic potion</name>
+      <description>Good potion</description>
+      <count>1</count>
+      <price>30</price>
+      <modifiers>
+        <PlayerModifier>
+          <targetStat>Hp</targetStat>
+          <value>30</value>
+          <modifierType>Additive</modifierType>
+        </PlayerModifier>
+      </modifiers>
+      <spritePath>MinorHealthPotion</spritePath>
+    </ConsumableItem>
+  </itemList>
+</Inventory>

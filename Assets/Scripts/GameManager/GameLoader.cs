@@ -8,6 +8,8 @@ public class GameLoader : MonoBehaviour
     private const string playerStatsFile = "Assets/Resources/XML/playerStats.xml";
     private const string abilitiesRulesFile = "Assets/Resources/XML/AbilitiesTypeRules.xml";
     private const string playerInventoryDataFile = "Assets/Resources/XML/playerInventoryData.xml";
+    private const string shopper01InventoryDataFile = "Assets/Resources/XML/shopper01InventoryData.xml";
+
     private const string itemDataFile = "Assets/Resources/XML/itemsData.xml";
     private const string equipmentRulesFile = "Assets/Resources/XML/EquipmentRules.xml";
     private const string worldDataFile = "Assets/Resources/XML/worldInfoReducted.xml";
@@ -17,7 +19,6 @@ public class GameLoader : MonoBehaviour
     private const string abilitiesFile = "Assets/Resources/XML/Abilities.xml";
     
     public WorldData LoadedWorldData { get; private set; }
-
     public AttackDataList LoadedAttackDataList { get; private set; }
     public PlayerLoadout LoadedPlayerLoadout { get; private set; }
     public AbilityList LoadedAbilityList { get; private set; }
@@ -27,6 +28,7 @@ public class GameLoader : MonoBehaviour
     public List<Item> LoadedItems { get; private set; }
     public List<EquipmentRule> LoadedEquipmentRuleList { get; private set; }
     public Inventory LoadedPlayerInventory { get; private set; }
+    public Inventory LoadedShopper01Inventory { get; private set; }
 
     public void LoadData(){
         LoadPlayerData();
@@ -40,6 +42,8 @@ public class GameLoader : MonoBehaviour
         LoadPlayerLoadout();
 
         LoadAttackData();
+
+        LoadShoppersData();
         
         LoadAssets();
     }
@@ -142,5 +146,9 @@ public class GameLoader : MonoBehaviour
     private void LoadAssets(){
         //LoadedItems = XMLHelper.LoadFromXml<List<Item>>(itemDataFile);
         //Debug.Log("NOME ITEM: "+LoadedItems[0].name);
+    }
+
+    private void LoadShoppersData(){
+        LoadedShopper01Inventory = XMLHelper.LoadFromXml<Inventory>(shopper01InventoryDataFile);
     }
 }
