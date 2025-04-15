@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class Player 
 {
-    public List<PlayerStat> stats;
-    public List<PlayerModifier> modifiers;
+    public List<Stat> stats;
+    public List<StatModifier> modifiers;
 
     //costruttore necessario per la deserializzazione dell'obj player dal file XML
     public Player(){}
-    public PlayerStat GetStat(string statTag){
+    public Stat GetStat(string statTag){
         return stats.Find(obj => obj.GetStatTag() == statTag);
     }
 
     public void SetStat(string statTag, float value){
-        PlayerStat stat = stats.Find(obj => obj.GetStatTag() == statTag);
+        Stat stat = stats.Find(obj => obj.GetStatTag() == statTag);
 
         float newValue = Mathf.Min(value, stat.GetMaxValue());
         stat.SetCurrentValue(newValue);

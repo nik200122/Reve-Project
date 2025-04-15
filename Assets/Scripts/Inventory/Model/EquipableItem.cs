@@ -8,7 +8,7 @@ public class EquipableItem : Item
     public bool isEquipped;
 
     public EquipableItem(){}
-    public EquipableItem(string tag, string name, string description, int count, List<PlayerModifier> modifiers, string spritePath, EquipableItemCategory equipableItemCategory, bool isEquipped){
+    public EquipableItem(string tag, string name, string description, int count, List<StatModifier> modifiers, string spritePath, EquipableItemCategory equipableItemCategory, bool isEquipped){
         this.tag = tag;
         this.name = name;
         this.description = description;

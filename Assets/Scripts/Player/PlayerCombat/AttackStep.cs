@@ -17,5 +17,5 @@ public class AttackStep
     // Modificatori specifici per questo step (es. bonus base o moltiplicatori)
     [XmlArray("modifiers")]
     [XmlArrayItem("PlayerModifier")]
-    public List<PlayerModifier> modifiers { get; set; } = new List<PlayerModifier>();
+    public List<StatModifier> modifiers { get; set; } = new List<StatModifier>();
 }

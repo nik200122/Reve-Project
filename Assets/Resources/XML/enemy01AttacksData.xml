@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfAttackData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AttackData>
+    <id>Attack1</id>
+    <overrideControllerPath>Animations/AttacksOV/Attack1OV</overrideControllerPath>
+    <StatModifier>
+      <targetStat>Attack</targetStat>
+      <value>10</value>
+      <modifierType>Additive</modifierType>
+    </StatModifier>
+  </AttackData>
+  <AttackData>
+    <id>Attack2</id>
+    <overrideControllerPath>Animations/AttacksOV/Attack2OV</overrideControllerPath>
+    <modifiers>
+      <StatModifier>
+        <targetStat>Attack</targetStat>
+        <value>20</value>
+        <modifierType>Additive</modifierType>
+      </StatModifier>
+      </modifiers>
+  </AttackData>
+  <AttackData>
+    <id>Attack3</id>
+    <overrideControllerPath>Animations/AttacksOV/Attack3OV</overrideControllerPath>
+    <modifiers>
+      <StatModifier>
+        <targetStat>Attack</targetStat>
+        <value>30</value>
+        <modifierType>Additive</modifierType>
+      </StatModifier>
+    </modifiers>
+  </AttackData>
+</ArrayOfAttackData>

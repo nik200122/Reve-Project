@@ -4,11 +4,11 @@
     <id>Ability1</id>
     <name>Fury Mode</name>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Attack</targetStat>
         <value>1.5</value>
         <modifierType>Multiplicative</modifierType>
-      </PlayerModifier>
+      </StatModifier>
     </modifiers>
     <equippableAttacks>
     </equippableAttacks>
@@ -19,7 +19,7 @@
 
   <Ability>
     <id>Ability2</id>
-    <name>Flesh step</name>
+    <name>Flash step</name>
     <modifiers>
     </modifiers>
     <equippableAttacks>
@@ -34,11 +34,11 @@
     <id>Ability3</id>
     <name>Lion's heart</name>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Defense</targetStat>
         <value>2.0</value>
         <modifierType>Multiplicative</modifierType>
-      </PlayerModifier>
+      </StatModifier>
     </modifiers>
     <equippableAttacks>
     </equippableAttacks>
@@ -50,11 +50,11 @@
     <id>Ability4</id>
     <name>Attack+</name>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Attack</targetStat>
         <value>2.0</value>
         <modifierType>Multiplicative</modifierType>
-      </PlayerModifier>
+      </StatModifier>
     </modifiers>
     <equippableAttacks>
     </equippableAttacks>
@@ -66,11 +66,11 @@
     <id>Ability5</id>
     <name>Lion's heart</name>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Defense</targetStat>
         <value>2.0</value>
         <modifierType>Multiplicative</modifierType>
-      </PlayerModifier>
+      </StatModifier>
     </modifiers>
     <equippableAttacks>
     </equippableAttacks>

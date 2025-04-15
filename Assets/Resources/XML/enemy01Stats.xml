@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfStat xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Stat>
+    <currentValue>70</currentValue>
+    <maxValue>100</maxValue>
+    <statTag>Hp</statTag>
+  </Stat>
+  <Stat>
+    <currentValue>40</currentValue>
+    <maxValue>100</maxValue>
+    <statTag>Attack</statTag>
+  </Stat>
+  <Stat>
+    <currentValue>50</currentValue>
+    <maxValue>100</maxValue>
+    <statTag>Defense</statTag>
+  </Stat>
+</ArrayOfStat>

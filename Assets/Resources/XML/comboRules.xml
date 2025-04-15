@@ -6,33 +6,33 @@
         <stepType>StepOne</stepType>
         <DefaultAttack id="Attack1" />
         <modifiers>
-          <PlayerModifier>
+          <StatModifier>
             <targetStat>Attack</targetStat>
             <value>1.0</value>
             <modifierType>Multiplicative</modifierType>
-          </PlayerModifier>
+          </StatModifier>
         </modifiers>
       </AttackStep>
       <AttackStep index="2">
         <stepType>StepTwo</stepType>
         <DefaultAttack id="Attack2" />
         <modifiers>
-          <PlayerModifier>
+          <StatModifier>
             <targetStat>Attack</targetStat>
             <value>1.2</value>
             <modifierType>Multiplicative</modifierType>
-          </PlayerModifier>
+          </StatModifier>
         </modifiers>
       </AttackStep>
       <AttackStep index="3">
         <stepType>StepThree</stepType>
         <DefaultAttack id="Attack3" />
         <modifiers>
-          <PlayerModifier>
+          <StatModifier>
             <targetStat>Attack</targetStat>
             <value>1.5</value>
             <modifierType>Multiplicative</modifierType>
-          </PlayerModifier>
+          </StatModifier>
         </modifiers>
       </AttackStep>
   </Combo>

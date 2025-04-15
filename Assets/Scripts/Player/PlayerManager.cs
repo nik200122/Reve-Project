@@ -1,24 +1,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Rendering;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : IHittable
 {   
     private Player player;
     private Inventory inventory;
     private List<EquipmentRule> equipmentRuleList;
     private PlayerLoadout playerLoadout;
     private AbilitiesRules abilitiesRules;
+    private DamageApplicationRule damageApplicationRule;
     private AbilityList abilityList;
     private Dictionary<AbilityType, int> activeAbilitiesCount = new Dictionary<AbilityType, int>();
-    private List<PlayerModifier> modifiers = new List<PlayerModifier>();
+    private List<StatModifier> modifiers = new List<StatModifier>();
+
+     //indica i tipi di danni a cui è vulnerabile
+    private HashSet<DamageTypeTag> vulnerabilities = new();
+    //indica i tipi di danni che infligge quando colpisce
+    private  List<DamageType> offensiveDamageType;
+    
+    [SerializeField] private GameObject hitVfx;
+    [SerializeField] private BattleCalculatorManager battleCalculatorManager;
+    [SerializeField] private GlobalRulesManager globalRulesManager;
  
-    private void Update()
-    {
+    private void Update(){
         ApplyActiveModifiers();
     }
 
+    //MODIFICA DA FARE: così non va bene, si applicano in maniera incrementale i modifier ad ogni frame, il player diventa l'essere più potente della Terra
+    //SOLUZIONE: applicare i modifier in getStat
     private void ApplyActiveModifiers(){
         foreach (var modifier in modifiers){
             //Debug.Log("Modificatori attivi: " + modifiers.Count);
@@ -32,6 +44,8 @@ public class PlayerManager : MonoBehaviour
 
     public void SetPlayerModel(Player loadedPlayer){
        player=loadedPlayer;
+       //per test
+       vulnerabilities.Add(DamageTypeTag.Impact);
     }
 
     public Inventory GetInventory(){
@@ -55,14 +69,13 @@ public class PlayerManager : MonoBehaviour
         return equipmentRuleList;
     }
 
-    public void ApplyModifier(PlayerModifier modifier){
+    public void ApplyModifier(StatModifier modifier){
         Debug.Log("MODIFIER CHIAMATO");
         player.SetStat(modifier.targetStat,player.GetStat(modifier.targetStat).currentValue + modifier.value);
         Debug.Log("OGGETTO USATO CORRETTAMENTE" +player.GetStat(modifier.targetStat).currentValue);
     }
 
-    private void AddModifiers(List<PlayerModifier> modifiersToAdd)
-    {
+    private void AddModifiers(List<StatModifier> modifiersToAdd){
         foreach (var modifier in modifiersToAdd){
             // Aggiungi solo se non è già presente
             if (!modifiers.Contains(modifier)){
@@ -73,8 +86,7 @@ public class PlayerManager : MonoBehaviour
     }
 
 
-    private void RemoveModifiers(List<PlayerModifier> modifiersToRemove)
-    {
+    private void RemoveModifiers(List<StatModifier> modifiersToRemove){
         foreach (var modifier in modifiersToRemove){
             // Rimuovi solo se il modificatore è attualmente nella lista
             if (modifiers.Contains(modifier)){
@@ -208,5 +220,46 @@ public class PlayerManager : MonoBehaviour
         
         player.GetStat("Money").currentValue -= itemPrice;
         return true;
+    }
+
+    public void OnHit(IHittable attacker){
+        Debug.Log("PLAYER COLPITO");
+        IHittable defender = this;
+        //float damage = battleCalculatorManager.EvaluateDamage(attacker, defender);
+        //TakeDamage(damage);
+        SpawnHitVfx(transform.position);
+    }
+
+    private void TakeDamage(float damage){
+        string damageTargetStatTag = globalRulesManager.GetDamageApplicationRule().damageTargetStatTag;
+        player.SetStat(damageTargetStatTag, player.GetStat(damageTargetStatTag).currentValue - damage);
+        Debug.Log("VITA PLAYER: "+player.GetStat(damageTargetStatTag).currentValue);
+    }
+
+    public void SpawnHitVfx(Vector3 Pos_){
+        Instantiate(hitVfx, Pos_, Quaternion.identity);
+    }
+
+    public override List<DamageType> GetOffensiveDamageTypeList(){
+        return offensiveDamageType;
+    }
+
+    public override HashSet<DamageTypeTag> GetVulnerabilities(){
+        return vulnerabilities;
+    }
+
+    public void SetDamageApplicationRule(){
+    }
+
+    public override Stat GetStat(string statTag){
+        return player.GetStat(statTag);
+    }
+
+    public override void SetVulnerabilities(HashSet<DamageTypeTag> vulnerabilities){
+        this.vulnerabilities = vulnerabilities;
+    }
+
+    public override void SetOffensiveDamageTypeList(List<DamageType> offensiveDamageType){
+        this.offensiveDamageType = offensiveDamageType;
     }
 }

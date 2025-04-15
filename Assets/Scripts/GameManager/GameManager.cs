@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AbilityScreenManager abilityScreenManager;
     [SerializeField] private DeepSeek deepSeek;
     [SerializeField] private InventoryScreenManager inventoryScreenManager;
+    [SerializeField] private BattleCalculatorManager battleCalculatorManager;
+    [SerializeField] private GlobalRulesManager globalRulesManager;
+
+    //per ora un solo nemico
+    [SerializeField] private EnemyManager enemyManager;
 
     //per ora un solo shopper
     [SerializeField] private ShopperManager shopperManager;
@@ -36,14 +41,31 @@ public class GameManager : MonoBehaviour
         playerManager.SetAbilitiesRules(gameLoader.LoadedAbilitiesRules);
         playerManager.SetAbilityList(gameLoader.LoadedAbilityList);
         playerManager.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
+        playerManager.SetOffensiveDamageTypeList(gameLoader.LoadedPlayerOffensiveDamageTypeList);
         playerManager.InitializeDictionary();
         playerCombat.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
         playerCombat.SetComboRules(gameLoader.LoadedComboRules);
         playerCombat.SetAbilityList(gameLoader.LoadedAbilityList);
         playerCombat.SetAttackDataList(gameLoader.LoadedAttackDataList);
         shopperManager.SetInventory(gameLoader.LoadedShopper01Inventory);
+        enemyManager.SetAttackDataList(gameLoader.LoadedEnemy01AttackData);
+        enemyManager.SetOffensiveDamageTypeList(gameLoader.LoadedEnemy01OffensiveDamageTypeList);
+        enemyManager.SetEnemyStats(gameLoader.LoadedEnemy01Stats);
+        battleCalculatorManager.SetDamageFormula(gameLoader.LoadedDamageFormula);
+        globalRulesManager.SetDamageApplicationRule(gameLoader.LoadedDamageApplicationRule);
 
 
+        //Debug.Log("VALORE FORMULA: "+gameLoader.LoadedDamageFormula.Evaluate(playerManager, playerManager));
+
+        // var formula = new DamageFormula();
+        // formula.tokens.Add(new StatToken(StatSource.Attacker, "Attack")); // metti una stat esistente
+        // formula.tokens.Add(new ConstantToken(2f));
+        // formula.tokens.Add(new OperatorToken(MathOperator.Multiply));
+
+        // float result = formula.Evaluate(playerManager, playerManager);
+        // Debug.Log("🔥 RISULTATO CALCOLATO: " + result);
+
+        
         // Inizializza l'AbilityScreenManager con la lista globale delle abilità
         abilityScreenManager.Initialize(gameLoader.LoadedAbilityList, gameLoader.LoadedPlayerLoadout);
     }
@@ -93,7 +115,5 @@ public class GameManager : MonoBehaviour
                 inventoryScreenManager.CloseInventoryScreen();
             }
         }
-        
-        
     }
 }

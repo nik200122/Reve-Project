@@ -7,11 +7,11 @@
       <description>Incredible blade</description>
       <count>1</count>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Attack</targetStat>
           <value>20</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
       <equipableItemCategory>Weapon</equipableItemCategory>
@@ -23,15 +23,15 @@
       <description>Incredible sword</description>
       <count>1</count>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Attack</targetStat>
           <value>20</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
       <equipableItemCategory>Weapon</equipableItemCategory>
-      <isEquipped>true</isEquipped>
+      <isEquipped>false</isEquipped>
     </EquipableItem>
     <EquipableItem>
       <tag>Helmet01</tag>
@@ -39,11 +39,11 @@
       <description>Incredible helmet</description>
       <count>1</count>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Defense</targetStat>
           <value>20</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
       <equipableItemCategory>Helmet</equipableItemCategory>
@@ -55,11 +55,11 @@
       <description>Incredible ring</description>
       <count>1</count>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Defense</targetStat>
           <value>20</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
       <equipableItemCategory>Accessory</equipableItemCategory>
@@ -71,11 +71,11 @@
       <description>Good ring</description>
       <count>1</count>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Defense</targetStat>
           <value>10</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
       <equipableItemCategory>Accessory</equipableItemCategory>
@@ -87,11 +87,11 @@
       <description>Good potion</description>
       <count>2</count>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Hp</targetStat>
           <value>10</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
     </ConsumableItem>
@@ -101,11 +101,11 @@
       <description>Good potion</description>
       <count>1</count>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Hp</targetStat>
           <value>30</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
       <spritePath>MinorHealthPotion</spritePath>
     </ConsumableItem>

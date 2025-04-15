@@ -3,43 +3,43 @@
   <Attack>
     <id>Attack1</id>
     <overrideControllerPath>Animations/AttacksOV/Attack1OV</overrideControllerPath>
-    <PlayerModifier>
+    <StatModifier>
       <targetStat>Attack</targetStat>
       <value>10</value>
       <modifierType>Additive</modifierType>
-    </PlayerModifier>
+    </StatModifier>
   </Attack>
   <Attack>
     <id>Attack2</id>
     <overrideControllerPath>Animations/AttacksOV/Attack2OV</overrideControllerPath>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Attack</targetStat>
         <value>20</value>
         <modifierType>Additive</modifierType>
-      </PlayerModifier>
+      </StatModifier>
       </modifiers>
   </Attack>
   <Attack>
     <id>Attack3</id>
     <overrideControllerPath>Animations/AttacksOV/Attack3OV</overrideControllerPath>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Attack</targetStat>
         <value>30</value>
         <modifierType>Additive</modifierType>
-      </PlayerModifier>
+      </StatModifier>
     </modifiers>
   </Attack>
   <Attack>
     <id>Attack4</id>
     <overrideControllerPath>Animations/AttacksOV/Attack4OV</overrideControllerPath>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Attack</targetStat>
         <value>40</value>
         <modifierType>Additive</modifierType>
-      </PlayerModifier>
+      </StatModifier>
     </modifiers>
   </Attack>
 </AttackDefinitions>

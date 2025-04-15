@@ -6,7 +6,7 @@ public class Ability
 {
     public string id;  // Identificativo univoco
     public string name;  // Nome dell'abilità
-    public List<PlayerModifier> modifiers;  // Modificatori applicati
+    public List<StatModifier> modifiers;  // Modificatori applicati
     public List<AttackRef> equippableAttacks;  // Lista di attacchi che il player può assegnare
     public string spritePath;
     public string description;
@@ -17,7 +17,7 @@ public class Ability
 
     public Ability()
     {
-        modifiers = new List<PlayerModifier>();
+        modifiers = new List<StatModifier>();
         equippableAttacks = new List<AttackRef>();
     }
     // Metodo per caricare l'AnimatorOverrideController dalla risorsa

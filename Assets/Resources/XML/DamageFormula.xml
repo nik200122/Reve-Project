@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DamageFormula xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <tokens>
+    <StatToken>
+      <source>Attacker</source>
+      <statTag>Attack</statTag>
+    </StatToken>
+    <OperatorToken>
+      <operation>Multiply</operation>
+    </OperatorToken>
+    <ConstantToken>
+      <value>1.5</value>
+    </ConstantToken>
+    <OperatorToken>
+      <operation>Subtract</operation>
+    </OperatorToken>
+    <StatToken>
+      <source>Defender</source>
+      <statTag>Defense</statTag>
+    </StatToken>
+  </tokens>
+</DamageFormula>

@@ -6,11 +6,11 @@
     <name>Potion</name>
     <description>+20 Hp</description>
     <modifiers>
-      <PlayerModifier>
+      <StatModifier>
         <targetStat>Hp</targetStat>
         <value>20</value>
         <modifierType>Additive</modifierType>
-      </PlayerModifier>
+      </StatModifier>
     </modifiers>
     <spritePath>MinorHealthPotion</spritePath>
   </Item>

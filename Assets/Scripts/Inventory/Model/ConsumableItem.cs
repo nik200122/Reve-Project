@@ -5,7 +5,7 @@ public class ConsumableItem : Item
 {   
     public ConsumableItem(){}
 
-    public ConsumableItem(string tag, string name, string description, int count, List<PlayerModifier> modifiers, string spritePath){
+    public ConsumableItem(string tag, string name, string description, int count, List<StatModifier> modifiers, string spritePath){
         this.tag = tag;
         this.name = name;
         this.description = description;

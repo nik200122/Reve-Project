@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using DG.Tweening;
 
 
 public class PlayerCombat : MonoBehaviour
@@ -23,9 +24,12 @@ public class PlayerCombat : MonoBehaviour
     private Animator animator;
     [SerializeField] private InputHandler input;
 
+    [SerializeField] private Collider weaponCollider;
+    PlayerManager playerManager;
+
     // Dizionario per accedere rapidamente agli attacchi tramite il loro ID
     private Dictionary<string, AttackData> attackDictionary;
-    private List<PlayerModifier> currentModifiers;
+    private List<StatModifier> currentModifiers;
     private CharacterStatus characterStatus;
 
     // Variabili per gestire la combo
@@ -42,6 +46,8 @@ public class PlayerCombat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterStatus = GetComponent<CharacterStatus>();
+        playerManager = GetComponent<PlayerManager>();
+
     }
 
     void Start()
@@ -111,7 +117,7 @@ public class PlayerCombat : MonoBehaviour
         // Se non ci sono abilità attive che influenzano questo step, usa l'attacco di default
         if (attackDictionary.TryGetValue(step.defaultAttack.Id, out AttackData defaultAttack))
         {
-            currentModifiers = new List<PlayerModifier>(step.modifiers);
+            currentModifiers = new List<StatModifier>(step.modifiers);
             return defaultAttack;
         }
         
@@ -121,13 +127,11 @@ public class PlayerCombat : MonoBehaviour
 
 
     void StartAttack(){
-        if (Time.time - lastAttackTime > comboResetTime)
-        {
+        if (Time.time - lastAttackTime > comboResetTime){
             currentStepIndex = 0;
         }
 
-        if (currentStepIndex < currentCombo.AttackSteps.Count)
-        {
+        if (currentStepIndex < currentCombo.AttackSteps.Count){
             AttackStep step = currentCombo.AttackSteps[currentStepIndex];
 
             // Usa il nuovo metodo per ottenere l'attacco corretto
@@ -145,6 +149,7 @@ public class PlayerCombat : MonoBehaviour
                 {
                     Debug.LogWarning("Override controller non caricato per l'attacco " + attackData.Id);
                 }
+
                 
                 animator.Play("Attack", 0, 0);
                 
@@ -165,8 +170,7 @@ public class PlayerCombat : MonoBehaviour
         characterStatus.EndAttackMovement();
 
         // Se c'era un input in coda, avvia immediatamente il prossimo attacco.
-        if (queuedAttack)
-        {
+        if (queuedAttack){
             characterStatus.StartAttackMovement();
             StartAttack();
         }
@@ -210,7 +214,104 @@ public class PlayerCombat : MonoBehaviour
         playerLoadout = loadedPlayerLoadout;
     }
 
-    public List<PlayerModifier> GetCurrentModifiers(){
+    public List<StatModifier> GetCurrentModifiers(){
         return currentModifiers;
+    }
+
+
+
+
+//qui parte la gestione dell'attacco
+    
+    [SerializeField] private Transform attackPos;
+    [SerializeField] private float attackRange = 1f;
+    [SerializeField] private float knockbackForce = 10f; 
+    [SerializeField] private float airknockbackForce = 10f;
+    [SerializeField] private float detectionRange = 3.0f;
+    [SerializeField] private float angleTolerance = 45f;
+    [SerializeField] private LayerMask hittableLayer;
+    [SerializeField] private float moveOffset = 1.0f;
+    [SerializeField] private float reachTime = 0.3f;
+    [SerializeField] private float autoTargetRange = 5f;
+    [SerializeField] private float moveDeltaDistance = 1.2f;
+    [SerializeField] private DamageSystemManager damageSystemManager;
+
+    [SerializeField] IHittable attacker;
+
+
+    //animation Event
+    public void PerformAttack(){
+        Collider[] hitEnemies = Physics.OverlapSphere(attackPos.position, attackRange, hittableLayer);
+        TryAutoTarget(hitEnemies);
+        foreach (Collider enemyCollider in hitEnemies){
+            //true perchè è il player ad attaccare
+            IHittable defender= enemyCollider.GetComponent<IHittable>();
+            damageSystemManager.ApplyEffectiveDamage(attacker, defender);
+            //Debug.Log("NOME: "+enemyCollider.name);
+            //enemy.OnHit(attacker);
+        }
+    }
+
+    public void FaceThis(Vector3 target){
+        transform.LookAt(target);
+        // Vector3 target_ = new Vector3(target.x, target.y, target.z);
+        // Quaternion lookAtRotation = Quaternion.LookRotation(target_ - transform.position);
+        // lookAtRotation.x = 0;
+        // lookAtRotation.z = 0;
+        // transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
+    }
+
+    //animation event
+    public void ResetAttack(){}
+
+    public void TryAutoTarget(Collider[] hittableColliderList){
+        Collider[] enemies = Physics.OverlapSphere(transform.position, autoTargetRange, hittableLayer);
+
+        if (enemies.Length == 0){
+            Debug.Log("❌ Nessun nemico nel raggio.");
+            return;
+        }
+
+        Transform closest = null;
+        float minDistance = Mathf.Infinity;
+        foreach (Collider col in enemies){
+            float dist = Vector3.Distance(transform.position, col.transform.position);
+            if (dist < minDistance){
+                minDistance = dist;
+                closest = col.transform;
+            }
+        }
+
+        if (closest != null){
+            Debug.Log("✅ Nemico trovato: " + closest.name);
+            MoveTowardsTarget(closest.position, minDistance, "Attack");
+        }
+}
+
+    public void MoveTowardsTarget(Vector3 target_, float deltaDistance, string animationName_){
+        FaceThis(target_);
+        // Calcola la distanza effettiva tra il player e il nemico
+        float distanceToTarget = Vector3.Distance(transform.position, target_);
+
+        // Definisci una distanza minima per fermare il movimento
+        float stopDistance = 1.1f;  // Modifica questa distanza come preferisci
+    
+        if (distanceToTarget <= stopDistance){
+            // Se siamo abbastanza vicini, non muoviamo più
+            Debug.Log("Sufficientemente vicino al nemico. Arrestando movimento.");
+            return;
+        }
+
+        // Scala la velocità del movimento in base alla distanza
+        // Ad esempio, se il nemico è molto lontano, ci avviciniamo più lentamente
+        float moveSpeed = Mathf.Lerp(0.1f, 1f, 1 - Mathf.Clamp01(distanceToTarget / autoTargetRange));
+
+        // Usa la distanza tra il player e il nemico come deltaDistance per il movimento.
+        // Limita deltaDistance al massimo, in modo che non si sposti troppo lontano.
+        float moveDistance = Mathf.Min(deltaDistance, distanceToTarget) * moveSpeed;
+
+        Vector3 newPos = Vector3.MoveTowards(transform.position, target_, moveDistance);
+        //transform.position = newPos;
+        transform.DOMove(newPos, reachTime);
     }
 }

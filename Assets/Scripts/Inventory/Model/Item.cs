@@ -10,7 +10,7 @@ public abstract class Item
     public string description;
     public int count;
     public int price;
-    public List<PlayerModifier> modifiers;
+    public List<StatModifier> modifiers;
     public string spritePath;
 
     public Item(){}

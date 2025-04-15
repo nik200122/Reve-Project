@@ -3,7 +3,7 @@
   <Abilities>
     <!-- Abilità che include una combo di attacchi -->
     <AbilityRef id="Ability1">
-      <IsActive>true</IsActive>
+      <IsActive>false</IsActive>
     </AbilityRef>
     <!-- Abilità senza attacchi equipaggiabili, magari solo con bonus -->
     <AbilityRef id="Ability2">
@@ -11,15 +11,15 @@
       <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
     </AbilityRef>
     <AbilityRef id="Ability3">
-      <IsActive>true</IsActive>
+      <IsActive>false</IsActive>
       <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
     </AbilityRef>
     <AbilityRef id="Ability4">
-      <IsActive>true</IsActive>
+      <IsActive>false</IsActive>
       <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
     </AbilityRef>
     <AbilityRef id="Ability5">
-      <IsActive>true</IsActive>
+      <IsActive>false</IsActive>
       <!-- Potrebbero essere presenti altri dati, come modificatori specifici -->
     </AbilityRef>
     <AbilityRef id="Ability6">
