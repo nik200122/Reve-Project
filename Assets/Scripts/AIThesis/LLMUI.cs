@@ -37,6 +37,16 @@ public class LLMUI : MonoBehaviour
     {
        lLMUIInput.Hide();
     }
+
+    // Aggiungiamo un metodo per appendere o aggiornare la risposta dopo un delay
+    public IEnumerator AppendDelayedMessage(string message, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        // Se vuoi appendere all'esistente, potresti fare:
+        // lLMUIOutput.AppendResponseText(message);
+        // Oppure, se preferisci sostituire il testo:
+        SetResponseText(message);
+    }
     
 
 }

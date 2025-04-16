@@ -2,28 +2,59 @@ using UnityEngine;
 
 public class NPCDetectionZone : MonoBehaviour
 {
+    [Header("Detection Settings")]
+    private float detectionRadius;
+    private float detectionAngle;
+
+    private Transform playerTransform;
     private NPCInteractable parentNPC;
-    
+    private bool isPlayerDetected = false;
+
     private void Awake()
     {
         parentNPC = GetComponentInParent<NPCInteractable>();
-    }
-    
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        
+
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
         {
-            // Notify the NPC that player entered detection zone
-            parentNPC.OnPlayerDetected();
+            playerTransform = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogWarning("Player non trovato nella scena!");
         }
     }
-    
-    private void OnTriggerExit(Collider other)
+
+
+    private void Update()
     {
-        if (other.CompareTag("Player"))
+        if (playerTransform == null) return;
+
+        // Calcola la direzione e la distanza verso il player
+        Vector3 directionToPlayer = playerTransform.position - transform.position;
+        float distanceToPlayer = directionToPlayer.magnitude;
+        float angleToPlayer = Vector3.Angle(transform.forward, directionToPlayer);
+
+        // Determina se il player è visibile in questo frame
+        bool playerIsVisible = distanceToPlayer <= detectionRadius && angleToPlayer <= detectionAngle / 2f;
+
+        // Solo se cambia lo stato, notifichiamo
+        if (playerIsVisible && !isPlayerDetected)
         {
-            // Notify the NPC that player left detection zone
+            isPlayerDetected = true;
+            parentNPC.OnPlayerDetected();
+        }
+        else if (!playerIsVisible && isPlayerDetected)
+        {
+            isPlayerDetected = false;
             parentNPC.OnPlayerLost();
         }
     }
+    public void ConfigureDetection(float radius, float angle)
+    {
+        detectionRadius = radius;
+        detectionAngle = angle;
+    }
+
 }

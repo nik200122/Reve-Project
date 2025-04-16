@@ -8,7 +8,7 @@ using UnityEngine;
     
 // }
 
-public abstract class IHittable:MonoBehaviour
+public abstract class IHittable : MonoBehaviour
 {  
     // public abstract void OnHit(IHittable hittable);
     public abstract Stat GetStat(string statTag);

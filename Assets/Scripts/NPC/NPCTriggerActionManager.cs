@@ -13,6 +13,7 @@ public enum NPCTriggerType
     Talk,
     Approach,
     Greet,
+    GiveItem,
 }
 
 
