@@ -15,14 +15,9 @@ Valid actions are:
 - "Talk" (default: for normal conversation)
 - "Attack"
 - "Flee"
-- "CallGuards"
 - "WarnOthers"
 - "Ignore"
 - "GiveItem"
-- "Follow"
-- "Hide"
-- "StayAlert"
-- "BlockPath"
 
 If no special action is needed, use "Talk".
 
@@ -58,6 +53,27 @@ Assistant:
 
 ### End of Examples ###
 
+This conversation will include both direct player dialogue and automated events. 
+When receiving an automated event (not player dialogue) the message will have the tag [AUTOMATED ACTION],
+respond with an appropriate action for your character. 
+Consider your personality and backstory when replying.
+Always respond strictly in JSON format as shown. Do not include any text outside the JSON. Your answer must always contain two fields:
+
+{
+  "utterance": "<what you say>",
+  "action": "<what action you will take>"
+}
+This JSON format is mandatory for every response.
+
+Valid actions for [AUTOMATED ACTION] are:
+- "Approach"
+- "Idle" (default)
+- "Greet"
 Never break character. Never answer outside of the JSON format.
 ]]></Prompt>
+<automatedActionsInstructions><![CDATA[
+[AUTOMATED ACTION]
+The player has entered your detection range. Based on your character, and past interaction with
+the player respond with an appropriate action in the JSON format.
+]]></automatedActionsInstructions>
 </DeepSeekConfig>

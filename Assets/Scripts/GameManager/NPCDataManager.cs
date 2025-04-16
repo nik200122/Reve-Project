@@ -11,6 +11,8 @@ public class NPCDataManager : MonoBehaviour
     public string npcDataFile = "Assets/Resources/XML/npcData.xml";
 
     private Dictionary<string, NPCData> npcDataDictionary = new Dictionary<string, NPCData>();
+     // Dictionary to track all active NPCs by their ID
+    private Dictionary<string, NPCInteractable> activeNPCs = new Dictionary<string, NPCInteractable>();
 
     private void Awake()
     {
@@ -39,6 +41,44 @@ public class NPCDataManager : MonoBehaviour
         {
             Debug.LogError("Errore nel caricamento dei dati NPC.");
         }
+    }
+
+    public void RegisterNPC(string npcId, NPCInteractable npc)
+    {
+        activeNPCs[npcId] = npc;
+    }
+    
+    public void UnregisterNPC(string npcId)
+    {
+        if (activeNPCs.ContainsKey(npcId))
+        {
+            activeNPCs.Remove(npcId);
+        }
+    }
+    
+    public NPCInteractable GetNPCById(string npcId)
+    {
+        if (activeNPCs.TryGetValue(npcId, out NPCInteractable npc))
+        {
+            return npc;
+        }
+        return null;
+    }
+    
+    public List<NPCInteractable> GetNPCsInRadius(Vector3 position, float radius)
+    {
+        List<NPCInteractable> nearbyNPCs = new List<NPCInteractable>();
+        
+        foreach (var npc in activeNPCs.Values)
+        {
+            float distance = Vector3.Distance(position, npc.transform.position);
+            if (distance <= radius)
+            {
+                nearbyNPCs.Add(npc);
+            }
+        }
+        
+        return nearbyNPCs;
     }
 
     public NPCData GetNPCData(string npcId)

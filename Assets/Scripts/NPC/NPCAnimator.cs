@@ -1,27 +1,40 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class NPCAnimator : MonoBehaviour
 {
-    private const string animIDMotionSpeed = "MotionSpeed";
     private const string animIDSpeed = "Speed";
     private const string animIDTalk = "Talk";
+    private const string animIDGreet = "Greet";
     private Animator animator;
-    AiMovement aiMovement;
+    NPCStatus nPCStatus;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponent<Animator>();
-        aiMovement = GetComponent<AiMovement>();
+        nPCStatus = GetComponent<NPCStatus>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        animator.SetFloat(animIDSpeed, aiMovement.GetSpeed());
+        animator.SetFloat(animIDSpeed, nPCStatus.GetSpeed());
     }
 
-    public void SetTalk(){
-        animator.SetTrigger(animIDTalk);
+    public void TriggerTalk(AnimatorOverrideController animatorOverrideController = null){
+        if(animatorOverrideController != null){
+            animator.runtimeAnimatorController = animatorOverrideController;
+            animator.SetTrigger(animIDTalk);
+        }
+    }
+
+    internal void TriggerGreet(AnimatorOverrideController animatorOverrideController = null)
+    {
+        if(animatorOverrideController != null){
+            animator.runtimeAnimatorController = animatorOverrideController;
+            animator.SetTrigger(animIDGreet);
+        }
+        
     }
 }

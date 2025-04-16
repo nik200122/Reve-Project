@@ -74,6 +74,10 @@ public class CharacterStatus : MonoBehaviour
     private float animationBlend;
     private static bool canAttack;
 
+   
+
+    [SerializeField] private PlayerInput playerInput;
+
     private void Awake()
     {
         //input= GetComponent<InputHandler>();
@@ -94,6 +98,8 @@ public class CharacterStatus : MonoBehaviour
         
     }
 
+    
+    
     private void OnDisable()
     {
         if(GameStateManager.Instance != null)
@@ -247,16 +253,17 @@ public class CharacterStatus : MonoBehaviour
     }
     // Metodi per attivare/disattivare l'attacco
     public void StartAttackMovement()
-    {   
+    {
         isAttacking = true;
-        //attackDirection = GetTargetDirection();
+        attackDirection = GetTargetDirection();
     }
 
     public void EndAttackMovement()
     {
         isAttacking = false;
     }
-    public bool IsAttacking(){
+    public bool IsAttacking()
+    {
         return isAttacking;
     }
 
@@ -273,6 +280,8 @@ public class CharacterStatus : MonoBehaviour
     public void RollingCompleted(){
         isRolling = false;
     }
+
+
     
     public bool IsGrounded()
     {
@@ -293,7 +302,8 @@ public class CharacterStatus : MonoBehaviour
         return canMove;
     }
 
-    public bool IsFalling(){
+    public bool IsFalling()
+    {
         return isFalling;
     }
     public float GetTargetSpeed(){
@@ -320,13 +330,4 @@ public class CharacterStatus : MonoBehaviour
     public Vector2 GetMoveInput(){
         return moveInput;
     }
-
-    // public void FaceThis(Vector3 target){
-    //     Vector3 target_ = new Vector3(target.x, target.y, target.z);
-    //     Quaternion lookAtRotation = Quaternion.LookRotation(target_ - transform.position);
-    //     lookAtRotation.x = 0;
-    //     lookAtRotation.z = 0;
-    //     //transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
-
-    // }
 }

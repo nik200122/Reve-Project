@@ -33,6 +33,7 @@ using UnityEngine.InputSystem;
 		public bool cursorInputForLook = true;
 		// Rimuovi il booleano attack e aggiungi l'evento
     	public event Action OnAttackEvent;
+		public event Action OnSendEvent;
 
 		public void OnMove(InputAction.CallbackContext context)
 		{
@@ -45,6 +46,12 @@ using UnityEngine.InputSystem;
 		public void OnEsc(InputAction.CallbackContext context)
 		{
 			esc=context.performed;
+		}
+		public void OnSend(InputAction.CallbackContext context)
+		{
+			Debug.Log("" + context.performed);
+			 if (context.performed)
+            	OnSendEvent?.Invoke();
 		}
 
 		public void OnLook(InputAction.CallbackContext context)

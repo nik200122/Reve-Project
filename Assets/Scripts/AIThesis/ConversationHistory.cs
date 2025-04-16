@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class ConversationHistory
 {
     // Parametro configurabile: numero massimo di messaggi da mantenere (può essere impostato da editor o in un file di configurazione)
-    public int maxHistoryMessages = 20;
+    public int maxHistoryMessages = 1500;
     
     // Lista dei messaggi della conversazione
     public List<RequestParameter> messages = new List<RequestParameter>();

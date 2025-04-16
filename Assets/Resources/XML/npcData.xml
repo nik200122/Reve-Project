@@ -4,11 +4,49 @@
     <Backstory>Elira is the guardian of the Elenora forest, an expert in magic and ancient knowledge.</Backstory>
     <Personality>Wise, enigmatic, and protective.</Personality>
     <InteractText>Talk</InteractText>
+    <TriggerActions>
+      <TriggerAction>
+        <Trigger>WarnOther</Trigger>
+        <Action type="WarnOthers">
+          <Parameter key="alertRadius" value="10"/>
+        </Action>
+      </TriggerAction>
+      <TriggerAction>
+        <Trigger>Talk</Trigger>
+        <Action type="Talk">
+        </Action>
+      </TriggerAction>
+      <TriggerAction>
+        <Trigger>Approach</Trigger>
+        <Action type="Approach">
+        <Parameter key="approachSpeed" value="2"/>
+        </Action>
+      </TriggerAction>
+      <TriggerAction>
+        <Trigger>Greet</Trigger>
+        <Action type="Greet">
+        <Parameter key="greetAnimation" value="Animations/NPCAnimations/Greet2"/>
+        </Action>
+      </TriggerAction>
+    </TriggerActions>
   </NPC>
   <NPC id="npc_002">
     <Name>Goruk</Name>
     <Backstory>Goruk is a wandering warrior, known for his strength and his bravery in battle.</Backstory>
     <Personality>Impulsive, loyal, and determined.</Personality>
     <InteractText>Talk</InteractText>
+    <TriggerActions>
+      <TriggerAction>
+        <Trigger>Talk</Trigger>
+        <Action type="Talk">
+        </Action>
+      </TriggerAction>
+      <TriggerAction>
+        <Trigger>WarnedByOthers</Trigger>
+        <Action type="BeCautious">
+          <Parameter key="cautiousDistance" value="5"/>
+        </Action>
+      </TriggerAction>
+    </TriggerActions>
   </NPC>
 </NPCs>

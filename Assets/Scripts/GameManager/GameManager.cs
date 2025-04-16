@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private PlayerCombat playerCombat;
     [SerializeField] private AbilityScreenManager abilityScreenManager;
-    [SerializeField] private DeepSeek deepSeek;
+    [SerializeField] private LLMManager llmManager;
     [SerializeField] private InventoryScreenManager inventoryScreenManager;
     [SerializeField] private BattleCalculatorManager battleCalculatorManager;
     [SerializeField] private GlobalRulesManager globalRulesManager;
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {    
         gameLoader.LoadData();
-        deepSeek.SetWorldInfo(gameLoader.LoadedWorldData);
+        llmManager.SetWorldInfo(gameLoader.LoadedWorldData);
         playerManager.SetPlayerModel(gameLoader.LoadedPlayerStats);
         playerManager.SetInventory(gameLoader.LoadedPlayerInventory);
         playerManager.SetEquipmentRuleList(gameLoader.LoadedEquipmentRuleList);

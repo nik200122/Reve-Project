@@ -148,6 +148,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SendMessage",
+                    "type": "Button",
+                    "id": "ecadeb87-de76-46bd-a492-07381ccbc07b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -467,6 +476,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "ScrollLeftAction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c7c161b-72b1-4217-8da5-eaf6bdcb4f71",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SendMessage",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
