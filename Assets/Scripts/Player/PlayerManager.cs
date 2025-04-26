@@ -235,6 +235,7 @@ public class PlayerManager : IHittable
         string defeatTargetStat = globalRulesManager.GetDefeatRule().defeatTargetStatTag;
         float defeatValue = globalRulesManager.GetDefeatRule().defeatValue;
         if(GetStat(defeatTargetStat).currentValue < defeatValue){
+            Debug.Log(" energia player in is Dead: "+ GetStat(defeatTargetStat).currentValue);
             characterStatus.SetIsDead(true);
         }
     }

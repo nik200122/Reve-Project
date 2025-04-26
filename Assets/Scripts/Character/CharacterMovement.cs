@@ -39,7 +39,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Update()
     {
-        if (characterStatus.GetCanMove()){
+        if (characterStatus.GetCanMove() && !characterStatus.IsDead()){
             Move();
             Rotation();
             JumpAndGravity();

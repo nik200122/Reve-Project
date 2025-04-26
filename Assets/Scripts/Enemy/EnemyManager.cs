@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyManager : IHittable
@@ -37,6 +38,8 @@ public class EnemyManager : IHittable
     }
 
     private void CheckIsDead(){
+        if(globalRulesManager == null)
+        Debug.Log("PISELLONE");
         string defeatTargetStat = globalRulesManager.GetDefeatRule().defeatTargetStatTag;
         float defeatValue = globalRulesManager.GetDefeatRule().defeatValue;
         if(GetStat(defeatTargetStat).currentValue < defeatValue){

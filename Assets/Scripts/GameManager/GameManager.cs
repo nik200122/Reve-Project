@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
     //per ora un solo shopper
     [SerializeField] private ShopperManager shopperManager;
     private GameLoader gameLoader;
-    PlayerInput playerInput;
    // private bool isMenuActionPerformed;
     //private bool menuOpened = false;
 
@@ -33,7 +32,6 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake(){    
         gameLoader = gameObject.GetComponent<GameLoader>();
-        playerInput = input.gameObject.GetComponent<PlayerInput>();
 
         gameLoader.LoadData();
         llmManager.SetWorldInfo(gameLoader.LoadedWorldData);
