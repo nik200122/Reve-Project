@@ -15,12 +15,14 @@ public class AttackData
     public string OverrideControllerPath { get; set; }
 
     [XmlArray("modifiers")]
-    [XmlArrayItem("PlayerModifier")]
+    [XmlArrayItem("StatModifier")]
     public List<StatModifier> Modifiers { get; set; }
 
     // Campo non serializzato, lo caricheremo da Resources
     [XmlIgnore]
     public AnimatorOverrideController AnimatorOverrideController { get; set; }
+
+    public AttackData(){}
 
     // Metodo per caricare l'AnimatorOverrideController dalla risorsa
     public void LoadAnimatorOverrideController()

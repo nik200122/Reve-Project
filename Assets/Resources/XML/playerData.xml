@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Player xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+  <stats>
+    <Stat>
+      <currentValue>70</currentValue>
+      <maxValue>999999</maxValue>
+      <statTag>Money</statTag>
+    </Stat>
+    <Stat>
+      <currentValue>70</currentValue>
+      <maxValue>1000</maxValue>
+      <statTag>Hp</statTag>
+    </Stat>
+    <Stat>
+      <currentValue>35</currentValue>
+      <maxValue>100000</maxValue>
+      <statTag>Attack</statTag>
+    </Stat>
+    <Stat>
+      <currentValue>60</currentValue>
+      <maxValue>100000</maxValue>
+      <statTag>Defense</statTag>
+    </Stat>
+  </stats>
+
+  <vulnerabilities>
+    <DamageTypeTag>Impact</DamageTypeTag>
+  </vulnerabilities>
+
+  <offensiveDamageType>
+  <DamageType>
+    <damageTypeTag>Impact</damageTypeTag>
+    <damageBehaviour>
+      <useDamageFormula>true</useDamageFormula>
+    </damageBehaviour>
+  </DamageType>
+</offensiveDamageType>
+
+</Player>

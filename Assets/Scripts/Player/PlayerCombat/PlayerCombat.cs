@@ -24,9 +24,6 @@ public class PlayerCombat : MonoBehaviour
     private Animator animator;
     [SerializeField] private InputHandler input;
 
-    [SerializeField] private Collider weaponCollider;
-    PlayerManager playerManager;
-
     // Dizionario per accedere rapidamente agli attacchi tramite il loro ID
     private Dictionary<string, AttackData> attackDictionary;
     private List<StatModifier> currentModifiers;
@@ -46,7 +43,6 @@ public class PlayerCombat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterStatus = GetComponent<CharacterStatus>();
-        playerManager = GetComponent<PlayerManager>();
 
     }
 
@@ -225,15 +221,9 @@ public class PlayerCombat : MonoBehaviour
     
     [SerializeField] private Transform attackPos;
     [SerializeField] private float attackRange = 1f;
-    [SerializeField] private float knockbackForce = 10f; 
-    [SerializeField] private float airknockbackForce = 10f;
-    [SerializeField] private float detectionRange = 3.0f;
-    [SerializeField] private float angleTolerance = 45f;
     [SerializeField] private LayerMask hittableLayer;
-    [SerializeField] private float moveOffset = 1.0f;
     [SerializeField] private float reachTime = 0.3f;
     [SerializeField] private float autoTargetRange = 5f;
-    [SerializeField] private float moveDeltaDistance = 1.2f;
     [SerializeField] private DamageSystemManager damageSystemManager;
 
     [SerializeField] IHittable attacker;
@@ -253,12 +243,12 @@ public class PlayerCombat : MonoBehaviour
     }
 
     public void FaceThis(Vector3 target){
-        transform.LookAt(target);
-        // Vector3 target_ = new Vector3(target.x, target.y, target.z);
-        // Quaternion lookAtRotation = Quaternion.LookRotation(target_ - transform.position);
-        // lookAtRotation.x = 0;
-        // lookAtRotation.z = 0;
-        // transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
+        //transform.LookAt(target);
+        Vector3 target_ = new Vector3(target.x, target.y, target.z);
+        Quaternion lookAtRotation = Quaternion.LookRotation(target_ - transform.position);
+        lookAtRotation.x = 0;
+        lookAtRotation.z = 0;
+        transform.DOLocalRotateQuaternion(lookAtRotation, 0.2f);
     }
 
     //animation event
@@ -294,7 +284,7 @@ public class PlayerCombat : MonoBehaviour
         float distanceToTarget = Vector3.Distance(transform.position, target_);
 
         // Definisci una distanza minima per fermare il movimento
-        float stopDistance = 1.1f;  // Modifica questa distanza come preferisci
+        float stopDistance = 1.5f;  // Modifica questa distanza come preferisci
     
         if (distanceToTarget <= stopDistance){
             // Se siamo abbastanza vicini, non muoviamo più

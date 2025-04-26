@@ -22,8 +22,20 @@ public class NPCData
     [XmlElement("InteractText")]
     public string InteractText;
 
+    [XmlElement("detectionRadius")]
+    public int detectionRadius;
+
+    [XmlElement("detectionAngle")]
+    public int detectionAngle;
+
     [XmlElement("Position")]
     public SerializableVector3 InitialPosition;
+
+    // Lista completa degli oggetti che l'NPC può dare.
+    [XmlArray("GiveableItems")]
+    [XmlArrayItem("EquipableItem", typeof(EquipableItem))]
+    [XmlArrayItem("ConsumableItem", typeof(ConsumableItem))]
+    public List<Item> giveableItems;
 
     // Importante: specificare che TriggerActions è una lista
     [XmlArray("TriggerActions")]

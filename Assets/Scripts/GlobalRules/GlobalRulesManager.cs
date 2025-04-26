@@ -3,6 +3,7 @@ using UnityEngine;
 public class GlobalRulesManager : MonoBehaviour
 {
     private DamageApplicationRule damageApplicationRule;
+    private DefeatRule defeatRule;
 
     public DamageApplicationRule GetDamageApplicationRule(){
         return damageApplicationRule;
@@ -10,6 +11,13 @@ public class GlobalRulesManager : MonoBehaviour
 
     public void SetDamageApplicationRule(DamageApplicationRule LoadedDamageApplicationRule){
         this.damageApplicationRule = LoadedDamageApplicationRule;
-        Debug.Log("STATTAG: "+damageApplicationRule.damageTargetStatTag);
+    }
+
+    public DefeatRule GetDefeatRule(){
+        return defeatRule;
+    }
+
+    public void SetDefeatRule(DefeatRule LoadedDefeatRule){
+        this.defeatRule = LoadedDefeatRule;
     }
 }

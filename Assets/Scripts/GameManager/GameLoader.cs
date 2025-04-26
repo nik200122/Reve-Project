@@ -5,16 +5,13 @@ using UnityEngine;
 
 public class GameLoader : MonoBehaviour
 {   
-    private const string playerStatsFile = "Assets/Resources/XML/playerStats.xml";
+    private const string playerDataFile = "Assets/Resources/XML/playerData.xml";
     private const string abilitiesRulesFile = "Assets/Resources/XML/AbilitiesTypeRules.xml";
     private const string playerInventoryDataFile = "Assets/Resources/XML/playerInventoryData.xml";
-    private const string playerOffensiveDamageTypeListFile = "Assets/Resources/XML/playerOffensiveDamageTypeList.xml";
-    private const string playerVulnerabilitiesFile = "Assets/Resources/XML/playerVulnerabilities.xml";
     private const string shopper01InventoryDataFile = "Assets/Resources/XML/shopper01InventoryData.xml";
-    private const string enemy01AttackDataFile = "Assets/Resources/XML/enemy01AttacksData.xml";
-    private const string enemy01StatDataFile = "Assets/Resources/XML/enemy01Stats.xml";
-    private const string enemy01OffensiveDamageTypeListFile = "Assets/Resources/XML/enemy01OffensiveDamageTypeList.xml";
-    private const string enemy01VulnerabilitiesFile = "Assets/Resources/XML/enemy01Vulnerabilities.xml";
+
+    private const string enemy01DataFile = "Assets/Resources/XML/enemy01Data.xml";
+    private const string enemy02DataFile = "Assets/Resources/XML/enemy02Data.xml";
 
     private const string itemDataFile = "Assets/Resources/XML/itemsData.xml";
     private const string equipmentRulesFile = "Assets/Resources/XML/EquipmentRules.xml";
@@ -25,6 +22,7 @@ public class GameLoader : MonoBehaviour
     private const string abilitiesFile = "Assets/Resources/XML/Abilities.xml";
     private const string damageFormulaFile = "Assets/Resources/XML/DamageFormula.xml";
     private const string damageApplicationRuleFile = "Assets/Resources/XML/damageApplicationRule.xml";
+    private const string defeatRuleFile = "Assets/Resources/XML/defeatRule.xml";
     
     public WorldData LoadedWorldData { get; private set; }
     public AttackDataList LoadedAttackDataList { get; private set; }
@@ -32,19 +30,16 @@ public class GameLoader : MonoBehaviour
     public AbilityList LoadedAbilityList { get; private set; }
     public ComboRules LoadedComboRules { get; private set; }
     public AbilitiesRules LoadedAbilitiesRules { get; private set; }
-    public Player LoadedPlayerStats { get; private set; }
-    public List<Item> LoadedItems { get; private set; }
+    public Player LoadedPlayerModel { get; private set; }
+    //public List<Item> LoadedItems { get; private set; }
     public List<EquipmentRule> LoadedEquipmentRuleList { get; private set; }
     public Inventory LoadedPlayerInventory { get; private set; }
-    public List<DamageType> LoadedPlayerOffensiveDamageTypeList { get; private set; }
-    public HashSet<DamageTypeTag> LoadedPlayerVulnerabilities { get; private set; }
     public Inventory LoadedShopper01Inventory { get; private set; }
-    public List<AttackData> LoadedEnemy01AttackData { get; private set; }
-    public List<Stat> LoadedEnemy01Stats { get; private set; }    
-    public List<DamageType> LoadedEnemy01OffensiveDamageTypeList { get; private set; }
-    public HashSet<DamageTypeTag> LoadedEnemy01Vulnerabilities { get; private set; }
+    public Enemy LoadedEnemy01Model { get; private set; }
+    public Enemy LoadedEnemy02Model { get; private set; }
     public DamageFormula LoadedDamageFormula { get; private set; }
     public DamageApplicationRule LoadedDamageApplicationRule { get; private set; }
+    public DefeatRule LoadedDefeatRule { get; private set; }
 
     public void LoadData(){
 
@@ -60,15 +55,21 @@ public class GameLoader : MonoBehaviour
 
         LoadAttackData();
 
-        LoadShoppersData();
-
         LoadEnemyData();
+
+        LoadShoppersData();
         
-        LoadAssets();
+        //LoadAssets();
 
         LoadDamageFormula();
 
         LoadDamageApplicationRule();
+
+        LoadDefeatRule();
+    }
+
+    private void LoadDefeatRule(){
+        LoadedDefeatRule = XMLHelper.LoadFromXml<DefeatRule>(defeatRuleFile);
     }
 
     private void LoadDamageFormula(){
@@ -84,13 +85,9 @@ public class GameLoader : MonoBehaviour
     }
 
     private void LoadPlayerData(){
-        LoadedPlayerStats = XMLHelper.LoadFromXml<Player>(playerStatsFile);
-       // Debug.Log("VALORE "+LoadedPlayerStats.GetStat("Hp").GetStatTag());
+        LoadedPlayerModel = XMLHelper.LoadFromXml<Player>(playerDataFile);
         LoadedPlayerInventory = XMLHelper.LoadFromXml<Inventory>(playerInventoryDataFile);
-        //Debug.Log(""+LoadedPlayerInventory.GetItem("HpPotion01").name);
         LoadedEquipmentRuleList = XMLHelper.LoadFromXml<List<EquipmentRule>>(equipmentRulesFile);
-        LoadedPlayerOffensiveDamageTypeList = XMLHelper.LoadFromXml<List<DamageType>>(playerOffensiveDamageTypeListFile);
-        LoadedPlayerVulnerabilities = XMLHelper.LoadFromXml<HashSet<DamageTypeTag>>(playerVulnerabilitiesFile);
     }
     private void LoadWorldData(){
         LoadedWorldData = XMLHelper.LoadFromXml<WorldData>(worldDataFile);
@@ -184,15 +181,10 @@ public class GameLoader : MonoBehaviour
         LoadedShopper01Inventory = XMLHelper.LoadFromXml<Inventory>(shopper01InventoryDataFile);
     }
     private void LoadEnemyData(){
-        LoadedEnemy01AttackData = XMLHelper.LoadFromXml<List<AttackData>>(enemy01AttackDataFile);
-        foreach (var attack in LoadedEnemy01AttackData){
-            attack.LoadAnimatorOverrideController();
-        }
+        LoadedEnemy01Model = XMLHelper.LoadFromXml<Enemy>(enemy01DataFile);
+        LoadedEnemy01Model.SetAnimatorOverrideControllers();
 
-        LoadedEnemy01Stats = XMLHelper.LoadFromXml<List<Stat>>(enemy01StatDataFile);
-        LoadedEnemy01OffensiveDamageTypeList = XMLHelper.LoadFromXml<List<DamageType>>(enemy01OffensiveDamageTypeListFile);
-        LoadedEnemy01Vulnerabilities = XMLHelper.LoadFromXml<HashSet<DamageTypeTag>>(enemy01VulnerabilitiesFile);
-
-
+        LoadedEnemy02Model = XMLHelper.LoadFromXml<Enemy>(enemy02DataFile);
+        LoadedEnemy02Model.SetAnimatorOverrideControllers();
     }
 }

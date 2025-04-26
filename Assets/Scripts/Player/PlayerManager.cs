@@ -15,17 +15,17 @@ public class PlayerManager : IHittable
     private AbilityList abilityList;
     private Dictionary<AbilityType, int> activeAbilitiesCount = new Dictionary<AbilityType, int>();
     private List<StatModifier> modifiers = new List<StatModifier>();
-
-     //indica i tipi di danni a cui è vulnerabile
-    private HashSet<DamageTypeTag> vulnerabilities = new();
-    //indica i tipi di danni che infligge quando colpisce
-    private  List<DamageType> offensiveDamageType;
+    private CharacterStatus characterStatus;
     
-    [SerializeField] private GameObject hitVfx;
     [SerializeField] private BattleCalculatorManager battleCalculatorManager;
     [SerializeField] private GlobalRulesManager globalRulesManager;
- 
+
+    private void Awake(){
+        characterStatus = GetComponent<CharacterStatus>();
+    }
+
     private void Update(){
+        CheckIsDead();
         ApplyActiveModifiers();
     }
 
@@ -44,8 +44,6 @@ public class PlayerManager : IHittable
 
     public void SetPlayerModel(Player loadedPlayer){
        player=loadedPlayer;
-       //per test
-       vulnerabilities.Add(DamageTypeTag.Impact);
     }
 
     public Inventory GetInventory(){
@@ -140,13 +138,9 @@ public class PlayerManager : IHittable
         }
     }
 
-
     public void InitializeDictionary(){
         activeAbilitiesCount.Clear();  // 🔹 Reset per evitare problemi
-
-
         //NECESSARIO IL CLEAR?
-
 
         //modifiers.Clear();  // 🔹 Reset della lista modificatori
          // Supponiamo di avere una lista di tutte le regole
@@ -222,30 +216,12 @@ public class PlayerManager : IHittable
         return true;
     }
 
-    public void OnHit(IHittable attacker){
-        Debug.Log("PLAYER COLPITO");
-        IHittable defender = this;
-        //float damage = battleCalculatorManager.EvaluateDamage(attacker, defender);
-        //TakeDamage(damage);
-        SpawnHitVfx(transform.position);
-    }
-
-    private void TakeDamage(float damage){
-        string damageTargetStatTag = globalRulesManager.GetDamageApplicationRule().damageTargetStatTag;
-        player.SetStat(damageTargetStatTag, player.GetStat(damageTargetStatTag).currentValue - damage);
-        Debug.Log("VITA PLAYER: "+player.GetStat(damageTargetStatTag).currentValue);
-    }
-
-    public void SpawnHitVfx(Vector3 Pos_){
-        Instantiate(hitVfx, Pos_, Quaternion.identity);
-    }
-
     public override List<DamageType> GetOffensiveDamageTypeList(){
-        return offensiveDamageType;
+        return player.offensiveDamageType;
     }
 
-    public override HashSet<DamageTypeTag> GetVulnerabilities(){
-        return vulnerabilities;
+    public override List<DamageTypeTag> GetVulnerabilities(){
+        return player.vulnerabilities;
     }
 
     public void SetDamageApplicationRule(){
@@ -255,11 +231,11 @@ public class PlayerManager : IHittable
         return player.GetStat(statTag);
     }
 
-    public override void SetVulnerabilities(HashSet<DamageTypeTag> vulnerabilities){
-        this.vulnerabilities = vulnerabilities;
-    }
-
-    public override void SetOffensiveDamageTypeList(List<DamageType> offensiveDamageType){
-        this.offensiveDamageType = offensiveDamageType;
+    private void CheckIsDead(){
+        string defeatTargetStat = globalRulesManager.GetDefeatRule().defeatTargetStatTag;
+        float defeatValue = globalRulesManager.GetDefeatRule().defeatValue;
+        if(GetStat(defeatTargetStat).currentValue < defeatValue){
+            characterStatus.SetIsDead(true);
+        }
     }
 }

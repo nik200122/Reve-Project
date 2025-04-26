@@ -31,6 +31,9 @@ public static class ActionFactory
                 return new ApproachAction(paramDict);
             case "Greet":  // Nuovo caso per l'azione di approach
                 return new GreetAction(paramDict);
+            case "GiveItem":
+                return new GiveItemAction(paramDict);
+                
             // Aggiungi altri casi a seconda delle azioni
             default:
                 Debug.LogWarning("Azione non riconosciuta: " + actionType);

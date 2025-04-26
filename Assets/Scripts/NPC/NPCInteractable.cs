@@ -29,6 +29,7 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
         if (npcData != null)
         {
             interactText = npcData.InteractText;
+           
             Debug.Log($"[NPCInteractable Start] Loading NPC data for id: {npcId}, Name: {npcData.Name}");
 
             // Registra le azioni per questo NPC leggendo i trigger dal file di configurazione
@@ -54,6 +55,8 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
         {
             Debug.LogError("Dati NPC non trovati per id: " + npcId);
         }
+        GetComponentInChildren<NPCDetectionZone>()?.ConfigureDetection(npcData.detectionRadius, npcData.detectionAngle);
+
     }
 
     private void OnDestroy()

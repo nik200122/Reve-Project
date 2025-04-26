@@ -62,6 +62,8 @@ public class CharacterStatus : MonoBehaviour
     private static bool isRolling;
     private bool canMove = true;
 
+    private bool isDead = false;
+
     private const float _threshold = 0.01f;
     [SerializeField] private float SpeedChangeRate = 10.0f;
 
@@ -255,7 +257,7 @@ public class CharacterStatus : MonoBehaviour
     public void StartAttackMovement()
     {
         isAttacking = true;
-        attackDirection = GetTargetDirection();
+        //attackDirection = GetTargetDirection();
     }
 
     public void EndAttackMovement()
@@ -329,5 +331,15 @@ public class CharacterStatus : MonoBehaviour
     }
     public Vector2 GetMoveInput(){
         return moveInput;
+    }
+
+    public bool IsDead(){
+        return isDead;
+    }
+
+    public void SetIsDead(bool value){
+        isDead = value;
+        Collider collider= GetComponent<Collider>();
+        collider.enabled = false;
     }
 }

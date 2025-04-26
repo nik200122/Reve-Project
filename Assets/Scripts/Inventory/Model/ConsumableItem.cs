@@ -22,4 +22,16 @@ public class ConsumableItem : Item
         
         return true;
     }
+    public override Item Clone()
+    {
+        return new ConsumableItem
+        {
+            tag = this.tag,
+            name = this.name,
+            description = this.description,
+            count = this.count,
+            modifiers = new List<StatModifier>(this.modifiers),
+            spritePath = this.spritePath,
+        };
+    }
 }

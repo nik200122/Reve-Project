@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Rendering;
@@ -47,18 +48,20 @@ public class EnemyAIController : MonoBehaviour
     }
 
     private void Update(){
-        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
-            isPlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, hittableLayer);
-            isPlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, hittableLayer);
+        if(!enemyCharacterStatus.IsDead()){
+            if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
+                isPlayerInSightRange = Physics.CheckSphere(transform.position, sightRange, hittableLayer);
+                isPlayerInAttackRange = Physics.CheckSphere(transform.position, attackRange, hittableLayer);
 
-            if(!isPlayerInSightRange && !isPlayerInAttackRange)
-                Patrolling();
-            if(isPlayerInSightRange && !isPlayerInAttackRange)
-                ChasePlayer();
-            if(isPlayerInSightRange && isPlayerInAttackRange)
-                HandleAttack();
-        }else 
-            agent.ResetPath();
+                if(!isPlayerInSightRange && !isPlayerInAttackRange)
+                    Patrolling();
+                if(isPlayerInSightRange && !isPlayerInAttackRange)
+                    ChasePlayer();
+                if(isPlayerInSightRange && isPlayerInAttackRange)
+                    HandleAttack();
+            }else 
+                agent.ResetPath();
+        }
     }
 
     private void HandleAttack(){
@@ -94,9 +97,7 @@ public class EnemyAIController : MonoBehaviour
     public void PerformAttack(){
         Collider[] hitPlayer = Physics.OverlapSphere(attackPos.position, attackRange, playerLayer);
         foreach (Collider playerCollider in hitPlayer){
-            Debug.Log("NOME: "+playerCollider.name);
-            //Rigidbody enemyRb = enemyCollider.GetComponent<Rigidbody>();
-            IHittable defender= playerCollider.GetComponent<IHittable>();
+            IHittable defender= playerCollider.GetComponent<IHittable>(); 
             damageSystemManager.ApplyEffectiveDamage(attacker, defender);
         }
     }

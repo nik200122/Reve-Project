@@ -5,6 +5,10 @@ public class Player
 {
     public List<Stat> stats;
     public List<StatModifier> modifiers;
+    //indica i tipi di danni a cui è vulnerabile
+    public List<DamageTypeTag> vulnerabilities;
+    //indica i tipi di danni che infligge quando colpisce
+    public  List<DamageType> offensiveDamageType;
 
     //costruttore necessario per la deserializzazione dell'obj player dal file XML
     public Player(){}

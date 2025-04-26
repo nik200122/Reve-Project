@@ -87,7 +87,7 @@ public class LLMManager : MonoBehaviour
         history.AddMessage(new RequestParameter("user", automatedActionsInstructions));
         
         // Rest of your code for sending the request and processing the response...
-        RequestMessage requestMessage = new RequestMessage("mythomist-7b.Q6_K.gguf", 256, history.GetMessages());
+        RequestMessage requestMessage = new RequestMessage("mythomist-7b.Q6_K.gguf", 128, history.GetMessages());
         
         string jsonPayload = JsonUtility.ToJson(requestMessage);
         Debug.Log("Sending automated request: " + jsonPayload);
@@ -123,7 +123,7 @@ public class LLMManager : MonoBehaviour
                 // Execute the action using the action registry
                  NPCTriggerActionManager.Instance.TriggerEvent(
                         currentNPC,
-                        NPCTriggerType.Greet,
+                        NPCTriggerType.GiveItem,
                         GameObject.FindGameObjectWithTag("Player").transform, 
                         actionResponse.utterance
                 );

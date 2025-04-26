@@ -9,7 +9,9 @@ public class DamageSystemManager : MonoBehaviour
     
     public void ApplyEffectiveDamage(IHittable attacker, IHittable defender){
         List<DamageType> offensiveTypes = attacker.GetOffensiveDamageTypeList();
-        HashSet<DamageTypeTag> vulnerabilities = defender.GetVulnerabilities();
+        List<DamageTypeTag> vulnerabilities = defender.GetVulnerabilities();
+
+        defender.SpawnHitVfx();
     
         foreach (var damageType in offensiveTypes){
             // Se il difensore è vulnerabile a quel tipo di danno

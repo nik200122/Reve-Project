@@ -25,4 +25,7 @@ public abstract class Item
     // }
     
     public abstract bool UseItem(PlayerManager playerManager);
+    // Metodo per clonare l'oggetto. Implementalo in base alle tue esigenze.
+    public abstract Item Clone();
+    
 }

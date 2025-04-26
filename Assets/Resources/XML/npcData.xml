@@ -4,6 +4,24 @@
     <Backstory>Elira is the guardian of the Elenora forest, an expert in magic and ancient knowledge.</Backstory>
     <Personality>Wise, enigmatic, and protective.</Personality>
     <InteractText>Talk</InteractText>
+    <detectionRadius>10</detectionRadius>
+    <detectionAngle>70</detectionAngle>
+    <GiveableItems>
+    <ConsumableItem>
+      <tag>Potion02</tag>
+      <name>Epic potion</name>
+      <description>Good potion</description>
+      <count>1</count>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Hp</targetStat>
+          <value>30</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+      </modifiers>
+      <spritePath>PathToSprite</spritePath>
+    </ConsumableItem>
+  </GiveableItems>
     <TriggerActions>
       <TriggerAction>
         <Trigger>WarnOther</Trigger>
@@ -28,6 +46,11 @@
         <Parameter key="greetAnimation" value="Animations/NPCAnimations/Greet2"/>
         </Action>
       </TriggerAction>
+      <TriggerAction>
+        <Trigger>GiveItem</Trigger>
+        <Action type="GiveItem">
+        </Action>
+      </TriggerAction>
     </TriggerActions>
   </NPC>
   <NPC id="npc_002">
@@ -35,6 +58,8 @@
     <Backstory>Goruk is a wandering warrior, known for his strength and his bravery in battle.</Backstory>
     <Personality>Impulsive, loyal, and determined.</Personality>
     <InteractText>Talk</InteractText>
+    <detectionRadius>0</detectionRadius>
+    <detectionAngle>0</detectionAngle>
     <TriggerActions>
       <TriggerAction>
         <Trigger>Talk</Trigger>

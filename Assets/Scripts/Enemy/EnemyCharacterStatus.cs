@@ -25,6 +25,7 @@ public class EnemyCharacterStatus : MonoBehaviour
     private bool canMove = true;
     private bool isAttacking = false;
     private bool isAttackInProgress = false;
+    private bool isDead = false;
 
     // Properties per EnemyAnimator
     public float GetAnimationBlend() => animationBlend;
@@ -113,6 +114,16 @@ public class EnemyCharacterStatus : MonoBehaviour
 
     public bool IsAttackInProgress(){
         return isAttackInProgress;
+    }
+
+    public bool IsDead(){
+        return isDead;
+    }
+
+    public void SetIsDead(bool value){
+        isDead = value;
+        Collider collider= GetComponent<Collider>();
+        collider.enabled = false;
     }
 
 }

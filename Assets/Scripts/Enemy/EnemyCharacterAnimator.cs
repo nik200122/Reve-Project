@@ -8,27 +8,43 @@ public class EnemyCharacterAnimator : MonoBehaviour
     private const string animIDFreeFall = "FreeFall";
     private const string animIDMotionSpeed = "MotionSpeed";
     private const string animIDRoll = "Roll"; 
+    private const string animIDDeath = "IsDead";
 
     [SerializeField] private GameObject hitVfx;
 
+    private bool isDead = false;
+
     private Animator animator;
+    private EnemyManager enemyManager;
     private Enemy enemy;
 
     [SerializeField] EnemyCharacterStatus status;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake(){
+    void Start(){
         animator = GetComponent<Animator>();
-        enemy = GetComponent<Enemy>();
+        enemyManager = GetComponent<EnemyManager>();
+        enemy = enemyManager.GetEnemyModel();
     }
 
     // Update is called once per frame
     void Update(){
-        CheckIsAttacking();
-        if(status.GetCanMove()){
-            UpdateStatus(status.IsGrounded(), status.GetAnimationBlend(), status.GetInputMagnitude(), 
-                status.IsFalling(), status.IsRolling());
-        }else{
-            UpdateStatus(true, 0, 0, false, false);
+        CheckIsDead();
+        if(!isDead){
+            if(status.GetCanMove()){
+                CheckIsAttacking();
+                UpdateStatus(status.IsGrounded(), status.GetAnimationBlend(), status.GetInputMagnitude(), 
+                    status.IsFalling(), status.IsRolling());
+            }else{
+                UpdateStatus(true, 0, 0, false, false);
+            }
+        }
+    }
+
+    private void CheckIsDead(){
+        if(status.IsDead() && !isDead){
+            Debug.Log("SCHIATTATO");
+            isDead = true;
+            animator.SetTrigger(animIDDeath);
         }
     }
 
@@ -43,7 +59,9 @@ public class EnemyCharacterAnimator : MonoBehaviour
     private AttackData attackData;
     private int attackIndex = 0;
     private void PlayAttackAnimation(){
-        status.SetIsAttackInProgress(true);
+        status.SetIsAttackInProgress(true); 
+        //Debug.Log("Enemy vulnerabilities: "+enemy.vulnerabilities[0]);
+        Debug.Log(enemy.offensiveDamageType[0].damageTypeTag);
         if (attackIndex >= enemy.attackDataList.Count)
             attackIndex = 0;    
         

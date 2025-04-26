@@ -42,6 +42,7 @@ public class BattleCalculatorManager : MonoBehaviour
         }
 
         float finalValue = values.Count > 0 ? values.Pop() : 0f;
+        finalValue = Mathf.Max(0f, finalValue);  // <-- Qui si impediscono valori negativi
         Debug.Log($"✅ Risultato finale formula: {finalValue}");
         return finalValue;
     }
