@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {   
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private InputHandler input;
     [SerializeField] private PlayerManager playerManager;
     [SerializeField] private PlayerCombat playerCombat;

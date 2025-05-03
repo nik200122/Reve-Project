@@ -8,6 +8,7 @@ public class InventoryScreenManager : MonoBehaviour
 {
     [SerializeField] private UIInventoryScreen inventoryScreenUI;
     [SerializeField] private InputHandler input;
+    [SerializeField] private AudioManager audioManager;
 
     private PlayerManager playerManager;
     private Inventory inventory;
@@ -60,6 +61,7 @@ public class InventoryScreenManager : MonoBehaviour
             --selectedItem;
             UpdateItemSelection();
             input.scrollUpAction = false;
+            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
         }
     }
 
@@ -68,6 +70,7 @@ public class InventoryScreenManager : MonoBehaviour
             ++selectedItem;
             UpdateItemSelection();
             input.scrollDownAction = false;
+            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
         }
     }
 
@@ -75,6 +78,10 @@ public class InventoryScreenManager : MonoBehaviour
         bool isUsed;
         if(input.selectionPerformed){
             isUsed = filteredItemList[selectedItem].UseItem(playerManager);
+            if(isUsed)
+                audioManager.PlaySound(SoundTypeTag.MenuSelection);
+            else
+                audioManager.PlaySound(SoundTypeTag.InvalidSelection);
             if(filteredItemList[selectedItem] is EquipableItem){
                 inventoryScreenUI.SetHighlight(selectedItem, isUsed);
             }else {

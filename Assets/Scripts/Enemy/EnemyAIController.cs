@@ -97,7 +97,9 @@ public class EnemyAIController : MonoBehaviour
     public void PerformAttack(){
         Collider[] hitPlayer = Physics.OverlapSphere(attackPos.position, attackRange, playerLayer);
         foreach (Collider playerCollider in hitPlayer){
-            IHittable defender= playerCollider.GetComponent<IHittable>(); 
+            CharacterStatus status = playerCollider.gameObject.GetComponent<CharacterStatus>();
+            status.SetIsHit(true);
+            IHittable defender= playerCollider.GetComponent<IHittable>();
             damageSystemManager.ApplyEffectiveDamage(attacker, defender);
         }
     }

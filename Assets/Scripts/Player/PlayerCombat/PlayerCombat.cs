@@ -234,11 +234,11 @@ public class PlayerCombat : MonoBehaviour
         Collider[] hitEnemies = Physics.OverlapSphere(attackPos.position, attackRange, hittableLayer);
         TryAutoTarget(hitEnemies);
         foreach (Collider enemyCollider in hitEnemies){
-            //true perchè è il player ad attaccare
+            EnemyCharacterStatus status = enemyCollider.GetComponent<EnemyCharacterStatus>();
+            status.SetIsHit(true);
+
             IHittable defender= enemyCollider.GetComponent<IHittable>();
             damageSystemManager.ApplyEffectiveDamage(attacker, defender);
-            //Debug.Log("NOME: "+enemyCollider.name);
-            //enemy.OnHit(attacker);
         }
     }
 

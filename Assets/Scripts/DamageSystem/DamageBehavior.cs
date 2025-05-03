@@ -7,7 +7,6 @@ public class DamageBehavior
 
     public DamageBehavior(){}
 
-
     public void Apply(IHittable attacker, IHittable defender, BattleCalculatorManager battleCalculatorManager, string damageTargetStatTag){
         float damage;
         if(useDamageFormula){

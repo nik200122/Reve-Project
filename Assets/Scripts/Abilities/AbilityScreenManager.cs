@@ -10,6 +10,7 @@ using UnityEngine;
 public class AbilityScreenManager : MonoBehaviour
 {
     [SerializeField] private AbilityScreenUI abilityScreenUI;
+    [SerializeField] private AudioManager audioManager;
     private AbilityList playerAbilityList = new AbilityList(); // Lista globale delle abilità
     private PlayerManager playerManager;
     private List<AbilityRef> abilityLoadout;
@@ -57,6 +58,9 @@ public class AbilityScreenManager : MonoBehaviour
 
             if (abilityChanged) {
                 abilityScreenUI.UpdateSingleAbility(selectedItem, abilityLoadout[selectedItem].IsActive);
+                audioManager.PlaySound(SoundTypeTag.MenuSelection);
+            }else{
+                audioManager.PlaySound(SoundTypeTag.InvalidSelection);
             }
 
             input.selectionPerformed = false;
@@ -68,6 +72,7 @@ public class AbilityScreenManager : MonoBehaviour
         if(input.scrollUpAction){
             --selectedItem;
             UpdateItemSelection();
+            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
         }
         input.scrollUpAction = false;
     }
@@ -77,6 +82,7 @@ public class AbilityScreenManager : MonoBehaviour
         if(input.scrollDownAction){
             ++selectedItem;
             UpdateItemSelection();
+            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
         }
 
         input.scrollDownAction = false;

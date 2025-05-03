@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterStatus : MonoBehaviour
 {
+    [SerializeField] private AudioManager audioManager;
     [SerializeField] private InputHandler input;
     [Space(10)]
 
@@ -61,7 +62,7 @@ public class CharacterStatus : MonoBehaviour
     private bool isFalling;
     private static bool isRolling;
     private bool canMove = true;
-
+    private bool isHit;
     private bool isDead = false;
 
     private const float _threshold = 0.01f;
@@ -341,5 +342,15 @@ public class CharacterStatus : MonoBehaviour
         isDead = value;
         Collider collider= GetComponent<Collider>();
         collider.enabled = false;
+    }
+
+    public bool IsHit(){
+        return isHit;
+    }
+
+    public void SetIsHit(bool value){
+        isHit = value;
+        audioManager.PlaySound(SoundTypeTag.Hit);
+        isHit = false;
     }
 }

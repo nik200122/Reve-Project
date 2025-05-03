@@ -10,6 +10,7 @@ public class EnemyCharacterStatus : MonoBehaviour
     [SerializeField] private float GroundedOffset = -0.14f;
     [SerializeField] private float GroundedRadius = 0.98f;
     [SerializeField] private LayerMask GroundLayers;
+    [SerializeField] private AudioManager audioManager;
 
     [Header("Movement")]
     private float animationBlend;
@@ -24,6 +25,7 @@ public class EnemyCharacterStatus : MonoBehaviour
 
     private bool canMove = true;
     private bool isAttacking = false;
+    private bool isHit = false;
     private bool isAttackInProgress = false;
     private bool isDead = false;
 
@@ -124,6 +126,16 @@ public class EnemyCharacterStatus : MonoBehaviour
         isDead = value;
         Collider collider= GetComponent<Collider>();
         collider.enabled = false;
+    }
+
+    public bool IsHit(){
+        return isHit;
+    }
+
+    public void SetIsHit(bool value){
+        isHit = value;
+        audioManager.PlaySound(SoundTypeTag.Hit);
+        isHit = false;
     }
 
 }
