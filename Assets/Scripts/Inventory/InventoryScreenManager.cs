@@ -8,8 +8,9 @@ public class InventoryScreenManager : MonoBehaviour
 {
     [SerializeField] private UIInventoryScreen inventoryScreenUI;
     [SerializeField] private InputHandler input;
-    [SerializeField] private AudioManager audioManager;
-
+    
+    //wrapper che contiene la lista di tutte le trigger-actions
+    private AudioTriggerActionsWrapper wrapperTriggerActions;
     private PlayerManager playerManager;
     private Inventory inventory;
     List<Item> filteredItemList;
@@ -22,6 +23,12 @@ public class InventoryScreenManager : MonoBehaviour
     
     void Start(){
         playerManager = FindAnyObjectByType<PlayerManager>();
+        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+            IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
+            if(action != null){
+                AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
+            }
+        }
     }
 
     public void Update(){
@@ -61,7 +68,7 @@ public class InventoryScreenManager : MonoBehaviour
             --selectedItem;
             UpdateItemSelection();
             input.scrollUpAction = false;
-            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
     }
 
@@ -70,7 +77,7 @@ public class InventoryScreenManager : MonoBehaviour
             ++selectedItem;
             UpdateItemSelection();
             input.scrollDownAction = false;
-            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
     }
 
@@ -79,9 +86,9 @@ public class InventoryScreenManager : MonoBehaviour
         if(input.selectionPerformed){
             isUsed = filteredItemList[selectedItem].UseItem(playerManager);
             if(isUsed)
-                audioManager.PlaySound(SoundTypeTag.MenuSelection);
+                AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);
             else
-                audioManager.PlaySound(SoundTypeTag.InvalidSelection);
+                AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnInvalidSelection);
             if(filteredItemList[selectedItem] is EquipableItem){
                 inventoryScreenUI.SetHighlight(selectedItem, isUsed);
             }else {
@@ -113,7 +120,7 @@ public class InventoryScreenManager : MonoBehaviour
         inventoryScreenUI.SetData(filteredItemList);
     }
 
-     private void UpdateItemSelection(){
+    private void UpdateItemSelection(){
         if(filteredItemList.Count > 0){
             //ci assicuriamo che non avvenga un outOfindex
             selectedItem = Mathf.Clamp(selectedItem, 0, filteredItemList.Count - 1);
@@ -124,5 +131,9 @@ public class InventoryScreenManager : MonoBehaviour
 
             previousSelection = selectedItem;
         }
+    }
+
+    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions){
+        this.wrapperTriggerActions = wrapperTriggerActions;
     }
 }

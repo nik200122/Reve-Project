@@ -14,6 +14,9 @@ public class ShopScreenManager : MonoBehaviour
     private Inventory inventory;
     List<Item> filteredItemList;
 
+    //wrapper che contiene la lista di tutte le trigger-actions
+    private AudioTriggerActionsWrapper wrapperTriggerActions;
+
     private int selectedItem = 0;
     private int previousSelection = 0;
 
@@ -24,6 +27,13 @@ public class ShopScreenManager : MonoBehaviour
     void Start(){
         playerManager = FindAnyObjectByType<PlayerManager>();
         gameStateManager = FindAnyObjectByType<GameStateManager>();
+
+        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+            IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
+            if(action != null){
+                AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
+            }
+        }
     }
 
     public void Update(){
@@ -63,15 +73,16 @@ public class ShopScreenManager : MonoBehaviour
             --selectedItem;
             UpdateItemSelection();
             input.scrollUpAction = false;
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
     }
 
     private void CheckScrollDownActionPerformed(){
         if(input.scrollDownAction){
-            Debug.Log("FUNZIONA INPUT");
             ++selectedItem;
             UpdateItemSelection();
             input.scrollDownAction = false;
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
     }
 
@@ -84,15 +95,17 @@ public class ShopScreenManager : MonoBehaviour
 
     private void TryBuySelectedItem(){
         Item itemToBuy = filteredItemList[selectedItem];
-        if (!playerManager.CanAffordItem(itemToBuy.price)) return;
-
+        if (!playerManager.CanAffordItem(itemToBuy.price)){
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnInvalidSelection);
+            return;
+        }
+        AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);
         playerManager.GetInventory().AddItem(itemToBuy);
         Debug.Log("Comprato");
     }
 
     public void OpenShopScreen(Inventory shopperInventory){
         gameStateManager.ChangeState(GameState.ShopScreen);
-        Debug.Log("OPENN");
         inventory = shopperInventory;
         //inventory.OnUpdateInventory += OnUpdateInventory;
         shopScreenUI.SetActive(true);
@@ -131,5 +144,9 @@ public class ShopScreenManager : MonoBehaviour
 
             previousSelection = selectedItem;
         }
+    }
+
+    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions){
+        this.wrapperTriggerActions = wrapperTriggerActions;
     }
 }

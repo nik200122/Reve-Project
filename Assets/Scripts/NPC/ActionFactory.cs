@@ -1,8 +1,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum AudioActionType{
+    PlaySfx,
+    PlayMusic
+}
+
 public static class ActionFactory
-{
+{   
+    public static IAudioAction CreateAudioAction(AudioActionType audioActionType, List<ParameterConfig> parameters)
+    {
+        // Puoi creare un dizionario per facilitare il lookup dei parametri, se necessario.
+        Dictionary<string, string> paramDict = new Dictionary<string, string>();
+        if (parameters != null){
+            foreach (var param in parameters){
+                paramDict[param.key] = param.value;
+            }
+        }
+
+        switch (audioActionType)
+        {
+             case AudioActionType.PlayMusic:
+                 return new PlayMusicAction(paramDict);
+            case AudioActionType.PlaySfx:
+                return new PlaySfxAction(paramDict);
+                
+            // Aggiungi altri casi a seconda delle azioni
+            default:
+                Debug.LogWarning("Azione non riconosciuta: " + audioActionType);
+                return null;
+        }
+    }
+
     public static INPCAction CreateAction(string actionType, List<ParameterConfig> parameters)
     {
         // Puoi creare un dizionario per facilitare il lookup dei parametri, se necessario.

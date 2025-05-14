@@ -37,18 +37,24 @@ public class PlayerCombat : MonoBehaviour
 
     // Flag per abilitare la coda degli input, attivato a >75% dell'animazione
     private bool allowQueue = false;
+
+    //wrapper che contiene la lista di tutte le trigger-actions
+    private AudioTriggerActionsWrapper wrapperTriggerActions;
     
 
-    void Awake()
-    {
+    void Awake(){
         animator = GetComponent<Animator>();
         characterStatus = GetComponent<CharacterStatus>();
-
     }
 
-    void Start()
-    {
+    void Start(){
         input.OnAttackEvent += OnAttackInput;
+        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+            IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
+            if(action != null){
+                AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
+            }
+        }
     }
 
     void OnDestroy()
@@ -145,7 +151,6 @@ public class PlayerCombat : MonoBehaviour
                 {
                     Debug.LogWarning("Override controller non caricato per l'attacco " + attackData.Id);
                 }
-
                 
                 animator.Play("Attack", 0, 0);
                 
@@ -234,8 +239,7 @@ public class PlayerCombat : MonoBehaviour
         Collider[] hitEnemies = Physics.OverlapSphere(attackPos.position, attackRange, hittableLayer);
         TryAutoTarget(hitEnemies);
         foreach (Collider enemyCollider in hitEnemies){
-            EnemyCharacterStatus status = enemyCollider.GetComponent<EnemyCharacterStatus>();
-            status.SetIsHit(true);
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnHit);
 
             IHittable defender= enemyCollider.GetComponent<IHittable>();
             damageSystemManager.ApplyEffectiveDamage(attacker, defender);
@@ -303,5 +307,9 @@ public class PlayerCombat : MonoBehaviour
         Vector3 newPos = Vector3.MoveTowards(transform.position, target_, moveDistance);
         //transform.position = newPos;
         transform.DOMove(newPos, reachTime);
+    }
+
+    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions){
+        this.wrapperTriggerActions = wrapperTriggerActions;
     }
 }

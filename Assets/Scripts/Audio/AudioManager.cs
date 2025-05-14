@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+//VECCHIO, NON SERVE
 public enum SoundTypeTag{
     Hit,
     Death,
@@ -21,7 +21,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start(){
         //sfxSource = GetComponent<AudioSource>();
-        PlayMusic(SoundTypeTag.Music);
+        //PlayMusic(SoundTypeTag.Music);
     }
     void Update(){
         foreach (EnemyCharacterStatus status in enemyCharacterStatusList){
@@ -56,8 +56,8 @@ public class AudioManager : MonoBehaviour
 
     private void CheckHasBeenHit(EnemyCharacterStatus status){
         //Debug.Log("CHECK: "+status.HasBeenHit());
-        if(status.IsHit())
-            PlaySound(SoundTypeTag.Hit);
+        // if(status.IsHit())
+        //     PlaySound(SoundTypeTag.Hit);
     }
 
     private SoundGroup GetSoundGroupByType(SoundTypeTag type){

@@ -1,0 +1,10 @@
+<ArrayOfTriggerActions>
+  <TriggerActions>
+    <TriggerAction>
+      <Trigger>onGameState</Trigger>
+      <Action type="PlayMusic">
+        <Parameter key="musicClips" value="Audio/freeRoamEpicMusic"/>
+      </Action>
+    </TriggerAction>
+  </TriggerActions>
+</ArrayOfTriggerActions>

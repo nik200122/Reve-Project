@@ -1,0 +1,10 @@
+<ArrayOfTriggerActions>
+  <TriggerActions>
+    <TriggerAction>
+      <Trigger>OnHit</Trigger>
+      <Action type="PlaySfx">
+        <Parameter key="sfxClips" value="Audio/OnHit/Hammer/Battleaxe1, Audio/OnHit/Hammer/Battleaxe2, Audio/OnHit/Hammer/Battleaxe3, Audio/OnHit/Hammer/Battleaxe4, Audio/OnHit/Hammer/Battleaxe5"/>
+      </Action>
+    </TriggerAction>
+  </TriggerActions>
+</ArrayOfTriggerActions>

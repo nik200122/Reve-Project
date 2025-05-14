@@ -1,0 +1,22 @@
+<ArrayOfTriggerActions>
+  <TriggerActions>
+    <TriggerAction>
+      <Trigger>OnMenuNavigation</Trigger>
+      <Action type="PlaySfx">
+        <Parameter key="sfxClips" value="Audio/Menu/MenuBrowsing"/>
+      </Action>
+    </TriggerAction>
+    <TriggerAction>
+      <Trigger>OnMenuSelection</Trigger>
+      <Action type="PlaySfx">
+        <Parameter key="sfxClips" value="Audio/Menu/Selection"/>
+      </Action>
+    </TriggerAction>
+    <TriggerAction>
+      <Trigger>OnInvalidSelection</Trigger>
+      <Action type="PlaySfx">
+        <Parameter key="sfxClips" value="Audio/Menu/InvalidSelection"/>
+      </Action>
+    </TriggerAction>
+  </TriggerActions>
+</ArrayOfTriggerActions>

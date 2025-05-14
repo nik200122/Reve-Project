@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private AbilityScreenManager abilityScreenManager;
     [SerializeField] private LLMManager llmManager;
     [SerializeField] private InventoryScreenManager inventoryScreenManager;
+    [SerializeField] private ShopScreenManager shopScreenManager;
     [SerializeField] private BattleCalculatorManager battleCalculatorManager;
     [SerializeField] private GlobalRulesManager globalRulesManager;
 
@@ -49,8 +50,11 @@ public class GameManager : MonoBehaviour
         playerCombat.SetAttackDataList(gameLoader.LoadedAttackDataList);
         shopperManager.SetInventory(gameLoader.LoadedShopper01Inventory);
 
+        //si può sicuramente trovare un modo più pulito di fare questo
         enemyManagerList[0].SetEnemyModel(gameLoader.LoadedEnemy01Model);
+        enemyManagerList[0].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
         enemyManagerList[1].SetEnemyModel(gameLoader.LoadedEnemy02Model);
+        enemyManagerList[1].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
 
         battleCalculatorManager.SetDamageFormula(gameLoader.LoadedDamageFormula);
         globalRulesManager.SetDamageApplicationRule(gameLoader.LoadedDamageApplicationRule);
@@ -58,6 +62,26 @@ public class GameManager : MonoBehaviour
 
         // Inizializza l'AbilityScreenManager con la lista globale delle abilità
         abilityScreenManager.Initialize(gameLoader.LoadedAbilityList, gameLoader.LoadedPlayerLoadout);
+
+        inventoryScreenManager.SetTriggerActions(gameLoader.LoadedMenuAudioData);
+        abilityScreenManager.SetTriggerActions(gameLoader.LoadedMenuAudioData);
+        shopScreenManager.SetTriggerActions(gameLoader.LoadedMenuAudioData);
+        playerCombat.SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+
+        SetTriggerActions(gameLoader.LoadedGameMusicData);
+    }
+
+    //wrapper che contiene la lista di tutte le trigger-actions
+    private AudioTriggerActionsWrapper wrapperTriggerActions;
+    private void Start(){
+        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+            IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
+            if(action != null){
+                AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
+            }
+        }
+
+        AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.onGameState);
     }
 
     // Update is called once per frame
@@ -105,5 +129,9 @@ public class GameManager : MonoBehaviour
                 inventoryScreenManager.CloseInventoryScreen();
             }
         }
+    }
+
+    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions){
+        this.wrapperTriggerActions = wrapperTriggerActions;
     }
 }

@@ -38,6 +38,9 @@ public class EnemyAIController : MonoBehaviour
     [SerializeField] private Transform attackPos;
     [SerializeField] private LayerMask playerLayer;
 
+    //wrapper che contiene la lista di tutte le trigger-actions
+    private AudioTriggerActionsWrapper wrapperTriggerActions;
+
     private float attackTimer; 
     private void Awake(){
         agent = GetComponent<NavMeshAgent>();
@@ -45,6 +48,15 @@ public class EnemyAIController : MonoBehaviour
         animator = GetComponent<Animator>();
         attacker = GetComponent<IHittable>();
         enemyCharacterStatus = GetComponent<EnemyCharacterStatus>();
+    }
+
+    private void Start(){
+        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+            IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
+            if(action != null){
+                AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
+            }
+        }
     }
 
     private void Update(){
@@ -97,8 +109,8 @@ public class EnemyAIController : MonoBehaviour
     public void PerformAttack(){
         Collider[] hitPlayer = Physics.OverlapSphere(attackPos.position, attackRange, playerLayer);
         foreach (Collider playerCollider in hitPlayer){
-            CharacterStatus status = playerCollider.gameObject.GetComponent<CharacterStatus>();
-            status.SetIsHit(true);
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnHit);
+
             IHittable defender= playerCollider.GetComponent<IHittable>();
             damageSystemManager.ApplyEffectiveDamage(attacker, defender);
         }
@@ -115,5 +127,9 @@ public class EnemyAIController : MonoBehaviour
         Gizmos.color = Color.yellow;
         //Gizmos.DrawWireSphere(forwardOffset, sightRange);
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions){
+        this.wrapperTriggerActions = wrapperTriggerActions;
     }
 }

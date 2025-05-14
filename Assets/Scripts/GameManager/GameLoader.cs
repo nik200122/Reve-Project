@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 
+//[Serializable]
 public class GameLoader : MonoBehaviour
 {   
     private const string playerDataFile = "Assets/Resources/XML/playerData.xml";
@@ -23,6 +23,12 @@ public class GameLoader : MonoBehaviour
     private const string damageFormulaFile = "Assets/Resources/XML/DamageFormula.xml";
     private const string damageApplicationRuleFile = "Assets/Resources/XML/damageApplicationRule.xml";
     private const string defeatRuleFile = "Assets/Resources/XML/defeatRule.xml";
+
+    private const string menuAudioDataFile =  "Assets/Resources/XML/MenuAudioData.xml";
+    private const string gameMusicDataFile =  "Assets/Resources/XML/gameMusicData.xml";
+    private const string onHitAudioDataFile =  "Assets/Resources/XML/onHitAudioData.xml";
+    
+    
     
     public WorldData LoadedWorldData { get; private set; }
     public AttackDataList LoadedAttackDataList { get; private set; }
@@ -40,6 +46,14 @@ public class GameLoader : MonoBehaviour
     public DamageFormula LoadedDamageFormula { get; private set; }
     public DamageApplicationRule LoadedDamageApplicationRule { get; private set; }
     public DefeatRule LoadedDefeatRule { get; private set; }
+
+    // [XmlArray("TriggerActions")]
+    // [XmlArrayItem("TriggerAction")]
+    // public List<AudioTriggerActionsConfig> LoadedMenuAudioData { get; private set; }
+
+    public AudioTriggerActionsWrapper LoadedMenuAudioData { get; private set; }
+    public AudioTriggerActionsWrapper LoadedGameMusicData { get; private set; }
+    public AudioTriggerActionsWrapper LoadedOnHitAudioData { get; private set; }
 
     public void LoadData(){
 
@@ -61,11 +75,20 @@ public class GameLoader : MonoBehaviour
         
         //LoadAssets();
 
+        LoadAudioData();
+
         LoadDamageFormula();
 
         LoadDamageApplicationRule();
 
         LoadDefeatRule();
+    }
+
+    private void LoadAudioData(){
+        //LoadedMenuAudioData =  XMLHelper.LoadFromXml<List<AudioTriggerActionsConfig>>(menuAudioDataFile);
+        LoadedMenuAudioData = XMLHelper.LoadFromXml<AudioTriggerActionsWrapper>(menuAudioDataFile);
+        LoadedGameMusicData = XMLHelper.LoadFromXml<AudioTriggerActionsWrapper>(gameMusicDataFile);
+        LoadedOnHitAudioData = XMLHelper.LoadFromXml<AudioTriggerActionsWrapper>(onHitAudioDataFile);
     }
 
     private void LoadDefeatRule(){

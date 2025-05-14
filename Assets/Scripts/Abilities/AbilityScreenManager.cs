@@ -1,25 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
-
-
 
 public class AbilityScreenManager : MonoBehaviour
 {
     [SerializeField] private AbilityScreenUI abilityScreenUI;
-    [SerializeField] private AudioManager audioManager;
     private AbilityList playerAbilityList = new AbilityList(); // Lista globale delle abilità
     private PlayerManager playerManager;
     private List<AbilityRef> abilityLoadout;
+
+    //wrapper che contiene la lista di tutte le trigger-actions
+    private AudioTriggerActionsWrapper wrapperTriggerActions;
+
     [SerializeField] private InputHandler input;
     private int selectedItem = 0;
     private int previousSelection = 0;
 
     void Start(){
         playerManager = FindAnyObjectByType<PlayerManager>();
+        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+            IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
+            if(action != null){
+                AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
+            }
+        }
     }
 
     public void Initialize(AbilityList abilityList, PlayerLoadout loadout)
@@ -58,35 +63,32 @@ public class AbilityScreenManager : MonoBehaviour
 
             if (abilityChanged) {
                 abilityScreenUI.UpdateSingleAbility(selectedItem, abilityLoadout[selectedItem].IsActive);
-                audioManager.PlaySound(SoundTypeTag.MenuSelection);
+                AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);
             }else{
-                audioManager.PlaySound(SoundTypeTag.InvalidSelection);
+                AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnInvalidSelection);
             }
 
             input.selectionPerformed = false;
         }
     }
 
-
     private void CheckScrollUpActionPerformed(){
         if(input.scrollUpAction){
             --selectedItem;
             UpdateItemSelection();
-            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
         input.scrollUpAction = false;
     }
 
     private void CheckScrollDownActionPerformed(){
-        
         if(input.scrollDownAction){
             ++selectedItem;
             UpdateItemSelection();
-            audioManager.PlaySound(SoundTypeTag.MenuNavigation);
+            AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
 
         input.scrollDownAction = false;
-    
     }
 
     private void UpdateItemSelection(){
@@ -100,19 +102,18 @@ public class AbilityScreenManager : MonoBehaviour
         previousSelection = selectedItem;
     }
 
-    
-
-    public void Open()
-    {
+    public void Open(){
         abilityScreenUI.Show(playerAbilityList, abilityLoadout);
         if(abilityLoadout.Count!=0){
             abilityScreenUI.Select(selectedItem);
         }
     }
 
-    public void Hide()
-    {
+    public void Hide(){
         abilityScreenUI.Hide();
     }
 
+    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions){
+        this.wrapperTriggerActions = wrapperTriggerActions;
+    }
 }
