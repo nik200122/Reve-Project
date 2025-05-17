@@ -13,7 +13,6 @@ This JSON format is mandatory for every response.
 
 Valid actions are:
 - "Talk" (default: for normal conversation)
-- "Attack"
 - "Flee"
 - "WarnOthers"
 - "Ignore"
@@ -67,7 +66,6 @@ This JSON format is mandatory for every response.
 
 Valid actions for [AUTOMATED ACTION] are:
 - "Approach"
-- "Idle" (default)
 - "Greet"
 Never break character. Never answer outside of the JSON format.
 ]]></Prompt>
