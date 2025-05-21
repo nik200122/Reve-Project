@@ -119,14 +119,32 @@ public class LLMManager : MonoBehaviour
                 // Mostra anche il testo della risposta nel pannello
                 LLMUI.SetResponseText(actionResponse.utterance);
                 
-                //LLMUI.SetResponseText(actionResponse.utterance);
-                // Execute the action using the action registry
-                 NPCTriggerActionManager.Instance.TriggerEvent(
-                        currentNPC,
-                        NPCTriggerType.GiveItem,
-                        GameObject.FindGameObjectWithTag("Player").transform, 
-                        actionResponse.utterance
-                );
+                                // Converti la stringa dell'azione in NPCTriggerType
+                NPCTriggerType triggerTypeToExecute;
+                bool parsingSuccessful = System.Enum.TryParse<NPCTriggerType>(actionResponse.action, true, out triggerTypeToExecute); // 'true' per ignorare maiuscole/minuscole
+
+                if (parsingSuccessful)
+                {
+                    // Execute the action using the action registry
+                    NPCTriggerActionManager.Instance.TriggerEvent(
+                            currentNPC,
+                            triggerTypeToExecute, // Usa il valore dell'enum convertito
+                            GameObject.FindGameObjectWithTag("Player").transform,
+                            actionResponse.utterance
+                    );
+                }
+                else
+                {
+                    Debug.LogError($"[IlTuoScript] Impossibile convertire la stringa di azione '{actionResponse.action}' in un NPCTriggerType valido.");
+                    // Potresti voler gestire questo caso in modo specifico, ad esempio eseguendo un'azione di default o non facendo nulla.
+                    // Execute the action using the action registry
+                        NPCTriggerActionManager.Instance.TriggerEvent(
+                                currentNPC,
+                                NPCTriggerType.Talk, // Usa il valore dell'enum convertito
+                                GameObject.FindGameObjectWithTag("Player").transform,
+                                actionResponse.utterance
+                        );
+                }
                 
                 // Add the response to conversation history
                 history.AddMessage(new RequestParameter("assistant", cleanContent));
@@ -184,13 +202,32 @@ public class LLMManager : MonoBehaviour
                     Debug.Log(cleanContent);
                     LLMResponse actionResponse = responseHandler.ParseResponse(cleanContent);
                     LLMUI.SetResponseText(actionResponse.utterance);
+                   // Converti la stringa dell'azione in NPCTriggerType
+                    NPCTriggerType triggerTypeToExecute;
+                    bool parsingSuccessful = System.Enum.TryParse<NPCTriggerType>(actionResponse.action, true, out triggerTypeToExecute); // 'true' per ignorare maiuscole/minuscole
+
+                if (parsingSuccessful)
+                {
                     // Execute the action using the action registry
                     NPCTriggerActionManager.Instance.TriggerEvent(
-                        currentNPC,
-                        NPCTriggerType.WarnOther,
-                        GameObject.FindGameObjectWithTag("Player").transform, 
-                        actionResponse.utterance
+                            currentNPC,
+                            NPCTriggerType.WarnOthers, // Usa il valore dell'enum convertito
+                            GameObject.FindGameObjectWithTag("Player").transform,
+                            actionResponse.utterance
                     );
+                }
+                else
+                {
+                    Debug.LogError($"[IlTuoScript] Impossibile convertire la stringa di azione '{actionResponse.action}' in un NPCTriggerType valido.");
+                    // Potresti voler gestire questo caso in modo specifico, ad esempio eseguendo un'azione di default o non facendo nulla.
+                    // Execute the action using the action registry
+                        NPCTriggerActionManager.Instance.TriggerEvent(
+                                currentNPC,
+                                NPCTriggerType.Talk, // Usa il valore dell'enum convertito
+                                GameObject.FindGameObjectWithTag("Player").transform,
+                                actionResponse.utterance
+                        );
+                }
                     history.AddMessage(new RequestParameter("assistant", cleanContent));
                 }
             }

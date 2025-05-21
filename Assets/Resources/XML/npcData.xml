@@ -24,9 +24,14 @@
   </GiveableItems>
     <TriggerActions>
       <TriggerAction>
-        <Trigger>WarnOther</Trigger>
+        <Trigger>WarnOthers</Trigger>
         <Action type="WarnOthers">
           <Parameter key="alertRadius" value="10"/>
+        </Action>
+      </TriggerAction>
+      <TriggerAction>
+        <Trigger>Ignore</Trigger>
+        <Action type="Ignore">
         </Action>
       </TriggerAction>
       <TriggerAction>
@@ -51,6 +56,11 @@
         <Action type="GiveItem">
         </Action>
       </TriggerAction>
+      <TriggerAction>
+        <Trigger>Flee</Trigger>
+        <Action type="Flee">
+        </Action>
+      </TriggerAction>
     </TriggerActions>
   </NPC>
   <NPC id="npc_002">
@@ -69,7 +79,7 @@
       <TriggerAction>
         <Trigger>WarnedByOthers</Trigger>
         <Action type="BeCautious">
-          <Parameter key="cautiousDistance" value="5"/>
+          <Parameter key="cautiousDistance" value="10"/>
         </Action>
       </TriggerAction>
     </TriggerActions>

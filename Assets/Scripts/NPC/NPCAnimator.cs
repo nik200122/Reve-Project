@@ -22,17 +22,28 @@ public class NPCAnimator : MonoBehaviour
         animator.SetFloat(animIDSpeed, nPCStatus.GetSpeed());
     }
 
-    public void TriggerTalk(AnimatorOverrideController animatorOverrideController = null){
-        if(animatorOverrideController != null){
+    public void TriggerTalk(AnimatorOverrideController animatorOverrideController = null)
+    {
+        if (animatorOverrideController != null)
+        {
             animator.runtimeAnimatorController = animatorOverrideController;
+            animator.SetTrigger(animIDTalk);
+        }
+        else
+        {
             animator.SetTrigger(animIDTalk);
         }
     }
 
     internal void TriggerGreet(AnimatorOverrideController animatorOverrideController = null)
     {
-        if(animatorOverrideController != null){
+        if (animatorOverrideController != null)
+        {
             animator.runtimeAnimatorController = animatorOverrideController;
+            animator.SetTrigger(animIDGreet);
+        }
+        else
+        {
             animator.SetTrigger(animIDGreet);
         }
         

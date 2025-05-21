@@ -7,12 +7,14 @@ public interface INPCAction
 }
 public enum NPCTriggerType
 {
-    WarnOther,        // Ricezione di un avviso da parte di un altro NPC
+    WarnOthers,        // Ricezione di un avviso da parte di un altro NPC
     Custom,
     WarnedByOthers,
     Talk,
     Approach,
     Greet,
+    Ignore,
+    Flee,
     GiveItem,
 }
 
