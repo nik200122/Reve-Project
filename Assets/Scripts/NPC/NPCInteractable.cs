@@ -23,13 +23,14 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
         nPCUI = GetComponent<NPCUI>();
         
     }
-    
-    private void Start(){
+
+    private void Start()
+    {
         npcData = NPCDataManager.Instance.GetNPCData(npcId);
         if (npcData != null)
         {
             interactText = npcData.InteractText;
-           
+
             Debug.Log($"[NPCInteractable Start] Loading NPC data for id: {npcId}, Name: {npcData.Name}");
 
             // Registra le azioni per questo NPC leggendo i trigger dal file di configurazione
@@ -47,7 +48,7 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
                     Debug.LogWarning($"[NPCInteractable Start] ActionFactory returned null for action type '{triggerActionConfig.Action.type}' on NPC '{npcData.Name}'");
                 }
             }
-            
+
             // Registra questo NPC nel registro
             NPCDataManager.Instance.RegisterNPC(npcId, this);
         }
@@ -56,6 +57,8 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
             Debug.LogError("Dati NPC non trovati per id: " + npcId);
         }
         GetComponentInChildren<NPCDetectionZone>()?.ConfigureDetection(npcData.detectionRadius, npcData.detectionAngle);
+        // Registra gli handlers LLM per questo NPC
+        RegisterLLMHandlers();
 
     }
 
@@ -121,15 +124,59 @@ public class NPCInteractable : MonoBehaviour, IInteractable{
         nPCUI.ShowAlertIcon();
     }
 
+    private void RegisterLLMHandlers()
+{
+    Debug.Log($"[NPCInteractable] Registering LLM handlers for NPC '{npcData.Name}'");
+    
+    // Se l'NPC ha trigger LLM definiti nell'XML, registrali
+    if (npcData.LLMTriggers != null && npcData.LLMTriggers.Count > 0)
+    {
+        foreach (var llmTriggerConfig in npcData.LLMTriggers)
+        {
+            Debug.Log($"[NPCInteractable] Processing LLM trigger '{llmTriggerConfig.Trigger}' for NPC '{npcData.Name}'");
+            
+            // Crea l'handler specifico usando la factory (senza passare llmManager)
+            ILLMRequestHandler handler = LLMHandlerFactory.CreateHandler(
+                llmTriggerConfig.Trigger,
+                llmTriggerConfig.CustomPrompt
+            );
+            
+            // Registra l'handler
+            LLMTriggerManager.Instance.RegisterHandler(this, llmTriggerConfig.Trigger, handler);
+            
+            Debug.Log($"[NPCInteractable] Registered LLM handler for trigger '{llmTriggerConfig.Trigger}' on NPC '{npcData.Name}'");
+        }
+    }
+    else
+    {
+        Debug.Log($"[NPCInteractable] No LLM triggers defined for NPC '{npcData.Name}', registering default handlers");
+        
+        // Se non ci sono trigger definiti, registra handler di default
+        RegisterDefaultLLMHandlers();
+    }
+}
+
+    private void RegisterDefaultLLMHandlers()
+    {
+        // Handler di default per user interaction
+        var userInputHandler = new UserInputLLMHandler();
+        LLMTriggerManager.Instance.RegisterHandler(this, LLMTriggerType.UserInteraction, userInputHandler);
+        
+        // Handler di default per player detected
+        var automatedHandler = new AutomatedLLMHandler("");
+        LLMTriggerManager.Instance.RegisterHandler(this, LLMTriggerType.PlayerDetected, automatedHandler);
+        
+        Debug.Log($"[NPCInteractable] Registered default LLM handlers for NPC '{npcData.Name}'");
+    }
+
     public void OnPlayerDetected()
     {
-        // Check if NPC is already in an interaction
         if (GameStateManager.Instance.CurrentState != GameState.FreeRoam)
             return;
-            
+
         ShowNotedIcon();
 
-        llmManager.SendAutomatedRequest(this);
+        LLMTriggerManager.Instance.TriggerLLMRequest(this, LLMTriggerType.PlayerDetected);
     }
 
     private void ShowNotedIcon()

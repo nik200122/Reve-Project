@@ -11,28 +11,50 @@ using System.Collections.Generic;
 using System;
 using System.Text.RegularExpressions;
 using UnityEngine.Events;
-
-
 public class LLMManager : MonoBehaviour
 {
+    public static LLMManager Instance { get; private set; }
+
     private WorldData worldData;
     [SerializeField] private InputHandler inputHandler;
-
-    [SerializeField]private LLMUI LLMUI;
+    [SerializeField] private LLMUI LLMUI;
+    
     private NPCInteractable currentNPC;
     private string apiUrl;
     private string baseInstruction;
-
     private string automatedActionsInstructions;
     private LLMResponseHandler responseHandler = new LLMResponseHandler();
     private const string pattern = @"<think>.*?</think>";
+
+    // Getters pubblici per permettere agli handlers di accedere ai dati
+    public string GetApiUrl() => apiUrl;
+    public string GetBaseInstruction() => baseInstruction;
+    public string GetAutomatedActionsInstructions() => automatedActionsInstructions;
+    public WorldData GetWorldData() => worldData;
+    public LLMUI GetLLMUI() => LLMUI;
+    public LLMResponseHandler GetResponseHandler() => responseHandler;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // Opzionale se vuoi che persista tra le scene
+            LoadConfiguration();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
         inputHandler.OnSendEvent += SendMessage;
     }
-    private void Awake(){
-        // Carica il file XML dalla cartella Resources/XML/ (senza estensione)
+
+    private void LoadConfiguration()
+    {
         LLMConfig config = XMLHelper.LoadFromXml<LLMConfig>("Assets/Resources/XML/DeepSeekConfig.xml");
         
         if(config != null)
@@ -49,50 +71,38 @@ public class LLMManager : MonoBehaviour
         }
     }
 
-    public void SendMessage(){
-        if(GameStateManager.Instance.CurrentState == GameState.Interaction){
+    // Callback per input field - ora usa il sistema di trigger
+    public void SendMessage()
+    {
+        if(GameStateManager.Instance.CurrentState == GameState.Interaction && currentNPC != null)
+        {
             string userMessage = LLMUI.GetInputText();
-            StartCoroutine(SendRequest(userMessage));
+            LLMTriggerManager.Instance.TriggerLLMRequest(currentNPC, LLMTriggerType.UserInteraction, userMessage);
         }
-        
     }
 
-    public void SendAutomatedRequest(NPCInteractable npc)
+    // SERVIZIO per inviare richieste HTTP - usato dagli handlers
+    public IEnumerator SendLLMRequest(NPCInteractable npc, string finalPrompt, string message)
     {
-        // Set the current NPC
-        SetNPC(npc);
+        Debug.Log($"[LLMManager] Sending LLM request for NPC '{npc.GetName()}' ");
         
-        // Send request without activating UI
-        StartCoroutine(SendAutomatedRequestCoroutine());
-    }
-
-    private IEnumerator SendAutomatedRequestCoroutine()
-    {
-        // This is similar to your SendRequest method, but doesn't involve the UI
+        // Recupera lo storico della conversazione
+        ConversationHistory history = npc.GetConversationHistory();
         
-        // Usa le informazioni del mondo e dell'NPC
-        string worldPrompt = worldData.Prompt;
-        
-        // Crea il prompt di sistema combinato
-        string finalInstruction = $"{baseInstruction}\nThe following info is the info about the game world: {worldPrompt}\nThe following info is the info about the NPC you are: {currentNPC.GetNPCData().GetPrompt()}";
-        
-        // Recupera lo storico di conversazione dell'NPC
-        ConversationHistory history = currentNPC.GetConversationHistory();
-        
-        // Se è la prima volta che parliamo, aggiungiamo il prompt di sistema
+        // Se è la prima volta, aggiungi il prompt di sistema
         if(history.messages.Count == 0)
         {
-            history.AddMessage(new RequestParameter("system", finalInstruction));
+            history.AddMessage(new RequestParameter("system", finalPrompt));
         }
         
-        // Aggiungi il messaggio automatico allo storico
-        history.AddMessage(new RequestParameter("user", automatedActionsInstructions));
+        // Aggiungi il messaggio dell'utente allo storico
+        history.AddMessage(new RequestParameter("user", message));
         
-        // Rest of your code for sending the request and processing the response...
-        RequestMessage requestMessage = new RequestMessage("mythomist-7b.Q6_K.gguf", 128, history.GetMessages());
-        
+        // Prepara la richiesta con lo storico corrente
+        RequestMessage requestMessage = new RequestMessage("mythomist-7b.Q6_K.gguf", 256, history.GetMessages());
+
         string jsonPayload = JsonUtility.ToJson(requestMessage);
-        Debug.Log("Sending automated request: " + jsonPayload);
+        Debug.Log($"[LLMManager] JSON Payload: {jsonPayload}");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonPayload);
 
         using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
@@ -109,147 +119,77 @@ public class LLMManager : MonoBehaviour
             else
             {
                 string responseJson = request.downloadHandler.text;
-                // Deserializzazione della risposta API standard
-                LLMAPIResponse apiResponse = JsonUtility.FromJson<LLMAPIResponse>(responseJson);
-        
-                // Estrae il contenuto e lo pulisce
-                string rawContent = apiResponse.choices[0].message.content;
-                string cleanContent = Regex.Replace(rawContent, pattern, "", RegexOptions.Singleline);
-                Debug.Log("Automated response: " + cleanContent);
-                
-                LLMResponse actionResponse = responseHandler.ParseResponse(cleanContent);
-                // Mostra anche il testo della risposta nel pannello
-                LLMUI.SetResponseText(actionResponse.utterance);
-                
-                                // Converti la stringa dell'azione in NPCTriggerType
-                NPCTriggerType triggerTypeToExecute;
-                bool parsingSuccessful = System.Enum.TryParse<NPCTriggerType>(actionResponse.action, true, out triggerTypeToExecute); // 'true' per ignorare maiuscole/minuscole
-
-                if (parsingSuccessful)
-                {
-                    // Execute the action using the action registry
-                    NPCTriggerActionManager.Instance.TriggerEvent(
-                            currentNPC,
-                            triggerTypeToExecute, // Usa il valore dell'enum convertito
-                            GameObject.FindGameObjectWithTag("Player").transform,
-                            actionResponse.utterance
-                    );
-                }
-                else
-                {
-                    Debug.LogError($"[IlTuoScript] Impossibile convertire la stringa di azione '{actionResponse.action}' in un NPCTriggerType valido.");
-                    // Potresti voler gestire questo caso in modo specifico, ad esempio eseguendo un'azione di default o non facendo nulla.
-                    // Execute the action using the action registry
-                        NPCTriggerActionManager.Instance.TriggerEvent(
-                                currentNPC,
-                                NPCTriggerType.Talk, // Usa il valore dell'enum convertito
-                                GameObject.FindGameObjectWithTag("Player").transform,
-                                actionResponse.utterance
-                        );
-                }
-                
-                // Add the response to conversation history
-                history.AddMessage(new RequestParameter("assistant", cleanContent));
+                ProcessLLMResponse(responseJson, npc, history);
             }
         }
     }
 
-    public IEnumerator SendRequest(string userMessage){
+    private void ProcessLLMResponse(string responseJson, NPCInteractable npc, ConversationHistory history)
+    {
+        Debug.Log($"[LLMManager] Processing LLM response for NPC '{npc.GetName()}'");
         
-        // Usa le informazioni del mondo e dell'NPC
-        string worldPrompt = worldData.Prompt;
+        // Deserializzazione della risposta API standard
+        LLMAPIResponse apiResponse = JsonUtility.FromJson<LLMAPIResponse>(responseJson);
         
-        // Crea il prompt di sistema combinato
-        string finalInstruction = $"{baseInstruction}\nThe following info is the info about the game world: {worldPrompt}\nThe following info is the info about the NPC you are: {currentNPC.GetNPCData().GetPrompt()}";
+        // Estrae il contenuto e lo pulisce
+        string rawContent = apiResponse.choices[0].message.content;
+        string cleanContent = Regex.Replace(rawContent, pattern, "", RegexOptions.Singleline);
+        Debug.Log($"[LLMManager] Clean response: {cleanContent}");
         
-        // Recupera lo storico di conversazione dell'NPC
-        ConversationHistory history = currentNPC.GetConversationHistory();
+        LLMResponse actionResponse = responseHandler.ParseResponse(cleanContent);
         
-        // Se è la prima volta che parliamo, aggiungiamo il prompt di sistema
-        if(history.messages.Count == 0)
+       
+        LLMUI.SetResponseText(actionResponse.utterance);
+        
+        
+        // Converti la stringa dell'azione in NPCTriggerType
+        NPCTriggerType triggerTypeToExecute;
+        bool parsingSuccessful = System.Enum.TryParse<NPCTriggerType>(actionResponse.action, true, out triggerTypeToExecute);
+
+        if (parsingSuccessful)
         {
-            history.AddMessage(new RequestParameter("system", finalInstruction));
+            // Execute the action using the action registry
+            NPCTriggerActionManager.Instance.TriggerEvent(
+                npc,
+                triggerTypeToExecute,
+                GameObject.FindGameObjectWithTag("Player").transform,
+                actionResponse.utterance
+            );
+        }
+        else
+        {
+            Debug.LogError($"[LLMManager] Impossibile convertire la stringa di azione '{actionResponse.action}' in un NPCTriggerType valido.");
+            // Fallback action
+            NPCTriggerActionManager.Instance.TriggerEvent(
+                npc,
+                NPCTriggerType.Talk,
+                GameObject.FindGameObjectWithTag("Player").transform,
+                actionResponse.utterance
+            );
         }
         
-        // Aggiungi il messaggio dell'utente allo storico
-        history.AddMessage(new RequestParameter("user", userMessage));
-        
-        // Prepara la richiesta con lo storico corrente
-        RequestMessage requestMessage = new RequestMessage("mythomist-7b.Q6_K.gguf", 256, history.GetMessages());
+        // Aggiungi la risposta allo storico
+        history.AddMessage(new RequestParameter("assistant", cleanContent));
+    }
 
-        string jsonPayload = JsonUtility.ToJson(requestMessage);
-        Debug.Log(jsonPayload);
-        byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonPayload);
-
-        using (UnityWebRequest request = new UnityWebRequest(apiUrl, "POST"))
-            {
-                request.uploadHandler = new UploadHandlerRaw(bodyRaw);
-                request.downloadHandler = new DownloadHandlerBuffer();
-                request.SetRequestHeader("Content-Type", "application/json");
-                yield return request.SendWebRequest();
-
-                if (request.result != UnityWebRequest.Result.Success)
-                {
-                    Debug.LogError("Errore nella richiesta: " + request.error);
-                }
-                else
-                {
-                    string responseJson = request.downloadHandler.text;
-                    // Deserializzazione della risposta API standard
-                    LLMAPIResponse apiResponse = JsonUtility.FromJson<LLMAPIResponse>(responseJson);
-        
-                    // Estrae il contenuto e lo pulisce
-                    string rawContent = apiResponse.choices[0].message.content;
-                    string cleanContent = Regex.Replace(rawContent, pattern, "", RegexOptions.Singleline);
-                    Debug.Log(cleanContent);
-                    LLMResponse actionResponse = responseHandler.ParseResponse(cleanContent);
-                    LLMUI.SetResponseText(actionResponse.utterance);
-                   // Converti la stringa dell'azione in NPCTriggerType
-                    NPCTriggerType triggerTypeToExecute;
-                    bool parsingSuccessful = System.Enum.TryParse<NPCTriggerType>(actionResponse.action, true, out triggerTypeToExecute); // 'true' per ignorare maiuscole/minuscole
-
-                if (parsingSuccessful)
-                {
-                    // Execute the action using the action registry
-                    NPCTriggerActionManager.Instance.TriggerEvent(
-                            currentNPC,
-                            triggerTypeToExecute, // Usa il valore dell'enum convertito
-                            GameObject.FindGameObjectWithTag("Player").transform,
-                            actionResponse.utterance
-                    );
-                }
-                else
-                {
-                    Debug.LogError($"[IlTuoScript] Impossibile convertire la stringa di azione '{actionResponse.action}' in un NPCTriggerType valido.");
-                    // Potresti voler gestire questo caso in modo specifico, ad esempio eseguendo un'azione di default o non facendo nulla.
-                    // Execute the action using the action registry
-                        NPCTriggerActionManager.Instance.TriggerEvent(
-                                currentNPC,
-                                NPCTriggerType.Talk, // Usa il valore dell'enum convertito
-                                GameObject.FindGameObjectWithTag("Player").transform,
-                                actionResponse.utterance
-                        );
-                }
-                    history.AddMessage(new RequestParameter("assistant", cleanContent));
-                }
-            }
-}
-
-    public void SetNPC(NPCInteractable nPC){
+    public void SetNPC(NPCInteractable nPC)
+    {
         this.currentNPC = nPC;
     }
 
-    public void ActivateDialogue(){
+    public void ActivateDialogue()
+    {
         LLMUI.ActivateDialogueBox();
     }
 
-    public void DectivateDialogue(){
-         LLMUI.DectivateDialogueBox();
+    public void DectivateDialogue()
+    {
+        LLMUI.DectivateDialogueBox();
     }
 
     public void SetWorldInfo(WorldData worldData)
     {
-        this.worldData=worldData;
+        this.worldData = worldData;
     }
 }
 

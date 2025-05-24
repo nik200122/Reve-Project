@@ -41,11 +41,24 @@ public class NPCData
     [XmlArray("TriggerActions")]
     [XmlArrayItem("TriggerAction")]
     public List<TriggerActionConfig> TriggerActions;
+    // NUOVO: Sezione per i trigger LLM
+    // Importante: specificare che TriggerActions è una lista
+    [XmlArray("LLMTriggers")]
+    [XmlArrayItem("LLMTrigger")]
+    public List<LLMTriggerConfig> LLMTriggers;
 
     public string GetPrompt()
     {
         return $"NPC Name: {Name}\nBackstory: {Backstory}\nPersonality: {Personality}";
     }
+
+}
+
+[System.Serializable]
+public class LLMTriggerConfig
+{
+    public LLMTriggerType Trigger;
+    public string CustomPrompt; // Prompt personalizzato per questo trigger (opzionale)
 }
 
 // Classe per la serializzazione di Vector3
@@ -107,5 +120,6 @@ public class ParameterConfig
     [XmlAttribute("value")]
     public string value;
 }
+
 
 

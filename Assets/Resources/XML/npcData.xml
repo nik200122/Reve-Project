@@ -2,7 +2,7 @@
   <NPC id="npc_001">
     <Name>Elira</Name>
     <Backstory>Elira is the guardian of the Elenora forest, an expert in magic and ancient knowledge.</Backstory>
-    <Personality>Wise, enigmatic, and protective.</Personality>
+    <Personality>Wise, enigmatic, and protective. She doesn't trust strangers and you have to be really close to come to know about her secrets. </Personality>
     <InteractText>Talk</InteractText>
     <detectionRadius>10</detectionRadius>
     <detectionAngle>70</detectionAngle>
@@ -62,6 +62,15 @@
         </Action>
       </TriggerAction>
     </TriggerActions>
+    <LLMTriggers>
+      <LLMTrigger>
+        <Trigger>PlayerDetected</Trigger>
+      </LLMTrigger>
+      <LLMTrigger>
+        <Trigger>UserInteraction</Trigger>
+        <!-- Nessun CustomPrompt: userà il comportamento standard per le conversazioni -->
+      </LLMTrigger>
+    </LLMTriggers>
   </NPC>
   <NPC id="npc_002">
     <Name>Goruk</Name>
@@ -83,5 +92,11 @@
         </Action>
       </TriggerAction>
     </TriggerActions>
+    <LLMTriggers>
+      <LLMTrigger>
+        <Trigger>UserInteraction</Trigger>
+        <!-- Nessun CustomPrompt: userà il comportamento standard -->
+      </LLMTrigger>
+    </LLMTriggers>
   </NPC>
 </NPCs>
