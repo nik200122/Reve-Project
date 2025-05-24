@@ -340,8 +340,8 @@ public class CharacterStatus : MonoBehaviour
 
     public void SetIsDead(bool value){
         isDead = value;
-        Collider collider= GetComponent<Collider>();
-        collider.enabled = false;
+        //Collider collider= GetComponent<Collider>();
+        //collider.enabled = false;
     }
 
     public bool IsHit(){

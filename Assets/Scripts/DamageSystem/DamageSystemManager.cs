@@ -18,7 +18,6 @@ public class DamageSystemManager : MonoBehaviour
             if (vulnerabilities.Contains(damageType.damageTypeTag)){
                 // E se c’è un comportamento associato
                 Debug.Log("ECCO COSA Cè: "+damageType.damageTypeTag);
-                if(damageType.damageBehaviour == null) Debug.Log("DIO MIO");
                 damageType.damageBehaviour.Apply(attacker, defender, battleCalculatorManager, globalRulesManager.GetDamageApplicationRule().damageTargetStatTag);
             }
         }

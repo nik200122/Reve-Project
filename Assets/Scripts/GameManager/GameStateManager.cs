@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum GameState
 {
+    StartMenu,
     FreeRoam,
     Interaction,
     MenuOpened,
@@ -15,7 +16,7 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance { get; private set; }
     
-    public GameState CurrentState { get; private set; } = GameState.FreeRoam;
+    public GameState CurrentState { get; private set; } = GameState.StartMenu;
     
     // Evento notificante il cambiamento di stato
     public event Action<GameState> OnGameStateChanged;

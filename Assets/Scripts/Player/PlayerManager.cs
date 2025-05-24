@@ -231,12 +231,14 @@ public class PlayerManager : IHittable
         return player.GetStat(statTag);
     }
 
-    private void CheckIsDead(){
+    public bool CheckIsDead(){
         string defeatTargetStat = globalRulesManager.GetDefeatRule().defeatTargetStatTag;
         float defeatValue = globalRulesManager.GetDefeatRule().defeatValue;
-        if(GetStat(defeatTargetStat).currentValue < defeatValue){
-            Debug.Log(" energia player in is Dead: "+ GetStat(defeatTargetStat).currentValue);
+        if(GetStat(defeatTargetStat).currentValue <= defeatValue){
+            Debug.Log(" energia player: "+ GetStat(defeatTargetStat).currentValue);
             characterStatus.SetIsDead(true);
+            return true;
         }
+        return false;
     }
 }

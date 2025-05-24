@@ -35,7 +35,7 @@ public class UIShopItem : MonoBehaviour
         this.item = item;
         this.descriptionText = descriptionText;
         this.icon = icon;
-        this.priceText.text = item.price.ToString();
+        this.priceText.text = item.price.ToString()+"$";
 
         nameText.text = item.name;
     }

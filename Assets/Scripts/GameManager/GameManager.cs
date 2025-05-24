@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
-{   
+{
     [SerializeField] private AudioManager audioManager;
     [SerializeField] private InputHandler input;
     [SerializeField] private PlayerManager playerManager;
@@ -18,21 +19,14 @@ public class GameManager : MonoBehaviour
 
     //per ora un solo nemico
     [SerializeField] private List<EnemyManager> enemyManagerList;
-
+    [SerializeField] private GameObject startMenuUI;
     //per ora un solo shopper
     [SerializeField] private ShopperManager shopperManager;
     private GameLoader gameLoader;
-   // private bool isMenuActionPerformed;
-    //private bool menuOpened = false;
 
-    // private void Awake()
-    // {
-    //     gameLoader = gameObject.GetComponent<GameLoader>();
-    //     playerInput = input.gameObject.GetComponent<PlayerInput>();
-        
-    // }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Awake(){    
+    private void Awake()
+    {
         gameLoader = gameObject.GetComponent<GameLoader>();
 
         gameLoader.LoadData();
@@ -73,28 +67,43 @@ public class GameManager : MonoBehaviour
 
     //wrapper che contiene la lista di tutte le trigger-actions
     private AudioTriggerActionsWrapper wrapperTriggerActions;
-    private void Start(){
-        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+    private void Start()
+    {
+         startMenuUI = GameObject.Find("StartMenuUI");
+        foreach (var triggerActionConfig in wrapperTriggerActions.TriggerActions)
+        {
             IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
-            if(action != null){
+            if (action != null)
+            {
                 AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
             }
         }
-
         AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.onGameState);
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckIsMenuActionPerformed();
-        CheckIsAbilityActionPerformed();
+        // é gestito cosí per pigrizia
+        if (GameStateManager.Instance.CurrentState == GameState.StartMenu){
+            if (Input.anyKey){
+                startMenuUI.SetActive(false);
+                input.gameObject.SetActive(true);
+                GameStateManager.Instance.ChangeState(GameState.FreeRoam);
+            }
+        }else{
+            CheckIsMenuActionPerformed();
+            CheckIsAbilityActionPerformed();
+            CheckGameOver();
+        }
     }
 
     private void CheckIsAbilityActionPerformed()
     {
-       if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
-            if(input.ability){
+        if (GameStateManager.Instance.CurrentState == GameState.FreeRoam)
+        {
+            if (input.ability)
+            {
                 GameStateManager.Instance.ChangeState(GameState.AbilitiesScreen);
                 // Assumi di avere un riferimento al tuo PlayerInput
                 //playerInput.SwitchCurrentActionMap("UI");
@@ -102,8 +111,10 @@ public class GameManager : MonoBehaviour
                 abilityScreenManager.Open();
             }
         }
-        else if(GameStateManager.Instance.CurrentState == GameState.AbilitiesScreen){
-            if(input.back){
+        else if (GameStateManager.Instance.CurrentState == GameState.AbilitiesScreen)
+        {
+            if (input.back)
+            {
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
                 //playerInput.SwitchCurrentActionMap("Player");
                 abilityScreenManager.Hide();
@@ -113,17 +124,21 @@ public class GameManager : MonoBehaviour
 
     private void CheckIsMenuActionPerformed()
     {
-        if(GameStateManager.Instance.CurrentState == GameState.FreeRoam){
-            
-            if(input.menuAction){
+        if (GameStateManager.Instance.CurrentState == GameState.FreeRoam)
+        {
+
+            if (input.menuAction)
+            {
                 Debug.Log("MENU Opened");
-                Debug.Log("INVENTORYCOUNT PPLAYER: "+playerManager.GetInventory().itemList.Count);
+                Debug.Log("INVENTORYCOUNT PPLAYER: " + playerManager.GetInventory().itemList.Count);
                 GameStateManager.Instance.ChangeState(GameState.MenuOpened);
                 inventoryScreenManager.OpenInventoryScreen(playerManager);
             }
         }
-        else if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){
-            if(input.back){
+        else if (GameStateManager.Instance.CurrentState == GameState.MenuOpened)
+        {
+            if (input.back)
+            {
                 Debug.Log("MENU Closed");
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
                 inventoryScreenManager.CloseInventoryScreen();
@@ -131,7 +146,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions){
+    public void SetTriggerActions(AudioTriggerActionsWrapper wrapperTriggerActions)
+    {
         this.wrapperTriggerActions = wrapperTriggerActions;
+    }
+
+    private bool gameOver;
+    private void CheckGameOver(){
+        if (playerManager.CheckIsDead() && !gameOver){
+            gameOver = true;
+            RestartDemo();
+        }
+    }
+
+    private void RestartDemo()
+    {
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //startMenuUI = GameObject.Find("StartMenuUI");
     }
 }

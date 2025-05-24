@@ -98,7 +98,7 @@
     <ConsumableItem>
       <tag>Potion02</tag>
       <name>Epic potion</name>
-      <description>Good potion</description>
+      <description>Epic potion</description>
       <count>1</count>
       <modifiers>
         <StatModifier>
