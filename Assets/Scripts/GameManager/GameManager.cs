@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     //per ora un solo shopper
     [SerializeField] private ShopperManager shopperManager;
     private GameLoader gameLoader;
+    [SerializeField] private AttackSelectionManager attackSelectionManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -38,10 +39,10 @@ public class GameManager : MonoBehaviour
         playerManager.SetAbilityList(gameLoader.LoadedAbilityList);
         playerManager.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
         playerManager.InitializeDictionary();
-        playerCombat.SetPlayerLoadout(gameLoader.LoadedPlayerLoadout);
-        playerCombat.SetComboRules(gameLoader.LoadedComboRules);
-        playerCombat.SetAbilityList(gameLoader.LoadedAbilityList);
-        playerCombat.SetAttackDataList(gameLoader.LoadedAttackDataList);
+        attackSelectionManager.InitializePlayerLoadout(gameLoader.LoadedPlayerLoadout);
+        attackSelectionManager.SetComboRules(gameLoader.LoadedComboRules);
+        attackSelectionManager.InitializeAbilityList(gameLoader.LoadedAbilityList);
+        attackSelectionManager.InitializeAttackData(gameLoader.LoadedAttackDataList);
         shopperManager.SetInventory(gameLoader.LoadedShopper01Inventory);
 
         //si può sicuramente trovare un modo più pulito di fare questo

@@ -1,3 +1,5 @@
+
+
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
@@ -211,7 +213,7 @@ public class LLMManager : MonoBehaviour
                     // Execute the action using the action registry
                     NPCTriggerActionManager.Instance.TriggerEvent(
                             currentNPC,
-                            NPCTriggerType.WarnOthers, // Usa il valore dell'enum convertito
+                            triggerTypeToExecute, // Usa il valore dell'enum convertito
                             GameObject.FindGameObjectWithTag("Player").transform,
                             actionResponse.utterance
                     );
