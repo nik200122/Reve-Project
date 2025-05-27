@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Enemy xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <stats>
+    <Stat>
+      <currentValue>70</currentValue>
+      <maxValue>1000</maxValue>
+      <statTag>Hp</statTag>
+    </Stat>
+    <Stat>
+      <currentValue>25</currentValue>
+      <maxValue>100000</maxValue>
+      <statTag>Attack</statTag>
+    </Stat>
+    <Stat>
+      <currentValue>20</currentValue>
+      <maxValue>100000</maxValue>
+      <statTag>Defense</statTag>
+    </Stat>
+  </stats>
+
+  <attackDataList>
+    <AttackData>
+      <id>Attack1</id>
+      <animationName>lightAttack01</animationName>
+      <overrideControllerPath>Animations/AttacksOV/Attack1OV</overrideControllerPath>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+      </modifiers>
+    </AttackData>
+    <AttackData>
+      <id>Attack2</id>
+      <animationName>lightAttack02</animationName>
+      <overrideControllerPath>Animations/AttacksOV/Attack2OV</overrideControllerPath>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Attack</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+        </modifiers>
+    </AttackData>
+    <AttackData>
+      <id>Attack3</id>
+      <animationName>lightAttack03</animationName>
+      <overrideControllerPath>Animations/AttacksOV/Attack3OV</overrideControllerPath>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Attack</targetStat>
+          <value>30</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+      </modifiers>
+    </AttackData>
+  </attackDataList>
+
+  <vulnerabilities>
+    <DamageTypeTag>Impact</DamageTypeTag>
+  </vulnerabilities>
+
+  <offensiveDamageType>
+    <DamageType>
+      <damageTypeTag>Impact</damageTypeTag>
+      <damageBehaviour>
+        <useDamageFormula>true</useDamageFormula>
+      </damageBehaviour>
+    </DamageType>
+  </offensiveDamageType>
+</Enemy>

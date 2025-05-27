@@ -12,7 +12,11 @@ public class GameLoader : MonoBehaviour
 
     private const string enemy01DataFile = "Assets/Resources/XML/enemy01Data.xml";
     private const string enemy02DataFile = "Assets/Resources/XML/enemy02Data.xml";
-
+    private const string enemy03DataFile = "Assets/Resources/XML/enemy03Data.xml";
+    private const string enemy04DataFile = "Assets/Resources/XML/enemy04Data.xml";
+    private const string enemy05DataFile = "Assets/Resources/XML/enemy05Data.xml";
+    private const string enemy06DataFile = "Assets/Resources/XML/enemy06Data.xml";
+    private const string enemy07DataFile = "Assets/Resources/XML/enemy07Data.xml";
     private const string itemDataFile = "Assets/Resources/XML/itemsData.xml";
     private const string equipmentRulesFile = "Assets/Resources/XML/EquipmentRules.xml";
     private const string worldDataFile = "Assets/Resources/XML/worldInfoReducted.xml";
@@ -43,6 +47,12 @@ public class GameLoader : MonoBehaviour
     public Inventory LoadedShopper01Inventory { get; private set; }
     public Enemy LoadedEnemy01Model { get; private set; }
     public Enemy LoadedEnemy02Model { get; private set; }
+    public Enemy LoadedEnemy03Model { get; private set; }
+    public Enemy LoadedEnemy04Model { get; private set; }
+    public Enemy LoadedEnemy05Model { get; private set; }
+    public Enemy LoadedEnemy06Model { get; private set; }
+    public Enemy LoadedEnemy07Model { get; private set; }
+
     public DamageFormula LoadedDamageFormula { get; private set; }
     public DamageApplicationRule LoadedDamageApplicationRule { get; private set; }
     public DefeatRule LoadedDefeatRule { get; private set; }
@@ -203,11 +213,29 @@ public class GameLoader : MonoBehaviour
     private void LoadShoppersData(){
         LoadedShopper01Inventory = XMLHelper.LoadFromXml<Inventory>(shopper01InventoryDataFile);
     }
-    private void LoadEnemyData(){
+    
+    //non il miglior modo, trovare una soluzione piú scalabile
+    private void LoadEnemyData()
+    {
         LoadedEnemy01Model = XMLHelper.LoadFromXml<Enemy>(enemy01DataFile);
         LoadedEnemy01Model.SetAnimatorOverrideControllers();
 
         LoadedEnemy02Model = XMLHelper.LoadFromXml<Enemy>(enemy02DataFile);
         LoadedEnemy02Model.SetAnimatorOverrideControllers();
+
+        LoadedEnemy03Model = XMLHelper.LoadFromXml<Enemy>(enemy03DataFile);
+        LoadedEnemy03Model.SetAnimatorOverrideControllers();
+
+        LoadedEnemy04Model = XMLHelper.LoadFromXml<Enemy>(enemy04DataFile);
+        LoadedEnemy04Model.SetAnimatorOverrideControllers();
+
+        LoadedEnemy05Model = XMLHelper.LoadFromXml<Enemy>(enemy05DataFile);
+        LoadedEnemy05Model.SetAnimatorOverrideControllers();
+
+        LoadedEnemy06Model = XMLHelper.LoadFromXml<Enemy>(enemy06DataFile);
+        LoadedEnemy06Model.SetAnimatorOverrideControllers();
+
+        LoadedEnemy07Model = XMLHelper.LoadFromXml<Enemy>(enemy07DataFile);
+        LoadedEnemy07Model.SetAnimatorOverrideControllers();
     }
 }

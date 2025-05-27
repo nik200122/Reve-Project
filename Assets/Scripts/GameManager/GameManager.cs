@@ -45,11 +45,7 @@ public class GameManager : MonoBehaviour
         attackSelectionManager.InitializeAttackData(gameLoader.LoadedAttackDataList);
         shopperManager.SetInventory(gameLoader.LoadedShopper01Inventory);
 
-        //si può sicuramente trovare un modo più pulito di fare questo
-        enemyManagerList[0].SetEnemyModel(gameLoader.LoadedEnemy01Model);
-        enemyManagerList[0].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
-        enemyManagerList[1].SetEnemyModel(gameLoader.LoadedEnemy02Model);
-        enemyManagerList[1].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+        SetEnemyData();
 
         battleCalculatorManager.SetDamageFormula(gameLoader.LoadedDamageFormula);
         globalRulesManager.SetDamageApplicationRule(gameLoader.LoadedDamageApplicationRule);
@@ -70,7 +66,7 @@ public class GameManager : MonoBehaviour
     private AudioTriggerActionsWrapper wrapperTriggerActions;
     private void Start()
     {
-         startMenuUI = GameObject.Find("StartMenuUI");
+        startMenuUI = GameObject.Find("StartMenuUI");
         foreach (var triggerActionConfig in wrapperTriggerActions.TriggerActions)
         {
             IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
@@ -86,13 +82,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // é gestito cosí per pigrizia
-        if (GameStateManager.Instance.CurrentState == GameState.StartMenu){
-            if (Input.anyKey){
+        if (GameStateManager.Instance.CurrentState == GameState.StartMenu)
+        {
+            if (Input.anyKey)
+            {
                 startMenuUI.SetActive(false);
                 input.gameObject.SetActive(true);
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
             }
-        }else{
+        }
+        else
+        {
             CheckIsMenuActionPerformed();
             CheckIsAbilityActionPerformed();
             CheckGameOver();
@@ -153,8 +153,10 @@ public class GameManager : MonoBehaviour
     }
 
     private bool gameOver;
-    private void CheckGameOver(){
-        if (playerManager.CheckIsDead() && !gameOver){
+    private void CheckGameOver()
+    {
+        if (playerManager.CheckIsDead() && !gameOver)
+        {
             gameOver = true;
             RestartDemo();
         }
@@ -164,5 +166,23 @@ public class GameManager : MonoBehaviour
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //startMenuUI = GameObject.Find("StartMenuUI");
+    }
+
+    private void SetEnemyData(){
+        //si può sicuramente trovare un modo più pulito di fare questo
+        enemyManagerList[0].SetEnemyModel(gameLoader.LoadedEnemy01Model);
+        enemyManagerList[0].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+        enemyManagerList[1].SetEnemyModel(gameLoader.LoadedEnemy02Model);
+        enemyManagerList[1].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+        enemyManagerList[2].SetEnemyModel(gameLoader.LoadedEnemy03Model);
+        enemyManagerList[2].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+        enemyManagerList[3].SetEnemyModel(gameLoader.LoadedEnemy04Model);
+        enemyManagerList[3].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+        enemyManagerList[4].SetEnemyModel(gameLoader.LoadedEnemy05Model);
+        enemyManagerList[4].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+        enemyManagerList[5].SetEnemyModel(gameLoader.LoadedEnemy06Model);
+        enemyManagerList[5].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
+        enemyManagerList[6].SetEnemyModel(gameLoader.LoadedEnemy07Model);
+        enemyManagerList[6].GetComponent<EnemyAIController>().SetTriggerActions(gameLoader.LoadedOnHitAudioData);
     }
 }
