@@ -23,8 +23,8 @@ public class DamageBehavior
             enemyManager.GetEnemyModel().SetStat(damageTargetStatTag, enemyManager.GetStat(damageTargetStatTag).currentValue - damage);
             Debug.Log("VITA ENEMY: "+enemyManager.GetStat(damageTargetStatTag).currentValue);
         }else{
-            playerManager.GetPlayerModel().SetStat(damageTargetStatTag, playerManager.GetStat(damageTargetStatTag).currentValue - damage);
-            Debug.Log("VITA PLAYER: "+playerManager.GetStat(damageTargetStatTag).currentValue);
+            playerManager.GetPlayerModel().SetBaseStat(damageTargetStatTag, playerManager.GetStat(damageTargetStatTag).baseValue - damage);
+            Debug.Log("VITA PLAYER: "+playerManager.GetStat(damageTargetStatTag).baseValue);
         }
     }
 }

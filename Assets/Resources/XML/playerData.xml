@@ -3,23 +3,27 @@
 
   <stats>
     <Stat>
-      <currentValue>70</currentValue>
-      <maxValue>999999</maxValue>
+      <currentValue>160</currentValue>
+      <baseValue>160</baseValue>
+      <maxValue>9999</maxValue>
       <statTag>Money</statTag>
     </Stat>
     <Stat>
-      <currentValue>70</currentValue>
-      <maxValue>1000</maxValue>
+      <currentValue>200</currentValue>
+      <baseValue>200</baseValue>
+      <maxValue>200</maxValue>
       <statTag>Hp</statTag>
     </Stat>
     <Stat>
-      <currentValue>35</currentValue>
-      <maxValue>100000</maxValue>
+      <currentValue>5</currentValue>
+      <baseValue>5</baseValue>
+      <maxValue>1000</maxValue>
       <statTag>Attack</statTag>
     </Stat>
     <Stat>
-      <currentValue>60</currentValue>
-      <maxValue>100000</maxValue>
+      <currentValue>6</currentValue>
+      <baseValue>6</baseValue>
+      <maxValue>1000</maxValue>
       <statTag>Defense</statTag>
     </Stat>
   </stats>

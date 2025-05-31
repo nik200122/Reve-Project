@@ -3,8 +3,8 @@
   <itemList>
     <EquipableItem>
       <tag>Weapon01</tag>
-      <name>Epic Blade</name>
-      <description>Incredible blade</description>
+      <name>Longsword</name>
+      <description>A versatile, double-edged sword used in combat with one hand. Increases attack by 20.</description>
       <count>1</count>
       <modifiers>
         <StatModifier>
@@ -13,14 +13,14 @@
           <modifierType>Additive</modifierType>
         </StatModifier>
       </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
+      <spritePath>Sprite/RPG_inventory_icons/sword</spritePath>
       <equipableItemCategory>Weapon</equipableItemCategory>
       <isEquipped>false</isEquipped>
     </EquipableItem>
     <EquipableItem>
-      <tag>Weapon02</tag>
-      <name>Epic Sword</name>
-      <description>Incredible sword</description>
+      <tag>Weapon01</tag>
+      <name>Longsword</name>
+      <description>A versatile, double-edged sword used in combat with one hand. Increases attack by 20.</description>
       <count>1</count>
       <modifiers>
         <StatModifier>
@@ -29,85 +29,23 @@
           <modifierType>Additive</modifierType>
         </StatModifier>
       </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
+      <spritePath>Sprite/RPG_inventory_icons/sword</spritePath>
       <equipableItemCategory>Weapon</equipableItemCategory>
-      <isEquipped>false</isEquipped>
-    </EquipableItem>
-    <EquipableItem>
-      <tag>Helmet01</tag>
-      <name>Epic helmet</name>
-      <description>Incredible helmet</description>
-      <count>1</count>
-      <modifiers>
-        <StatModifier>
-          <targetStat>Defense</targetStat>
-          <value>20</value>
-          <modifierType>Additive</modifierType>
-        </StatModifier>
-      </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Helmet</equipableItemCategory>
-      <isEquipped>false</isEquipped>
-    </EquipableItem>
-    <EquipableItem>
-      <tag>Ring01</tag>
-      <name>Epic ring</name>
-      <description>Incredible ring</description>
-      <count>1</count>
-      <modifiers>
-        <StatModifier>
-          <targetStat>Defense</targetStat>
-          <value>20</value>
-          <modifierType>Additive</modifierType>
-        </StatModifier>
-      </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Accessory</equipableItemCategory>
-      <isEquipped>false</isEquipped>
-    </EquipableItem>
-    <EquipableItem>
-      <tag>Ring02</tag>
-      <name>Good ring</name>
-      <description>Good ring</description>
-      <count>1</count>
-      <modifiers>
-        <StatModifier>
-          <targetStat>Defense</targetStat>
-          <value>10</value>
-          <modifierType>Additive</modifierType>
-        </StatModifier>
-      </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Accessory</equipableItemCategory>
       <isEquipped>false</isEquipped>
     </EquipableItem>
     <ConsumableItem>
       <tag>Potion01</tag>
-      <name>Good potion</name>
-      <description>Good potion</description>
+      <name>Minor Potion</name>
+      <description>A simple red elixir once refined by Wesely Snipes, a famed battlefield medic of the Emerald Order. Restores 20 HP</description>
       <count>2</count>
       <modifiers>
         <StatModifier>
           <targetStat>Hp</targetStat>
-          <value>10</value>
+          <value>20</value>
           <modifierType>Additive</modifierType>
         </StatModifier>
       </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
-    </ConsumableItem>
-    <ConsumableItem>
-      <tag>Potion02</tag>
-      <name>Epic potion</name>
-      <description>Epic potion</description>
-      <count>1</count>
-      <modifiers>
-        <StatModifier>
-          <targetStat>Hp</targetStat>
-          <value>30</value>
-          <modifierType>Additive</modifierType>
-        </StatModifier>
-      </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
+      <spritePath>Sprite/RPG_inventory_icons/MinorHealthPotion</spritePath>
     </ConsumableItem>
   </itemList>
 </Inventory>

@@ -27,7 +27,11 @@ public class UIInventoryItem : MonoBehaviour
     public void Select()
     {   
         descriptionText.text = item.description;
-        //icon.sprite = item.spritePath; 
+        icon.sprite = Resources.Load<Sprite>(item.spritePath);
+        if (item.spritePath == null)
+{
+    Debug.LogError("Sprite not found at path: " + item.spritePath);
+}
         nameText.color = Color.blue;
     }
 

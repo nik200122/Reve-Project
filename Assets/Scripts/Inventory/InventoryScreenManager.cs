@@ -23,9 +23,12 @@ public class InventoryScreenManager : MonoBehaviour
     
     void Start(){
         playerManager = FindAnyObjectByType<PlayerManager>();
-        foreach(var triggerActionConfig in wrapperTriggerActions.TriggerActions){
+        inventoryScreenUI.SetNotifyText(" ");
+        foreach (var triggerActionConfig in wrapperTriggerActions.TriggerActions)
+        {
             IAudioAction action = ActionFactory.CreateAudioAction(triggerActionConfig.Action.type, triggerActionConfig.Action.Parameters);
-            if(action != null){
+            if (action != null)
+            {
                 AudioTriggerActionManager.Instance.RegisterAction(this.gameObject, triggerActionConfig.Trigger, action);
             }
         }
@@ -46,6 +49,7 @@ public class InventoryScreenManager : MonoBehaviour
             isEquipableMode = !isEquipableMode;
             input.scrollLeftAction = false;
             SetItemData();
+            inventoryScreenUI.SetNotifyText(" ");
             selectedItem = 0;
             previousSelection = 0;
             UpdateItemSelection();
@@ -57,6 +61,7 @@ public class InventoryScreenManager : MonoBehaviour
             isEquipableMode = !isEquipableMode;
             input.scrollRightAction = false;
             SetItemData();
+            inventoryScreenUI.SetNotifyText(" ");
             selectedItem = 0;
             previousSelection = 0;
             UpdateItemSelection();
@@ -66,6 +71,7 @@ public class InventoryScreenManager : MonoBehaviour
     private void CheckScrollUpActionPerformed(){
         if(input.scrollUpAction){
             --selectedItem;
+            inventoryScreenUI.SetNotifyText(" ");
             UpdateItemSelection();
             input.scrollUpAction = false;
             AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
@@ -76,6 +82,7 @@ public class InventoryScreenManager : MonoBehaviour
         if(input.scrollDownAction){
             ++selectedItem;
             UpdateItemSelection();
+            inventoryScreenUI.SetNotifyText(" ");
             input.scrollDownAction = false;
             AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
@@ -84,15 +91,28 @@ public class InventoryScreenManager : MonoBehaviour
     private void CheckSelectionActionPerformed(){
         bool isUsed;
         if(input.selectionPerformed){
-            isUsed = filteredItemList[selectedItem].UseItem(playerManager);
-            if(isUsed)
+
+            if (filteredItemList[selectedItem] is EquipableItem item){
+                if (item.isEquipped){
+                    //UseItem ijn questo caso disequipaggia oggetto
+                    isUsed = filteredItemList[selectedItem].UseItem(playerManager);
+                    inventoryScreenUI.SetHighlight(selectedItem, isUsed);
+                }else{
+                    //UseItem ijn questo caso disequipaggia oggetto
+                    isUsed = filteredItemList[selectedItem].UseItem(playerManager);
+                    if (isUsed){
+                        AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);
+                        inventoryScreenUI.SetHighlight(selectedItem, isUsed);
+                    }else{
+                        inventoryScreenUI.SetNotifyText("You have reached the maximum number of equipped items for this category: " + item.equipableItemCategory);
+                        AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnInvalidSelection);
+                    }
+                }
+            }
+            else{
+                filteredItemList[selectedItem].UseItem(playerManager);
                 AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);
-            else
-                AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnInvalidSelection);
-            if(filteredItemList[selectedItem] is EquipableItem){
-                inventoryScreenUI.SetHighlight(selectedItem, isUsed);
-            }else {
-                if(filteredItemList[selectedItem].count == 0)
+                if (filteredItemList[selectedItem].count == 0)
                     inventory.itemList.Remove(filteredItemList[selectedItem]);
                 SetItemData();
             }

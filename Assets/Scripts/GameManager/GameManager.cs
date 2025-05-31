@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
             if (input.menuAction)
             {
                 Debug.Log("MENU Opened");
-                Debug.Log("INVENTORYCOUNT PPLAYER: " + playerManager.GetInventory().itemList.Count);
+                Debug.Log("INVENTORYCOUNT PLAYER: " + playerManager.GetInventory().itemList.Count);
                 GameStateManager.Instance.ChangeState(GameState.MenuOpened);
                 inventoryScreenManager.OpenInventoryScreen(playerManager);
             }
