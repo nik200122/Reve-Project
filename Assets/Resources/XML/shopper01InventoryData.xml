@@ -2,68 +2,153 @@
 <Inventory xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <itemList>
     <EquipableItem>
-      <tag>Weapon09</tag>
-      <name>Super Blade</name>
-      <description>Incredible blade</description>
+      <tag>Weapon01</tag>
+      <name>Longsword</name>
+      <description>A versatile, double-edged sword used in combat with one hand. Increases attack by 20.</description>
       <count>1</count>
-      <price>100</price>
+      <price>40</price>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Attack</targetStat>
-          <value>50</value>
+          <value>20</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
+      <spritePath>Sprite/RPG_inventory_icons/sword</spritePath>
       <equipableItemCategory>Weapon</equipableItemCategory>
       <isEquipped>false</isEquipped>
     </EquipableItem>
     <EquipableItem>
-      <tag>Weapon02</tag>
-      <name>Epic Sword</name>
-      <description>Incredible sword</description>
+      <tag>Chest01</tag>
+      <name>Verdant Shroud</name>
+      <description>It is said the wearer can walk among forest shadows without leaving a trace. Increases Defense by 20.</description>
+      <count>1</count>
+      <price>40</price>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Defense</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+      </modifiers>
+      <spritePath>Sprite/RPG_inventory_icons/cloaks</spritePath>
+      <equipableItemCategory>Chest</equipableItemCategory>
+      <isEquipped>false</isEquipped>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Helmet01</tag>
+      <name>Yamcha</name>
+      <description>An ancient helm whose inner walls murmur forgotten words. It protects only the skull. Increases Defense by 20.</description>
+      <count>1</count>
+      <price>40</price>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Defense</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+      </modifiers>
+      <spritePath>Sprite/RPG_inventory_icons/helmets</spritePath>
+      <equipableItemCategory>Helmet</equipableItemCategory>
+      <isEquipped>false</isEquipped>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Leggings01</tag>
+      <name>Warden’s Duskleggings</name>
+      <description>Leggings reinforced with the hide of a twilight drake. Flexible yet resilient. Increases Defense by 20.</description>
+      <count>1</count>
+      <price>40</price>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Defense</targetStat>
+          <value>20</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+      </modifiers>
+      <spritePath>Sprite/RPG_inventory_icons/pants</spritePath>
+      <equipableItemCategory>Leggings</equipableItemCategory>
+      <isEquipped>false</isEquipped>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Chest02</tag>
+      <name>Hollow Sunplate</name>
+      <description>Forged from solar fragments, it radiates a harsh, blinding glow in battle. Increases Defense by 40.</description>
+      <count>1</count>
+      <price>70</price>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Defense</targetStat>
+          <value>40</value>
+          <modifierType>Additive</modifierType>
+        </StatModifier>
+      </modifiers>
+      <spritePath>Sprite/RPG_inventory_icons/armor</spritePath>
+      <equipableItemCategory>Chest</equipableItemCategory>
+      <isEquipped>false</isEquipped>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Accessory01</tag>
+      <name>Deep Pearl Charm</name>
+      <description>Adorned with a pulsing pearl, said to hold the last breath of a drowned city. Increases Defense by 7%.</description>
       <count>1</count>
       <price>50</price>
       <modifiers>
-        <PlayerModifier>
-          <targetStat>Attack</targetStat>
-          <value>20</value>
-          <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        <StatModifier>
+          <targetStat>Defense</targetStat>
+          <value>1.07</value>
+          <modifierType>Multiplicative</modifierType>
+        </StatModifier>
       </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
-      <equipableItemCategory>Weapon</equipableItemCategory>
+      <spritePath>Sprite/RPG_inventory_icons/necklace</spritePath>
+      <equipableItemCategory>Accessory</equipableItemCategory>
+      <isEquipped>false</isEquipped>
+    </EquipableItem>
+    <EquipableItem>
+      <tag>Accessory02</tag>
+      <name>Oathfire Band</name>
+      <description>A flame-etched ring once worn by sworn protectors; warm, eternal, unyielding. Increases Attack by 7%.</description>
+      <count>1</count>
+      <price>50</price>
+      <modifiers>
+        <StatModifier>
+          <targetStat>Attack</targetStat>
+          <value>1.07</value>
+          <modifierType>Multiplicative</modifierType>
+        </StatModifier>
+      </modifiers>
+      <spritePath>Sprite/RPG_inventory_icons/rings</spritePath>
+      <equipableItemCategory>Accessory</equipableItemCategory>
       <isEquipped>false</isEquipped>
     </EquipableItem>
     <ConsumableItem>
       <tag>Potion01</tag>
-      <name>Good potion</name>
-      <description>Good potion</description>
+      <name>Minor Potion</name>
+      <description>A simple red elixir once refined by Wesely Snipes, a famed battlefield medic of the Emerald Order. Restores 20 HP</description>
       <count>1</count>
-      <price>10</price>
+      <price>15</price>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Hp</targetStat>
-          <value>10</value>
+          <value>20</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
+      <spritePath>Sprite/RPG_inventory_icons/MinorHealthPotion</spritePath>
     </ConsumableItem>
     <ConsumableItem>
-      <tag>Potion02</tag>
-      <name>Epic potion</name>
-      <description>Good potion</description>
+      <tag>Food01</tag>
+      <name>Apple</name>
+      <description>An apple. Restores 5 HP</description>
       <count>1</count>
-      <price>30</price>
+      <price>5</price>
       <modifiers>
-        <PlayerModifier>
+        <StatModifier>
           <targetStat>Hp</targetStat>
-          <value>30</value>
+          <value>5</value>
           <modifierType>Additive</modifierType>
-        </PlayerModifier>
+        </StatModifier>
       </modifiers>
-      <spritePath>MinorHealthPotion</spritePath>
+      <spritePath>Sprite/RPG_inventory_icons/apple</spritePath>
     </ConsumableItem>
   </itemList>
 </Inventory>

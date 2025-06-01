@@ -64,8 +64,8 @@ public class PlayerManager : IHittable
 
     public void ApplyModifier(StatModifier modifier){
         Debug.Log("MODIFIER CHIAMATO");
-        player.SetStat(modifier.targetStat, player.GetStat(modifier.targetStat).currentValue + modifier.value);
-        Debug.Log("OGGETTO USATO CORRETTAMENTE" + player.GetStat(modifier.targetStat).currentValue);
+        player.SetBaseStat(modifier.targetStat, player.GetStat(modifier.targetStat).baseValue + modifier.value);
+        Debug.Log("OGGETTO USATO CORRETTAMENTE" + player.GetStat(modifier.targetStat).baseValue);
     }
 
     private void AddModifiers(List<StatModifier> modifiersToAdd){
@@ -186,12 +186,12 @@ public class PlayerManager : IHittable
     }
 
     public bool CanAffordItem(int itemPrice){
-        if (player.GetStat("Money").baseValue < itemPrice){
+        if (player.GetStat(globalRulesManager.GetCurrencyRule().currencyTargetStatTag).baseValue < itemPrice){
             Debug.Log("non abbastanza soldi");
             return false;
         }
 
-        player.GetStat("Money").baseValue -= itemPrice;
+        player.GetStat(globalRulesManager.GetCurrencyRule().currencyTargetStatTag).baseValue -= itemPrice;
         return true;
     }
 

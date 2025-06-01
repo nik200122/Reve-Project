@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class ShopScreenManager : MonoBehaviour
@@ -25,6 +26,7 @@ public class ShopScreenManager : MonoBehaviour
     private bool isInventoryUpdated = false;
     
     void Start(){
+        shopScreenUI.SetNotifyText(" ");
         playerManager = FindAnyObjectByType<PlayerManager>();
         gameStateManager = FindAnyObjectByType<GameStateManager>();
 
@@ -51,6 +53,7 @@ public class ShopScreenManager : MonoBehaviour
             isEquipableMode = !isEquipableMode;
             input.scrollLeftAction = false;
             SetItemData();
+            shopScreenUI.SetNotifyText(" ");
             selectedItem = 0;
             previousSelection = 0;
             UpdateItemSelection();
@@ -62,6 +65,7 @@ public class ShopScreenManager : MonoBehaviour
             isEquipableMode = !isEquipableMode;
             input.scrollRightAction = false;
             SetItemData();
+            shopScreenUI.SetNotifyText(" ");
             selectedItem = 0;
             previousSelection = 0;
             UpdateItemSelection();
@@ -72,6 +76,7 @@ public class ShopScreenManager : MonoBehaviour
         if(input.scrollUpAction){
             --selectedItem;
             UpdateItemSelection();
+            shopScreenUI.SetNotifyText(" ");
             input.scrollUpAction = false;
             AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
@@ -81,6 +86,7 @@ public class ShopScreenManager : MonoBehaviour
         if(input.scrollDownAction){
             ++selectedItem;
             UpdateItemSelection();
+            shopScreenUI.SetNotifyText(" ");
             input.scrollDownAction = false;
             AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuNavigation);
         }
@@ -97,6 +103,7 @@ public class ShopScreenManager : MonoBehaviour
         Item itemToBuy = filteredItemList[selectedItem];
         if (!playerManager.CanAffordItem(itemToBuy.price)){
             AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnInvalidSelection);
+            shopScreenUI.SetNotifyText("Come back when your coin purse is heavier");
             return;
         }
         AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);

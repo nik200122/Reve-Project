@@ -27,7 +27,7 @@ public class UIShopItem : MonoBehaviour
     public void Select()
     {   
         descriptionText.text = item.description;
-        //icon.sprite = item.spritePath; 
+        icon.sprite = Resources.Load<Sprite>(item.spritePath);
         nameText.color = Color.blue;
     }
 
@@ -35,12 +35,13 @@ public class UIShopItem : MonoBehaviour
         this.item = item;
         this.descriptionText = descriptionText;
         this.icon = icon;
-        this.priceText.text = item.price.ToString()+"$";
+        this.priceText.text = item.price.ToString() + "<color=#228B22>$</color>";
 
         nameText.text = item.name;
     }
 
-    public float GetRectTransformHeight(){
+    public float GetRectTransformHeight()
+    {
         return rectTransform.rect.height;
     }
 }

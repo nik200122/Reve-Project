@@ -78,6 +78,12 @@ public class UIInventoryScreen : MonoBehaviour
         itemListRect.localPosition = new Vector2(itemListRect.localPosition.x, scrollPos);
     }
 
+    public void SetNullData()
+    {
+        itemDescription.text = " ";
+        itemIcon.sprite = null;
+    }
+
     public void Deselect(int deselectedItem)
     {
         inventorySlots[deselectedItem].Deselect();

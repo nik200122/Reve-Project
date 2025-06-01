@@ -27,8 +27,9 @@ public class GameLoader : MonoBehaviour
     private const string damageFormulaFile = "Assets/Resources/XML/DamageFormula.xml";
     private const string damageApplicationRuleFile = "Assets/Resources/XML/damageApplicationRule.xml";
     private const string defeatRuleFile = "Assets/Resources/XML/defeatRule.xml";
+    private const string currencyRuleFile = "Assets/Resources/XML/currencyRule.xml";
 
-    private const string menuAudioDataFile =  "Assets/Resources/XML/MenuAudioData.xml";
+    private const string menuAudioDataFile = "Assets/Resources/XML/MenuAudioData.xml";
     private const string gameMusicDataFile =  "Assets/Resources/XML/gameMusicData.xml";
     private const string onHitAudioDataFile =  "Assets/Resources/XML/onHitAudioData.xml";
     
@@ -56,6 +57,7 @@ public class GameLoader : MonoBehaviour
     public DamageFormula LoadedDamageFormula { get; private set; }
     public DamageApplicationRule LoadedDamageApplicationRule { get; private set; }
     public DefeatRule LoadedDefeatRule { get; private set; }
+    public CurrencyRule LoadedCurrencyRule { get; private set; }
 
     // [XmlArray("TriggerActions")]
     // [XmlArrayItem("TriggerAction")]
@@ -65,7 +67,8 @@ public class GameLoader : MonoBehaviour
     public AudioTriggerActionsWrapper LoadedGameMusicData { get; private set; }
     public AudioTriggerActionsWrapper LoadedOnHitAudioData { get; private set; }
 
-    public void LoadData(){
+    public void LoadData()
+    {
 
         LoadPlayerData();
 
@@ -82,7 +85,7 @@ public class GameLoader : MonoBehaviour
         LoadEnemyData();
 
         LoadShoppersData();
-        
+
         //LoadAssets();
 
         LoadAudioData();
@@ -92,6 +95,7 @@ public class GameLoader : MonoBehaviour
         LoadDamageApplicationRule();
 
         LoadDefeatRule();
+        LoadCurrencyRule();
     }
 
     private void LoadAudioData(){
@@ -104,8 +108,12 @@ public class GameLoader : MonoBehaviour
     private void LoadDefeatRule(){
         LoadedDefeatRule = XMLHelper.LoadFromXml<DefeatRule>(defeatRuleFile);
     }
+    private void LoadCurrencyRule(){
+        LoadedCurrencyRule = XMLHelper.LoadFromXml<CurrencyRule>(currencyRuleFile);
+    }
 
-    private void LoadDamageFormula(){
+    private void LoadDamageFormula()
+    {
         LoadedDamageFormula = XMLHelper.LoadFromXml<DamageFormula>(damageFormulaFile);
     }
 

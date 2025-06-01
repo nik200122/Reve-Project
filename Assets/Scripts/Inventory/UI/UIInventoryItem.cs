@@ -28,10 +28,6 @@ public class UIInventoryItem : MonoBehaviour
     {   
         descriptionText.text = item.description;
         icon.sprite = Resources.Load<Sprite>(item.spritePath);
-        if (item.spritePath == null)
-{
-    Debug.LogError("Sprite not found at path: " + item.spritePath);
-}
         nameText.color = Color.blue;
     }
 
@@ -46,12 +42,10 @@ public class UIInventoryItem : MonoBehaviour
         this.countText.text = item.count.ToString();
 
         nameText.text = item.name;
-
-        // if(item is RecoveryItem recoveryItem)
-        //     countText.text = $"X{recoveryItem.GetAmount()}";
     }
 
-    public float GetRectTransformHeight(){
+    public float GetRectTransformHeight()
+    {
         return rectTransform.rect.height;
     }
 }

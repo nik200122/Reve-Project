@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         battleCalculatorManager.SetDamageFormula(gameLoader.LoadedDamageFormula);
         globalRulesManager.SetDamageApplicationRule(gameLoader.LoadedDamageApplicationRule);
         globalRulesManager.SetDefeatRule(gameLoader.LoadedDefeatRule);
+        globalRulesManager.SetCurrencyRule(gameLoader.LoadedCurrencyRule);
 
         // Inizializza l'AbilityScreenManager con la lista globale delle abilità
         abilityScreenManager.Initialize(gameLoader.LoadedAbilityList, gameLoader.LoadedPlayerLoadout);

@@ -35,12 +35,23 @@ public class InventoryScreenManager : MonoBehaviour
     }
 
     public void Update(){
-        if(GameStateManager.Instance.CurrentState == GameState.MenuOpened){
+        if (GameStateManager.Instance.CurrentState == GameState.MenuOpened){
             CheckScrollDownActionPerformed();
             CheckScrollUpActionPerformed();
             CheckScrollRightActionPerformed();
             CheckScrollLeftActionPerformed();
             CheckSelectionActionPerformed();
+            CheckEmptyInventory();
+        }
+    }
+
+    private void CheckEmptyInventory(){
+        if (filteredItemList.Count == 0){
+            inventoryScreenUI.SetNullData();
+            if (!isEquipableMode)
+                inventoryScreenUI.SetNotifyText("you don't have any consumable items");
+            else
+                inventoryScreenUI.SetNotifyText("you don't have any equippable items");
         }
     }
 
@@ -69,7 +80,7 @@ public class InventoryScreenManager : MonoBehaviour
     }
 
     private void CheckScrollUpActionPerformed(){
-        if(input.scrollUpAction){
+        if(input.scrollUpAction && filteredItemList.Count > 0){
             --selectedItem;
             inventoryScreenUI.SetNotifyText(" ");
             UpdateItemSelection();
@@ -79,7 +90,7 @@ public class InventoryScreenManager : MonoBehaviour
     }
 
     private void CheckScrollDownActionPerformed(){
-        if(input.scrollDownAction){
+        if(input.scrollDownAction && filteredItemList.Count > 0){
             ++selectedItem;
             UpdateItemSelection();
             inventoryScreenUI.SetNotifyText(" ");
@@ -90,7 +101,7 @@ public class InventoryScreenManager : MonoBehaviour
 
     private void CheckSelectionActionPerformed(){
         bool isUsed;
-        if(input.selectionPerformed){
+        if(input.selectionPerformed && filteredItemList.Count > 0){
 
             if (filteredItemList[selectedItem] is EquipableItem item){
                 if (item.isEquipped){
@@ -108,13 +119,13 @@ public class InventoryScreenManager : MonoBehaviour
                         AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnInvalidSelection);
                     }
                 }
-            }
-            else{
+            }else{
                 filteredItemList[selectedItem].UseItem(playerManager);
                 AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);
                 if (filteredItemList[selectedItem].count == 0)
                     inventory.itemList.Remove(filteredItemList[selectedItem]);
                 SetItemData();
+                UpdateItemSelection();
             }
             input.selectionPerformed = false;
         }

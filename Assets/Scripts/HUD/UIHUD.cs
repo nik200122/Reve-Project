@@ -5,6 +5,7 @@ public class UIHUD : MonoBehaviour
 {
     [SerializeField] private UIBar healthBar;
     [SerializeField] private TextMeshProUGUI moneyQuantity;
+    [SerializeField] private GlobalRulesManager globalRulesManager;
 
     public void SetData(Player player)
     {   
