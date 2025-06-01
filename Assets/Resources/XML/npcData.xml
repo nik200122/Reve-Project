@@ -8,18 +8,18 @@
     <detectionAngle>70</detectionAngle>
     <GiveableItems>
     <ConsumableItem>
-      <tag>Potion02</tag>
-      <name>Epic potion</name>
-      <description>Good potion</description>
-      <count>1</count>
+      <tag>Potion01</tag>
+      <name>Minor Potion</name>
+      <description>A simple red elixir once refined by Wesely Snipes, a famed battlefield medic of the Emerald Order. Restores 20 HP</description>
+      <count>2</count>
       <modifiers>
         <StatModifier>
           <targetStat>Hp</targetStat>
-          <value>30</value>
+          <value>20</value>
           <modifierType>Additive</modifierType>
         </StatModifier>
       </modifiers>
-      <spritePath>PathToSprite</spritePath>
+      <spritePath>Sprite/RPG_inventory_icons/MinorHealthPotion</spritePath>
     </ConsumableItem>
   </GiveableItems>
     <TriggerActions>

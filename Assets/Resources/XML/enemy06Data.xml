@@ -3,17 +3,20 @@
   <stats>
     <Stat>
       <currentValue>70</currentValue>
-      <maxValue>1000</maxValue>
+      <baseValue>70</baseValue>
+      <maxValue>70</maxValue>
       <statTag>Hp</statTag>
     </Stat>
     <Stat>
-      <currentValue>25</currentValue>
-      <maxValue>100000</maxValue>
+      <currentValue>40</currentValue>
+      <baseValue>40</baseValue>
+      <maxValue>40</maxValue>
       <statTag>Attack</statTag>
     </Stat>
     <Stat>
       <currentValue>20</currentValue>
-      <maxValue>100000</maxValue>
+      <baseValue>20</baseValue>
+      <maxValue>20</maxValue>
       <statTag>Defense</statTag>
     </Stat>
   </stats>
