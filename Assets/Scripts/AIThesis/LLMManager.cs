@@ -55,7 +55,7 @@ public class LLMManager : MonoBehaviour
 
     private void LoadConfiguration()
     {
-        LLMConfig config = XMLHelper.LoadFromXml<LLMConfig>("Assets/Resources/XML/DeepSeekConfig.xml");
+        LLMConfig config = XMLHelper.LoadFromXml<LLMConfig>("XML/DeepSeekConfig");
         
         if(config != null)
         {

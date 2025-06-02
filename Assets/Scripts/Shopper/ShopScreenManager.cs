@@ -107,6 +107,7 @@ public class ShopScreenManager : MonoBehaviour
             return;
         }
         AudioTriggerActionManager.Instance.TriggerEvent(this.gameObject, TriggerType.OnMenuSelection);
+        shopScreenUI.SetNotifyText("This treasure is now yours—spend wisely!");
         playerManager.GetInventory().AddItem(itemToBuy);
         Debug.Log("Comprato");
     }

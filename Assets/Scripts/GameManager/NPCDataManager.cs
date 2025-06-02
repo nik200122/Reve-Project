@@ -7,8 +7,8 @@ public class NPCDataManager : MonoBehaviour
 {
     public static NPCDataManager Instance { get; private set; }
 
-    // Percorso al file XML (può essere modificato in base alle tue esigenze)
-    public string npcDataFile = "Assets/Resources/XML/npcData.xml";
+    // Percorso al file XML
+    //public string npcDataFile = "XML/npcData";
 
     private Dictionary<string, NPCData> npcDataDictionary = new Dictionary<string, NPCData>();
      // Dictionary to track all active NPCs by their ID
@@ -28,7 +28,7 @@ public class NPCDataManager : MonoBehaviour
 
     private void LoadNPCData()
     {
-        NPCDataList dataList = XMLHelper.LoadFromXml<NPCDataList>(npcDataFile);
+        NPCDataList dataList = XMLHelper.LoadFromXml<NPCDataList>("XML/npcData");
         if (dataList != null && dataList.npcs != null)
         {
             foreach (NPCData npc in dataList.npcs)

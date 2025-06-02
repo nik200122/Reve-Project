@@ -4,34 +4,36 @@ using UnityEngine;
 
 //[Serializable]
 public class GameLoader : MonoBehaviour
-{   
-    private const string playerDataFile = "Assets/Resources/XML/playerData.xml";
-    private const string abilitiesRulesFile = "Assets/Resources/XML/AbilitiesTypeRules.xml";
-    private const string playerInventoryDataFile = "Assets/Resources/XML/playerInventoryData.xml";
-    private const string shopper01InventoryDataFile = "Assets/Resources/XML/shopper01InventoryData.xml";
+{
+    //private const string playerDataFile = "Assets/Resources/XML/playerData.xml";
+    private const string playerDataFile = "XML/playerData";
 
-    private const string enemy01DataFile = "Assets/Resources/XML/enemy01Data.xml";
-    private const string enemy02DataFile = "Assets/Resources/XML/enemy02Data.xml";
-    private const string enemy03DataFile = "Assets/Resources/XML/enemy03Data.xml";
-    private const string enemy04DataFile = "Assets/Resources/XML/enemy04Data.xml";
-    private const string enemy05DataFile = "Assets/Resources/XML/enemy05Data.xml";
-    private const string enemy06DataFile = "Assets/Resources/XML/enemy06Data.xml";
-    private const string enemy07DataFile = "Assets/Resources/XML/enemy07Data.xml";
-    private const string itemDataFile = "Assets/Resources/XML/itemsData.xml";
-    private const string equipmentRulesFile = "Assets/Resources/XML/EquipmentRules.xml";
-    private const string worldDataFile = "Assets/Resources/XML/worldInfoReducted.xml";
-    private const string attackDataFile = "Assets/Resources/XML/attacksData.xml";
-    private const string LoadoutPlayerFile = "Assets/Resources/XML/playerLoadout.xml";
-    private const string comboRulesFile = "Assets/Resources/XML/comboRules.xml";
-    private const string abilitiesFile = "Assets/Resources/XML/Abilities.xml";
-    private const string damageFormulaFile = "Assets/Resources/XML/DamageFormula.xml";
-    private const string damageApplicationRuleFile = "Assets/Resources/XML/damageApplicationRule.xml";
-    private const string defeatRuleFile = "Assets/Resources/XML/defeatRule.xml";
-    private const string currencyRuleFile = "Assets/Resources/XML/currencyRule.xml";
+    private const string abilitiesRulesFile = "XML/AbilitiesTypeRules";
+    private const string playerInventoryDataFile = "XML/playerInventoryData";
+    private const string shopper01InventoryDataFile = "XML/shopper01InventoryData";
 
-    private const string menuAudioDataFile = "Assets/Resources/XML/MenuAudioData.xml";
-    private const string gameMusicDataFile =  "Assets/Resources/XML/gameMusicData.xml";
-    private const string onHitAudioDataFile =  "Assets/Resources/XML/onHitAudioData.xml";
+    private const string enemy01DataFile = "XML/enemy01Data";
+    private const string enemy02DataFile = "XML/enemy02Data";
+    private const string enemy03DataFile = "XML/enemy03Data";
+    private const string enemy04DataFile = "XML/enemy04Data";
+    private const string enemy05DataFile = "XML/enemy05Data";
+    private const string enemy06DataFile = "XML/enemy06Data";
+    private const string enemy07DataFile = "XML/enemy07Data";
+    private const string itemDataFile = "XML/itemsData";
+    private const string equipmentRulesFile = "XML/EquipmentRules";
+    private const string worldDataFile = "XML/worldInfoReducted";
+    private const string attackDataFile = "XML/attacksData";
+    private const string LoadoutPlayerFile = "XML/playerLoadout";
+    private const string comboRulesFile = "XML/comboRules";
+    private const string abilitiesFile = "XML/Abilities";
+    private const string damageFormulaFile = "XML/DamageFormula";
+    private const string damageApplicationRuleFile = "XML/damageApplicationRule";
+    private const string defeatRuleFile = "XML/defeatRule";
+    private const string currencyRuleFile = "XML/currencyRule";
+
+    private const string menuAudioDataFile = "XML/MenuAudioData";
+    private const string gameMusicDataFile =  "XML/gameMusicData";
+    private const string onHitAudioDataFile =  "XML/onHitAudioData";
     
     
     

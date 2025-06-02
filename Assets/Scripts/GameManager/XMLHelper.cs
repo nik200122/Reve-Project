@@ -7,26 +7,50 @@ using System.Xml.Serialization;
 
 public static class XMLHelper
 {
-    public static T LoadFromXml<T>(string filePath)
+    // public static T LoadFromXml<T>(string filePath)
+    // {
+    //     try{
+    //         //XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+    //         using (StreamReader reader = new StreamReader(filePath))
+    //         {      
+    //             string fileContent = reader.ReadToEnd();  // Legge tutto il contenuto del file come stringa
+
+    //             // Torna all'inizio del file per deserializzarlo
+    //             reader.BaseStream.Position = 0;
+
+    //             XmlSerializer serializer = new XmlSerializer(typeof(T));
+
+    //             return (T)serializer.Deserialize(reader);
+    //         }
+    //     } catch(Exception ex){
+    //         UnityEngine.Debug.Log("" +ex.Message);
+    //         return default(T);
+    //     }
+    // }
+
+    public static T LoadFromXml<T>(string resourcePath)
     {
-    try{
-        //XmlSerializer serializer = new XmlSerializer(typeof(T));
-
-        using (StreamReader reader = new StreamReader(filePath))
-        {      
-            string fileContent = reader.ReadToEnd();  // Legge tutto il contenuto del file come stringa
-
-            // Torna all'inizio del file per deserializzarlo
-            reader.BaseStream.Position = 0;
-
+    try
+        {
+            TextAsset xmlAsset = Resources.Load<TextAsset>(resourcePath);
+            if (xmlAsset == null)
+            {
+                UnityEngine.Debug.LogError($"❌ Impossibile caricare {resourcePath} da Resources.");
+                return default;
+            }
+    
             XmlSerializer serializer = new XmlSerializer(typeof(T));
-
-            return (T)serializer.Deserialize(reader);
+            using (StringReader reader = new StringReader(xmlAsset.text))
+            {
+                return (T)serializer.Deserialize(reader);
+            }
         }
-    } catch(Exception ex){
-        UnityEngine.Debug.Log("" +ex.Message);
-        return default(T);
-    }
+        catch (Exception ex)
+        {
+            UnityEngine.Debug.LogError("Errore nella deserializzazione XML: " + ex.Message);
+            return default;
+        }
     }
 
     public static void SaveToXml<T>(T obj, string filePath)
