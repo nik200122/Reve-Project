@@ -42,7 +42,7 @@ public class PlayerCombat : MonoBehaviour
     }
 
     void Start()
-    {
+    {   
         input.OnAttackEvent += OnAttackInput;
         if (wrapperTriggerActions != null && wrapperTriggerActions.TriggerActions != null)
         {
@@ -78,7 +78,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnAttackInput()
     {
-        if (characterStatus.GetCanAttack())
+        if (characterStatus.GetCanAttack() && GameStateManager.Instance.CurrentState != GameState.StartMenu)
         {
             if (attackInProgress)
             {

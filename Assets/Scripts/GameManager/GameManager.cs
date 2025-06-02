@@ -27,7 +27,16 @@ public class GameManager : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
-    {
+    {   
+        // Sblocca e mostra il cursore
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        // Logga quando la finestra prende/perde il focus
+        Application.focusChanged += (bool hasFocus) =>
+        {
+            Debug.Log("Focus: " + hasFocus);
+        };
         gameLoader = gameObject.GetComponent<GameLoader>();
 
         gameLoader.LoadData();
@@ -85,10 +94,10 @@ public class GameManager : MonoBehaviour
         // é gestito cosí per pigrizia
         if (GameStateManager.Instance.CurrentState == GameState.StartMenu)
         {
-            if (Input.anyKey)
+            if (input.startGame)
             {
                 startMenuUI.SetActive(false);
-                input.gameObject.SetActive(true);
+                //input.gameObject.SetActive(true);
                 GameStateManager.Instance.ChangeState(GameState.FreeRoam);
             }
         }
