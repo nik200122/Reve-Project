@@ -10,6 +10,7 @@ public enum GameState
     Inventory,
     ShopScreen,
     AbilitiesScreen,
+    GameOver
 }
 
 public class GameStateManager : MonoBehaviour

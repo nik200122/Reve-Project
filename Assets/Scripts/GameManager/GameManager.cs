@@ -159,6 +159,7 @@ public class GameManager : MonoBehaviour
         if (playerManager.CheckIsDead() && !gameOver)
         {
             gameOver = true;
+            GameStateManager.Instance.ChangeState(GameState.GameOver);
             RestartDemo();
         }
     }
