@@ -24,10 +24,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ShopperManager shopperManager;
     private GameLoader gameLoader;
     [SerializeField] private AttackSelectionManager attackSelectionManager;
+    [SerializeField] private GameOverScreen gameOverScreen;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
-    {   
+    {
         gameLoader = gameObject.GetComponent<GameLoader>();
 
         gameLoader.LoadData();
@@ -43,7 +44,6 @@ public class GameManager : MonoBehaviour
         attackSelectionManager.SetComboRules(gameLoader.LoadedComboRules);
         attackSelectionManager.InitializeAbilityList(gameLoader.LoadedAbilityList);
         attackSelectionManager.InitializeAttackData(gameLoader.LoadedAttackDataList);
-        shopperManager.SetInventory(gameLoader.LoadedShopper01Inventory);
 
         SetEnemyData();
 

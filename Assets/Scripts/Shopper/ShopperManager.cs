@@ -1,38 +1,36 @@
+using System;
 using UnityEngine;
 
-public class ShopperManager : MonoBehaviour, IInteractable
+public class ShopperManager : MonoBehaviour
 {   
-    private Inventory inventory;
     private ShopScreenManager shopScreenManager;
+    public static ShopperManager Instance { get; private set; }
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            // shopPanel.SetActive(false); // Nascondi all'inizio
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
-    private void Start(){
+    private void Start()
+    {
         shopScreenManager = FindAnyObjectByType<ShopScreenManager>();
     }
-
-    public void SetInventory(Inventory loadedInventory){
-        inventory = loadedInventory;
-        //Debug.Log("CONTEGGIO: "+inventory.itemList.Count);
-    }
-
-    public string GetInteractText(){
-        return "";
-    }
-
-    public Transform GetTransform(){
-        return transform;
-    }
-
-    public void Interact(Transform interactorTransform){
+    
+    public void OpenShopScreen(Inventory inventory){
         Debug.Log("CALLED");
-        shopScreenManager.OpenShopScreen(this.inventory);
+        shopScreenManager.OpenShopScreen(inventory);
     }
 
-    public Inventory GetInventory(){
-        return inventory;
-    }
 
-    public void TerminateInteract(){
-      Debug.Log("CHIAMATO");
-      shopScreenManager.CloseShopScreen();
+    internal void CloseShopScreen()
+    {
+       shopScreenManager.CloseShopScreen();
     }
 }

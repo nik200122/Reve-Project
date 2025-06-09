@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Inventory xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ShopperInventoriesList xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ShopperInventory id="Shopper001">
+  <inventory>
   <itemList>
     <EquipableItem>
       <tag>Weapon01</tag>
@@ -151,4 +153,6 @@
       <spritePath>Sprite/RPG_inventory_icons/apple</spritePath>
     </ConsumableItem>
   </itemList>
-</Inventory>
+  </inventory>
+  </ShopperInventory>
+</ShopperInventoriesList>

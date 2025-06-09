@@ -10,7 +10,6 @@ public class GameLoader : MonoBehaviour
 
     private const string abilitiesRulesFile = "XML/AbilitiesTypeRules";
     private const string playerInventoryDataFile = "XML/playerInventoryData";
-    private const string shopper01InventoryDataFile = "XML/shopper01InventoryData";
 
     private const string enemy01DataFile = "XML/enemy01Data";
     private const string enemy02DataFile = "XML/enemy02Data";
@@ -85,8 +84,6 @@ public class GameLoader : MonoBehaviour
         LoadAttackData();
 
         LoadEnemyData();
-
-        LoadShoppersData();
 
         //LoadAssets();
 
@@ -220,9 +217,6 @@ public class GameLoader : MonoBehaviour
         //Debug.Log("NOME ITEM: "+LoadedItems[0].name);
     }
 
-    private void LoadShoppersData(){
-        LoadedShopper01Inventory = XMLHelper.LoadFromXml<Inventory>(shopper01InventoryDataFile);
-    }
     
     //non il miglior modo, trovare una soluzione piú scalabile
     private void LoadEnemyData()
