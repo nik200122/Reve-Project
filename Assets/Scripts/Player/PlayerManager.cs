@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,14 +15,17 @@ public class PlayerManager : IHittable
     private List<StatModifier> modifiers = new List<StatModifier>();
     private CharacterStatus characterStatus;
 
+
     [SerializeField] private BattleCalculatorManager battleCalculatorManager;
     [SerializeField] private GlobalRulesManager globalRulesManager;
 
-    private void Awake(){
+    private void Awake()
+    {
         characterStatus = GetComponent<CharacterStatus>();
     }
 
-    private void Update(){
+    private void Update()
+    {
         CheckIsDead();
         ApplyActiveModifiers();
     }
@@ -87,57 +91,73 @@ public class PlayerManager : IHittable
         }
         Debug.Log("Modificatori rimossi. Totale: " + modifiers.Count);
     }
+    
+    
 
-    public bool CheckAbility(AbilityRef abilityRef){
+    public bool CheckAbility(AbilityRef abilityRef)
+    {
         Ability ability = abilityList.Abilities.FirstOrDefault(a => a.id == abilityRef.Id);
-        if (ability == null){
+        if (ability == null)
+        {
             Debug.LogWarning("Abilità non trovata nella lista globale: " + abilityRef.Id);
             return false;
         }
 
         AbilityType abilityType = ability.abilityType;
 
-        if (abilityRef.IsActive){
+        if (abilityRef.IsActive)
+        {
             abilityRef.IsActive = false;
             activeAbilitiesCount[abilityType] = Mathf.Max(0, activeAbilitiesCount[abilityType] - 1);
             RemoveModifiers(ability.modifiers);  // 🔹 Passiamo direttamente i modificatori
             Debug.Log("Abilità disattivata: " + abilityRef.Id);
             return true;
         }
-        else{
+        else
+        {
             AbilityRule rule = abilitiesRules.Rules.FirstOrDefault(r => r.abilityType == abilityType);
-            if (rule == null){
+            if (rule == null)
+            {
                 Debug.LogWarning("Nessuna regola definita per la categoria: " + abilityType);
                 return false;
             }
 
-            if (activeAbilitiesCount[abilityType] < rule.quantity){
+            if (activeAbilitiesCount[abilityType] < rule.quantity)
+            {
                 abilityRef.IsActive = true;
                 activeAbilitiesCount[abilityType]++;
                 AddModifiers(ability.modifiers);  // 🔹 Passiamo direttamente i modificatori
                 Debug.Log("Abilità attivata: " + abilityRef.Id);
                 return true;
-            }else{
+            }
+            else
+            {
                 Debug.Log("Limite massimo di abilità attive per la categoria " + abilityType + " raggiunto.");
                 return false;
             }
         }
     }
+    
 
-    public void InitializeDictionary(){
+    public void InitializeDictionary()
+    {
         activeAbilitiesCount.Clear();  // 🔹 Reset per evitare problemi
 
         //modifiers.Clear();  // 🔹 Reset della lista modificatori
         // Supponiamo di avere una lista di tutte le regole
-        foreach (var rule in abilitiesRules.Rules){
+        foreach (var rule in abilitiesRules.Rules)
+        {
             activeAbilitiesCount[rule.abilityType] = 0;
         }
 
         // Se ci sono abilità già attive nel loadout, aggiorniamo il conteggio
-        foreach (var abilityRef in playerLoadout.Abilities){
-            if (abilityRef.IsActive){
+        foreach (var abilityRef in playerLoadout.Abilities)
+        {
+            if (abilityRef.IsActive)
+            {
                 Ability ability = abilityList.Abilities.FirstOrDefault(a => a.id == abilityRef.Id);
-                if (ability != null){
+                if (ability != null)
+                {
                     if (activeAbilitiesCount.ContainsKey(ability.abilityType))
                         activeAbilitiesCount[ability.abilityType]++;
                     else
@@ -237,5 +257,29 @@ public class PlayerManager : IHittable
 
         float finalValue = (baseValue + additive) * multiplicative;
         return finalValue;
-    }   
+    }
+
+    public void ChangeCombatModifiers(List<StatModifier> previousModifiers, List<StatModifier> currentModifiers)
+    {
+        Debug.Log($"[PlayerManager] Changing combat modifiers - Previous: {previousModifiers?.Count ?? 0}, Current: {currentModifiers?.Count ?? 0}");
+    
+        if (previousModifiers != null)
+        {
+            foreach (var mod in previousModifiers)
+            {
+                Debug.Log($"[PlayerManager] Removing modifier: {mod.targetStat} {mod.modifierType} {mod.value}");
+            }
+        }
+        
+        if (currentModifiers != null)
+        {
+            foreach (var mod in currentModifiers)
+            {
+                Debug.Log($"[PlayerManager] Adding modifier: {mod.targetStat} {mod.modifierType} {mod.value}");
+            }
+        }
+        
+        RemoveModifiers(previousModifiers);
+        AddModifiers(currentModifiers);
+    }
 }

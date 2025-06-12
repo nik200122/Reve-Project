@@ -23,7 +23,7 @@ public class ShopperManager : MonoBehaviour
         shopScreenManager = FindAnyObjectByType<ShopScreenManager>();
     }
     
-    public void OpenShopScreen(Inventory inventory){
+    public void ProcessShopperInteraction(Inventory inventory){
         Debug.Log("CALLED");
         shopScreenManager.OpenShopScreen(inventory);
     }

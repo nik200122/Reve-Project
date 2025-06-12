@@ -7,8 +7,8 @@ public class ShopperInteractable : MonoBehaviour, IInteractable
     [SerializeField] private string defaultInteractText = "Browse Wares";
     [SerializeField] private string defaultShopperName = "Merchant";
 
-    // Riferimento al manager della UI del negozio (assegnare nell'Inspector)
-    private ShopperManager shopperManager; 
+    // Riferimento al manager
+    [SerializeField ]private ShopperManager shopperManager; 
 
     private Inventory shopperInventory; // L'inventario specifico di questo shopper
     private string currentInteractText;
@@ -16,14 +16,14 @@ public class ShopperInteractable : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        if (shopperManager == null)
+        /*if (shopperManager == null)
         {
             shopperManager = ShopperManager.Instance;
             if (shopperManager == null)
             {
                 Debug.LogError($"[ShopperInteractable] ShopScreenManager non trovato per {gameObject.name}. Assicurati che esista nella scena e sia un Singleton, o assegnalo manualmente nell'Inspector.");
             }
-        }
+        }*/
     }
 
     private void Start()
@@ -35,10 +35,8 @@ public class ShopperInteractable : MonoBehaviour, IInteractable
         if (inventory != null)
         {
             shopperInventory = inventory;
-            // Potresti voler aggiungere Name e InteractText al ShopperInventoryData XML
-            // Per ora, usiamo i default o l'ID
-            currentShopperName = defaultShopperName; // O data.Name se lo aggiungi
-            currentInteractText = defaultInteractText; // O data.InteractText se lo aggiungi
+            currentShopperName = defaultShopperName; 
+            currentInteractText = defaultInteractText; 
 
             Debug.Log($"[ShopperInteractable] Dati caricati per shopper: {shopperId}, Nome: {currentShopperName}. Inventario con {shopperInventory.itemList.Count} tipi di item.");
         }
@@ -64,7 +62,7 @@ public class ShopperInteractable : MonoBehaviour, IInteractable
             {
                 Debug.Log($"[ShopperInteractable] Interazione con {currentShopperName}. Apertura negozio con {shopperInventory.itemList.Count} tipi di item.");
                 GameStateManager.Instance.ChangeState(GameState.Interaction);
-                shopperManager.OpenShopScreen(shopperInventory);
+                shopperManager.ProcessShopperInteraction(shopperInventory);
 
             }
             else

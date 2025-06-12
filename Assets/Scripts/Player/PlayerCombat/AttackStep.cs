@@ -13,9 +13,9 @@ public class AttackStep
     // L'attacco di default da usare se non ci sono abilità attive che influenzano lo step
     [XmlElement("DefaultAttack")]
     public AttackRef defaultAttack { get; set; }
-    
+
     // Modificatori specifici per questo step (es. bonus base o moltiplicatori)
     [XmlArray("modifiers")]
-    [XmlArrayItem("PlayerModifier")]
-    public List<StatModifier> modifiers { get; set; } = new List<StatModifier>();
+    [XmlArrayItem("StatModifier")]
+    public List<StatModifier> modifiers;
 }

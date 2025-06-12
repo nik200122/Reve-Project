@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
         attackSelectionManager.SetComboRules(gameLoader.LoadedComboRules);
         attackSelectionManager.InitializeAbilityList(gameLoader.LoadedAbilityList);
         attackSelectionManager.InitializeAttackData(gameLoader.LoadedAttackDataList);
+        
 
         SetEnemyData();
 

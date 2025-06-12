@@ -35,15 +35,23 @@ public class AttackSelectionManager : MonoBehaviour
     // --- METODI DI INIZIALIZZAZIONE CHIAMATI DAL GAMEMANAGER ---
     public void InitializeAttackData(AttackDataList loadedAttackDataList)
     {
+        
         this.attackDataList = loadedAttackDataList;
         this.attackDictionary = new Dictionary<string, AttackData>();
+        
         if (this.attackDataList != null && this.attackDataList.Attacks != null)
         {
+            Debug.Log($"[AttackSelection] Attacks count: {this.attackDataList.Attacks.Count}");
+            
             foreach (var attack in this.attackDataList.Attacks)
             {
                 if (attack != null && !string.IsNullOrEmpty(attack.Id))
                 {
                     this.attackDictionary[attack.Id] = attack;
+                }
+                else
+                {
+                    Debug.LogWarning($"[AttackSelection] Skipping invalid attack (null or empty ID)");
                 }
             }
         }
@@ -51,6 +59,8 @@ public class AttackSelectionManager : MonoBehaviour
         {
             Debug.LogWarning("AttackDataList o la sua lista di Attacks è null in AttackSelectionManager.");
         }
+        
+        Debug.Log($"[AttackSelection] Final dictionary size: {this.attackDictionary.Count}");
     }
 
     public void InitializePlayerLoadout(PlayerLoadout loadedPlayerLoadout)
@@ -106,9 +116,28 @@ public class AttackSelectionManager : MonoBehaviour
                         if (this.attackDictionary.TryGetValue(ability.equippableAttacks[0].Id, out AttackData abilityAttack))
                         {
                             selectedAttack = abilityAttack;
+                            
+                            if (currentStepConfig.modifiers != null)
+                            {
+                                foreach (var mod in currentStepConfig.modifiers)
+                                {
+                                    Debug.Log($"[AttackSelection] Step modifier: {mod.targetStat} {mod.modifierType} {mod.value}");
+                                }
+                            }
+                            
+                            if (selectedAttack.Modifiers != null)
+                            {
+                                foreach (var mod in selectedAttack.Modifiers)
+                                {
+                                    Debug.Log($"[AttackSelection] Attack modifier: {mod.targetStat} {mod.modifierType} {mod.value}");
+                                }
+                            }
+
                             determinedModifiers = (currentStepConfig.modifiers ?? new List<StatModifier>())
-                                                  .Concat(ability.modifiers ?? new List<StatModifier>())
-                                                  .ToList();
+                                        .Concat(selectedAttack.Modifiers ?? new List<StatModifier>())
+                                        .ToList();
+                            
+                            Debug.Log($"[AttackSelection] Total determined modifiers: {determinedModifiers.Count}");
                             break;
                         }
                     }
@@ -122,19 +151,44 @@ public class AttackSelectionManager : MonoBehaviour
             if (this.attackDictionary.TryGetValue(currentStepConfig.defaultAttack.Id, out AttackData defaultAttackData))
             {
                 selectedAttack = defaultAttackData;
-                determinedModifiers = new List<StatModifier>(currentStepConfig.modifiers ?? new List<StatModifier>());
+                
+                if (currentStepConfig.modifiers != null)
+                {
+                    foreach (var mod in currentStepConfig.modifiers)
+                    {
+                        Debug.Log($"[AttackSelection] Step modifier: {mod.targetStat} {mod.modifierType} {mod.value}");
+                    }
+                }
+                
+                if (selectedAttack.Modifiers != null)
+                {
+                    foreach (var mod in selectedAttack.Modifiers)
+                    {
+                        Debug.Log($"[AttackSelection] Attack modifier: {mod.targetStat} {mod.modifierType} {mod.value}");
+                    }
+                }
+
+                determinedModifiers = (currentStepConfig.modifiers ?? new List<StatModifier>())
+                            .Concat(selectedAttack.Modifiers ?? new List<StatModifier>())
+                            .ToList();
+                
+                Debug.Log($"[AttackSelection] Total determined modifiers: {determinedModifiers.Count}");
             }
         }
 
         if (selectedAttack != null)
         {
+            Debug.Log($"[AttackSelection] Final result - Attack: {selectedAttack.Id}, Modifiers: {determinedModifiers.Count}");
             return new AttackExecutionDetails(selectedAttack, determinedModifiers, actualStepIndex + 1, true);
         }
 
+        Debug.Log("[AttackSelection] No valid attack found");
         return new AttackExecutionDetails(null, null, actualStepIndex, false);
     }
     public void SetComboRules(ComboRules loadedComboRules)
     {
+        
         currentCombo = loadedComboRules?.Combo;
+        
     }
 }

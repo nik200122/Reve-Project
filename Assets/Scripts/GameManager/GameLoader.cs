@@ -11,6 +11,7 @@ public class GameLoader : MonoBehaviour
     private const string abilitiesRulesFile = "XML/AbilitiesTypeRules";
     private const string playerInventoryDataFile = "XML/playerInventoryData";
 
+
     private const string enemy01DataFile = "XML/enemy01Data";
     private const string enemy02DataFile = "XML/enemy02Data";
     private const string enemy03DataFile = "XML/enemy03Data";

@@ -19,8 +19,10 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private AttackSelectionManager attackSelectionManager; // Riferimento essenziale
 
     // Rimosso: attackDictionary
-    private List<StatModifier> currentModifiers;
+    private List<StatModifier> currentModifiers = new List<StatModifier>();
+    List<StatModifier> previousModifiers = new List<StatModifier>();
     private CharacterStatus characterStatus;
+    PlayerManager playerManager;
 
     private int currentStepIndex = 0;
     private float lastAttackTime = 0f;
@@ -33,10 +35,11 @@ public class PlayerCombat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         characterStatus = GetComponent<CharacterStatus>();
+        playerManager = FindAnyObjectByType<PlayerManager>();
         if (attackSelectionManager == null)
         {
             Debug.LogError("AttackSelectionManager non è stato assegnato a PlayerCombat nell'Inspector!");
-            this.enabled = false; // Disabilita se la dipendenza critica manca
+            this.enabled = false;
         }
         if (attacker == null) attacker = GetComponent<IHittable>();
     }
@@ -78,7 +81,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnAttackInput()
     {
-        if (characterStatus.GetCanAttack() && GameStateManager.Instance.CurrentState != GameState.StartMenu)
+        if (characterStatus.GetCanAttack())
         {
             if (attackInProgress)
             {
@@ -99,19 +102,43 @@ public class PlayerCombat : MonoBehaviour
 
     void StartAttack(float timeSinceLastEffectiveAttack)
     {
+        Debug.Log($"[PlayerCombat] === ATTACK DEBUG ===");
+        Debug.Log($"[PlayerCombat] currentStepIndex BEFORE: {currentStepIndex}");
+        Debug.Log($"[PlayerCombat] timeSinceLastEffectiveAttack: {timeSinceLastEffectiveAttack}");
+        Debug.Log($"[PlayerCombat] comboResetTime: {comboResetTime}");
+        Debug.Log($"[PlayerCombat] Will reset combo? {timeSinceLastEffectiveAttack > comboResetTime}");
 
         // I dati (PlayerLoadout, AbilityList, AttackDictionary) sono ora interni ad AttackSelectionManager
         AttackSelectionManager.AttackExecutionDetails attackDetails = attackSelectionManager.PrepareAttack(
             currentStepIndex,
             timeSinceLastEffectiveAttack,
             comboResetTime
-        // Non passiamo più playerLoadout, abilityList, attackDictionary
+        
         );
+        
 
         if (attackDetails != null && attackDetails.IsValidAttack && attackDetails.AttackToExecute != null)
         {
             AttackData attackDataToExecute = attackDetails.AttackToExecute;
-            currentModifiers = attackDetails.AppliedModifiers;
+             // ✅ DEBUG: Forza reset per test
+            previousModifiers = new List<StatModifier>(currentModifiers);
+            playerManager.ChangeCombatModifiers(previousModifiers, new List<StatModifier>());
+            // LOG PRIMA DEL CAMBIO
+            Debug.Log($"[PlayerCombat] Previous modifiers count: {previousModifiers.Count}");
+            Debug.Log($"[PlayerCombat] New modifiers count: {attackDetails.AppliedModifiers?.Count ?? 0}");
+            Debug.Log($"[PlayerCombat] Attack executed: {attackDataToExecute.Id}");
+
+            if (attackDetails.AppliedModifiers != null)
+            {
+                foreach (var mod in attackDetails.AppliedModifiers)
+                {
+                    Debug.Log($"[PlayerCombat] New modifier: {mod.targetStat} {mod.modifierType} {mod.value}");
+                }
+            }
+            currentModifiers.Clear();
+
+            currentModifiers.AddRange(attackDetails.AppliedModifiers ?? new List<StatModifier>());
+            playerManager.ChangeCombatModifiers(new List<StatModifier>(), currentModifiers);
 
             if (attackDataToExecute.AnimatorOverrideController != null)
             {
@@ -149,6 +176,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+
     public void AllowAttackQueueing()
     {
         allowQueue = true;
@@ -157,8 +185,11 @@ public class PlayerCombat : MonoBehaviour
     void ResetCombo()
     {
         currentStepIndex = 0;
+        previousModifiers = new List<StatModifier>(currentModifiers);
+        playerManager.ChangeCombatModifiers(previousModifiers, new List<StatModifier>());
+        currentModifiers.Clear();
     }
-
+    
     
 
     
