@@ -74,3 +74,7 @@ crashlytics-build.properties
 
 # asset store asset
 /[Aa]ssets/TerrainDemoScene_URP/
+
+# Local scene above GitHub's 100 MiB file limit.
+/[Aa]ssets/[Ss]cenes/TerrainDemoScene.unity
+/[Aa]ssets/[Ss]cenes/TerrainDemoScene.unity.meta
